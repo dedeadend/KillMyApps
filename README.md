@@ -8,26 +8,19 @@
 
 # ❄️ Kill My Apps
 
-This app is designed to terminate running apps to enhance battery life, enhance performance, and eliminate unwanted app activities.
+Kill My Apps is a lightweight utility designed to terminate background processes, helping you **extend battery life**, **boost gaming performance**, and reclaim system resources.
 
 To make the kill function work, [root] permission is necessary. Without it, you can keep using my app, but you have to stop apps manually by touching the target app and selecting "force stop".
 
 
 ## ✨ Features
 
-- One click and done!
-
-- Excluded List
-
-- Selectable apps loading mode (user/launchable/system)
-
-- Improve battery life
-
-- Improve single-task performance (like gaming)
-
-- Free up RAM
-
-- Eliminate unwanted app activities
+- ⚡ **One-Click Optimization**: Terminate all background activities instantly.
+- 🛡️ **Exclusion List**: Whitelist your important apps to keep them running.
+- 🔍 **Smart Filtering**: Categorize apps by User, Launchable, or System processes.
+- 🔋 **Battery Saver**: Reduce power consumption by eliminating idle app activities.
+- 🎮 **Performance Boost**: Free up RAM and CPU for high-demand tasks like gaming.
+- 📱 **Clean UI**: Simple and intuitive Material Design interface.
 
 
   ## 📸 Screenshots
@@ -42,13 +35,14 @@ To make the kill function work, [root] permission is necessary. Without it, you 
 #### Prerequisites
 
 - Android 8.0+ "Oreo"
-- Root access for kill function
+- **Root Access** (Highly recommended for automation)
 
 #### Installation
 
-1. Download the latest released APK from [Here](https://github.com/dedeadend/KillMyApps/releases/latest).
-2. Install downloaded APK file.
-3. Enjoy 💚
+1. Download the latest APK from the [Releases Page](https://github.com/dedeadend/KillMyApps/releases/latest).
+2. Install the APK on your device.
+3. Grant Root permissions when prompted for the best experience.
+4. Enjoy 💚
 
 
 ## 📌 Note
