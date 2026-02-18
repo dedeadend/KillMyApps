@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/github/v/release/dedeadend/KillMyApps?style=for-the-badge&color=green&logo=android" />
   <img src="https://img.shields.io/github/downloads/dedeadend/KillMyApps/total?style=for-the-badge&color=orange&logo=github" />
-  <img src="https://komarev.com/ghpvc/?username=dedeadend&repo=KillMyApps&label=VIEWS&color=blue&style=for-the-badge" />
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2Fdedeadend%2FKillMyApps.json%3Fshow%3D5&style=for-the-badge&color=blue&label=VIEWS" />
   <img src="https://img.shields.io/github/license/dedeadend/KillMyApps?style=for-the-badge&color=yellow" />
 </p>
 
@@ -50,7 +50,7 @@ To make the kill function work, [root] permission is necessary. Without it, you 
 You might see a Google Play Protect warning while installing the APK. This is common for newly released open-source apps and will be resolved once the app gains more reputation.
 
 
-## ♠️Support
+## ♠️ Support
 
 You can find me at
 
