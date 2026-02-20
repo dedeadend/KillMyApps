@@ -27,7 +27,7 @@ To make the kill function work, [root] permission is necessary. Without it, you 
 
 | Light | Dark |
 |:---:|:---:|
-| <img src="screenshots/screenshot1.png" width="350"> | <img src="screenshots/screenshot2.png" width="350"> |
+| <img src="screenshots/screenshot1.png"> | <img src="screenshots/screenshot2.png"> |
 
 
 ## 📥 Getting Started
