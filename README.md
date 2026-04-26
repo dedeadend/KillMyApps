@@ -47,7 +47,7 @@ To make the kill function work, [root] permission is necessary. Without it, you 
 
 ## 📌 Note
 
-Since DTerminal is a newly released, self-signed APK not yet distributed via the Play Store, Google Play Protect may flag it as "Unknown". As an open-source project, you can always audit the source code yourself or build the APK from source to ensure total transparency.
+Since KillMyApps is a newly released, self-signed APK not yet distributed via the Play Store, Google Play Protect may flag it as "Unknown". As an open-source project, you can always audit the source code yourself or build the APK from source to ensure total transparency.
 
 
 ## ♠️ Support
