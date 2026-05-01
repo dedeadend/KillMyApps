@@ -160,6 +160,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
         App.toast(getActivity(), "DONE",
                 "\"" + homeViewModel.getAppsList().getValue().get(position).getName() +
                         "\" killed successfully");
+        homeViewModel.checkForRefresh();
     }
 
     @Override

@@ -1,5 +1,11 @@
 pluginManagement {
     repositories {
+
+        maven { url = uri("https://maven.myket.ir") }
+        maven { url = uri("https://gradle.jamko.ir") }
+        maven { url = uri("https://en-mirror.ir") }
+        maven { url = uri("https://google403.ir") }
+
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -17,9 +23,14 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+
+        maven { url = uri("https://maven.myket.ir") }
+        maven { url = uri("https://gradle.jamko.ir") }
+        maven { url = uri("https://en-mirror.ir") }
+        maven { url = uri("https://google403.ir") }
+
         google()
         mavenCentral()
-        maven(url = "https://jitpack.io")
     }
 }
 

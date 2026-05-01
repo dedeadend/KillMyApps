@@ -9,10 +9,10 @@ android {
 
     defaultConfig {
         applicationId = "dedeadend.killmyapps"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
-        versionCode = 110
-        versionName = "1.1.0"
+        versionCode = 120
+        versionName = "1.2"
     }
 
     buildTypes {
@@ -26,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding = true

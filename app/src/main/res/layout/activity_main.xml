@@ -6,23 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:id="@+id/toolbar"
-        android:layoutDirection="ltr"
-        android:background="@color/purple_700"
-        app:title="Kill My Apps"
-        app:titleTextColor="@color/white"
-        style="@style/Theme.AppCompat.DayNight.DarkActionBar"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/purple_700"
-        app:layout_constraintBottom_toTopOf="@id/toolbar"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar"
+        android:orientation="horizontal"
+        android:background="@color/purple_700">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Kill My Apps"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold|italic"/>
+    </LinearLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

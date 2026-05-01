@@ -43,6 +43,10 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
+    public void  checkForRefresh() {
+        if (appsList.getValue().size() == 1)
+            refreshList();
+    }
     public int clearList() {
         int size = appsList.getValue().size();
         appsList.setValue(new ArrayList<>());

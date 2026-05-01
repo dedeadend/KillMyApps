@@ -93,21 +93,21 @@
                         android:id="@+id/user_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="User (show user installed apps)"
+                        android:text="User (only show user installed apps)"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
                     <RadioButton
                         android:id="@+id/launcher_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Launcher (show apps that are in launcher)"
+                        android:text="Launcher (only show launchable apps)"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
                     <RadioButton
                         android:id="@+id/system_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="System (show system apps too)"
+                        android:text="System (show all apps)"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
                 </RadioGroup>
@@ -180,7 +180,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Running Apps UI"
+                    android:text="Apps List UI"
                     android:layout_margin="12dp"
                     android:textStyle="bold"
                     android:textSize="20sp"
@@ -198,7 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:text="Touch on apps to go app info settings"
+                    android:text="Touch on apps to open app info settings"
                     android:textStyle="bold"
                     android:textSize="16sp"/>
                 <CheckBox

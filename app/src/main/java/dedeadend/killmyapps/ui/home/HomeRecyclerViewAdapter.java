@@ -18,13 +18,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.SuUtils;
 import dedeadend.killmyapps.model.AppInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
