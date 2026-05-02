@@ -1,5 +1,9 @@
 package dedeadend.killmyapps.ui.Settings;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,6 +132,18 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setLongClickToCopy(binding.longClickToCopy.isChecked());
+            }
+        });
+        binding.github.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ObjectAnimator.ofPropertyValuesHolder(v,
+                        PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
+                        PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
+                ).setDuration(400L).start();
+                String url = "https://github.com/dedeadend/KillMyApps/";
+                Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(urlIntent);
             }
         });
     }

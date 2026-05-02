@@ -37,7 +37,7 @@
                 android:textSize="16sp"
                 android:layout_marginVertical="16dp"
                 android:gravity="center"
-                android:text="To make the KILL function work, ROOT permission is necessary.\nWithout it, you can keep using this app, but you have to stop apps manually by touching the target app and selecting the FORCE STOP button."/>
+                android:text="The KILL function requires ROOT permission to operate.\nWithout ROOT, you can continue using the app, but you'll need to manually force-stop apps by tapping on them and selecting the 'FORCE STOP' option."/>
             <Button
                 android:id="@+id/close_dialog_btn"
                 android:layout_width="wrap_content"

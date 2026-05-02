@@ -28,21 +28,4 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.coffee) {
-            String url = "https://github.com/dedeadend/Kill-My-Apps/";
-            Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(urlIntent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

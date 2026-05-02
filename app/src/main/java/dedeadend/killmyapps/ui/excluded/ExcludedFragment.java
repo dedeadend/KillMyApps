@@ -1,5 +1,8 @@
 package dedeadend.killmyapps.ui.excluded;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,5 +111,13 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
     public void onRemoveIconClick(AppInfo appInfo) {
         excludedViewModel.removeExcluded(appInfo);
         App.toast(getActivity(), "DONE", "\"" + appInfo.getName() + "\" removed from excluded list");
+    }
+
+    @Override
+    public void onAppInfo(String pkgName) {
+        ClipboardManager clipboardManager = (ClipboardManager) App.context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("pkgName", pkgName);
+        clipboardManager.setPrimaryClip(clipData);
+        App.toast(getActivity(), "DONE", "package name copied to clipboard");
     }
 }
