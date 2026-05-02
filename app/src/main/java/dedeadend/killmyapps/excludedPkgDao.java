@@ -6,9 +6,9 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import dedeadend.killmyapps.model.PKGName;
-
 import java.util.List;
+
+import dedeadend.killmyapps.model.PKGName;
 
 @Dao
 public interface excludedPkgDao {

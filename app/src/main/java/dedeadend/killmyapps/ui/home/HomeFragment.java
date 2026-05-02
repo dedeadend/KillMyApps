@@ -56,12 +56,23 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
         binding.homeRecyclerView.setLayoutAnimation(animation);
         setObservers();
         setListeners();
-        homeViewModel.refreshList();
         if (App.isFirstRun) {
             InfoDialog infoDialog = new InfoDialog(getContext());
             infoDialog.show();
             App.isFirstRun = false;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        homeViewModel.refreshList();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        homeViewModel.clearList();
     }
 
     @Override
@@ -77,13 +88,25 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
             public void onChanged(List<AppInfo> appInfos) {
                 setAdapter();
                 if (appInfos.size() == 0) {
-                    binding.killAllBtn.setVisibility(View.GONE);
-                    binding.search.setVisibility(View.GONE);
+                    binding.killAllBtn.setAlpha(0f);
+                    binding.search.setAlpha(0f);
+                    ObjectAnimator.ofPropertyValuesHolder(binding.allDead,
+                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                    ).setDuration(3000L).start();
+                    binding.killAllBtn.setVisibility(View.INVISIBLE);
+                    binding.search.setVisibility(View.INVISIBLE);
                     binding.allDead.setVisibility(View.VISIBLE);
                 } else {
+                    ObjectAnimator.ofPropertyValuesHolder(binding.killAllBtn,
+                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                    ).setDuration(400L).start();
+                    ObjectAnimator.ofPropertyValuesHolder(binding.search,
+                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                    ).setDuration(400L).start();
+                    binding.allDead.setAlpha(0f);
                     binding.killAllBtn.setVisibility(View.VISIBLE);
                     binding.search.setVisibility(View.VISIBLE);
-                    binding.allDead.setVisibility(View.GONE);
+                    binding.allDead.setVisibility(View.INVISIBLE);
                 }
             }
         });

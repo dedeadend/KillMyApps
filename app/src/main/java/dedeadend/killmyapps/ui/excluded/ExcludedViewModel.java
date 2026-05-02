@@ -9,13 +9,13 @@ import android.content.pm.ResolveInfo;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import dedeadend.killmyapps.App;
-import dedeadend.killmyapps.model.AppInfo;
-import dedeadend.killmyapps.model.PKGName;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+
+import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.model.AppInfo;
+import dedeadend.killmyapps.model.PKGName;
 
 public class ExcludedViewModel extends ViewModel {
 
@@ -42,6 +42,11 @@ public class ExcludedViewModel extends ViewModel {
                 getExcludedAppsList();
             }
         });
+    }
+
+    public void clearList() {
+        appsList.setValue(new ArrayList<>());
+        excludedList.setValue(new ArrayList<>());
     }
 
     public void addExcluded(AppInfo appInfo) {

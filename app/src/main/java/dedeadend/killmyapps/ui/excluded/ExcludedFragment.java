@@ -19,12 +19,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.List;
+
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentExcludedBinding;
 import dedeadend.killmyapps.model.AppInfo;
-
-import java.util.List;
 
 public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAdapter.onIconClickListener {
 
@@ -48,7 +48,18 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
         binding.excludedRecyclerView.setLayoutAnimation(animation);
         setObservers();
         setListeners();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         excludedViewModel.refreshList();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        excludedViewModel.clearList();
     }
 
     @Override

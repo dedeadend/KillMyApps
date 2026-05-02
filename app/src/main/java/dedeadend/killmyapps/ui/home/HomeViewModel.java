@@ -9,13 +9,13 @@ import android.content.pm.ResolveInfo;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import dedeadend.killmyapps.App;
-import dedeadend.killmyapps.model.AppInfo;
-import dedeadend.killmyapps.model.PKGName;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+
+import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.model.AppInfo;
+import dedeadend.killmyapps.model.PKGName;
 
 public class HomeViewModel extends ViewModel {
 
@@ -43,10 +43,11 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void  checkForRefresh() {
+    public void checkForRefresh() {
         if (appsList.getValue().size() == 1)
             refreshList();
     }
+
     public int clearList() {
         int size = appsList.getValue().size();
         appsList.setValue(new ArrayList<>());

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppInfo {
-    private String name, pkgName;
-    private Drawable icon;
+    final private String name, pkgName;
+    final private Drawable icon;
 
     AppInfo(Context context, ApplicationInfo applicationInfo) {
         name = applicationInfo.loadLabel(context.getPackageManager()).toString();

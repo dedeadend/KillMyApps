@@ -18,12 +18,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.model.AppInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRecyclerViewAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
@@ -117,8 +117,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
                     break;
                 }
             }
-        }
-        else {
+        } else {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             intent.setData(Uri.parse("package:" + pkgName.trim()));
