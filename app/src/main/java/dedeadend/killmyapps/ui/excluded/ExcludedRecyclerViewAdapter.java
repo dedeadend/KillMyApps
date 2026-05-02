@@ -66,7 +66,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
             holder.add.setRotation(45);
         }
         holder.add.setTag(allList.get(position).getPkgName());
-        holder.parent.setTag(appList.get(position).getPkgName());
+        holder.parent.setTag(allList.get(position).getPkgName());
         holder.add.setOnClickListener(this);
         if (App.settings.getBoolean(App.CLICK_TO_APP_INFO, true))
             holder.parent.setOnClickListener(this);
