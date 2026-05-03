@@ -15,8 +15,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="8dp"
             android:layoutDirection="rtl"
@@ -218,8 +219,9 @@
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="8dp"
             android:layoutDirection="rtl"
@@ -239,7 +241,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Developed by dedeadend"
+                    android:text="Developed by DeDeadend"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:gravity="center"/>
