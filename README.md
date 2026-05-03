@@ -8,10 +8,9 @@
 
 # ❄️ Kill My Apps
 
-Kill My Apps is a lightweight utility designed to terminate background processes, helping you **extend battery life**, **boost gaming performance**, and reclaim system resources.
+Kill My Apps is a lightweight utility designed to terminate background processes, helping you **extend battery life**, **boost gaming performance**, and **reclaim system resources**.
 
-To make the kill function work, [root] permission is necessary. Without it, you can keep using my app, but you have to stop apps manually by touching the target app and selecting "force stop".
-
+The KILL function requires ROOT permission to operate.\nWithout ROOT, you can continue using the app, but you'll need to manually force-stop apps by tapping on them and selecting the 'FORCE STOP' option.
 
 ## ✨ Features
 
