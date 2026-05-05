@@ -2,9 +2,6 @@ pluginManagement {
     repositories {
 
         maven { url = uri("https://maven.myket.ir") }
-        maven { url = uri("https://gradle.jamko.ir") }
-        maven { url = uri("https://en-mirror.ir") }
-        maven { url = uri("https://google403.ir") }
 
         google {
             content {
@@ -25,9 +22,6 @@ dependencyResolutionManagement {
     repositories {
 
         maven { url = uri("https://maven.myket.ir") }
-        maven { url = uri("https://gradle.jamko.ir") }
-        maven { url = uri("https://en-mirror.ir") }
-        maven { url = uri("https://google403.ir") }
 
         google()
         mavenCentral()
