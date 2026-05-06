@@ -81,5 +81,5 @@ Distributed under the GPL-3.0 License. See [LICENSE](LICENSE) for more informati
 ---
 
 <div align="center">
-  Developed with 💚 by <a href="https://github.com/dedeadend">dedeadend</a>
+  Developed with 💚 by <a href="https://github.com/dedeadend">DeDeadend</a>
 </div>
