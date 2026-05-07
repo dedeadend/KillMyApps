@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/github/v/release/dedeadend/KillMyApps?style=for-the-badge&color=green&logo=android" />
   <img src="https://img.shields.io/github/downloads/dedeadend/KillMyApps/total?style=for-the-badge&color=orange&logo=github" />
   <!-- <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2Fdedeadend%2FKillMyApps.json&style=for-the-badge&color=blue&label=VIEWS"> -->
-  <img src="https://api.visitorbadge.io/api/visitors?path=dedeadend%2Fkillmyapps&label=Views&countColor=%232299ee" />
+  <img src="https://api.visitorbadge.io/api/visitors?path=dedeadend%2Fkillmyapps&label=Views&countColor=blue" />
   <img src="https://img.shields.io/github/license/dedeadend/KillMyApps?style=for-the-badge&color=yellow" />
 </p>
 
