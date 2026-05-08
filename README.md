@@ -66,7 +66,9 @@ You can find me at
 
 ## ❤️ Donation
 
-If you find this project helpful, you can buy me a coffee
+If you find this project helpful, please give it a ⭐
+
+You can also support the development by buying me a coffee:
 
 <div align="left">
   <a href="https://nowpayments.io/donation/dedeadend" target="_blank" rel="noreferrer noopener">
