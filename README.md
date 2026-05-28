@@ -52,7 +52,7 @@ Since KillMyApps is a newly released, self-signed APK not yet distributed via th
 
 ## ♠️ Support
 
-You can find me at
+Have questions or need help? Feel free to reach out:
 
 <div align="left">
   <a href="https://t.me/dedeadend" target="_blank">
