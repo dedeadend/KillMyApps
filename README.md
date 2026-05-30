@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dedeadend/KillMyApps/master/screenshots/KillMyAppsBanner.png" alt="KillMyApps Banner" width="100%">
+  <img src="screenshots/KillMyAppsBanner.png" alt="KillMyApps Banner" width="100%">
 </p>
 
 <p align="center">
@@ -16,6 +16,7 @@
 Kill My Apps is a lightweight utility designed to terminate background processes, helping you **extend battery life**, **boost gaming performance** and **reclaim system resources**.
 
 The KILL function requires ROOT permission to operate. Without ROOT, you can continue using the app, but you'll need to manually force-stop apps by tapping on them and selecting the 'FORCE STOP' option.
+
 
 ## ✨ Features
 
@@ -36,12 +37,12 @@ The KILL function requires ROOT permission to operate. Without ROOT, you can con
 
 ## 📥 Getting Started
 
-#### Prerequisites
+### Prerequisites
 
 - Android 8.0+ "Oreo"
 - **Root Access** (Highly recommended for automation)
 
-#### Installation
+### Installation
 
 1. Download the latest APK from the [Releases Page](https://github.com/dedeadend/KillMyApps/releases/latest).
 2. Install the APK on your device.
@@ -85,7 +86,9 @@ You can also support the development by buying me a coffee:
 
 Distributed under the GPL-3.0 License. See [LICENSE](LICENSE) for more information.
 
+
 ---
+
 
 <div align="center">
   Developed with 💚 by <a href="https://github.com/dedeadend">DeDeadend</a>
