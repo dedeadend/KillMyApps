@@ -24,8 +24,8 @@ The KILL function requires ROOT permission to operate. Without ROOT, you can con
 - 🛡️ **Exclusion List**: Whitelist your important apps to keep them running.
 - 🔍 **Smart Filtering**: Categorize apps by User, Launchable, or System processes.
 - 🔋 **Battery Saver**: Reduce power consumption by eliminating idle app activities.
-- 🎮 **Performance Boost**: Free up RAM and CPU for high-demand tasks like gaming.
-- 📱 **Clean UI**: Simple and intuitive Material Design interface.
+- 🚀 **Performance Boost**: Free up RAM and CPU for high-demand tasks like gaming.
+- 🍃 **Clean UI**: Simple and intuitive Material Design interface.
 
 
   ## 📸 Screenshots
