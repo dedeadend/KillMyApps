@@ -31,7 +31,7 @@ The KILL function requires ROOT permission to operate. Without ROOT, you can con
 
 | Dark | Light |
 |:---:|:---:|
-| <img src="screenshots/screenshot2.png"> | <img src="screenshots/screenshot1.png"> |
+| <img src="screenshots/screenshot2.png" alt="Dark Screenshot"> | <img src="screenshots/screenshot1.png" alt="Light Screenshot"> |
 
 
 ## 📥 Getting Started
