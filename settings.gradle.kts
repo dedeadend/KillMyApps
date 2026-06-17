@@ -1,8 +1,5 @@
 pluginManagement {
     repositories {
-
-        maven { url = uri("https://maven.myket.ir") }
-
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -13,20 +10,18 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    plugins{
+    plugins {
         id("com.google.devtools.ksp") version "1.6.20-1.0.5"
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-
-        maven { url = uri("https://maven.myket.ir") }
-
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
-rootProject.name = "Kill My Apps"
+rootProject.name = "KillMyApps"
 include(":app")

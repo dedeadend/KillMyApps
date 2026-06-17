@@ -11,8 +11,8 @@ android {
         applicationId = "dedeadend.killmyapps"
         minSdk = 26
         targetSdk = 36
-        versionCode = 120
-        versionName = "1.2"
+        versionCode = 130
+        versionName = "1.3"
     }
 
     buildTypes {
@@ -47,4 +47,6 @@ dependencies {
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
     implementation(libs.motiontoast)
+    implementation(libs.api)
+    implementation(libs.provider)
 }

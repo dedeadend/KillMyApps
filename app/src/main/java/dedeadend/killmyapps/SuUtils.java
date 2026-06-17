@@ -8,7 +8,7 @@ import dedeadend.killmyapps.model.AppInfo;
 
 public class SuUtils {
 
-    private static Process process;
+    private static Process process = null;
 
     public static boolean checkSU() {
         try {
@@ -16,8 +16,10 @@ public class SuUtils {
             DataOutputStream os = new DataOutputStream(process.getOutputStream());
             os.writeBytes("exit\n");
             os.flush();
-            process.waitFor();
             os.close();
+            process.getInputStream().close();
+            process.getErrorStream().close();
+            process.waitFor();
             return process.exitValue() == 0;
         } catch (IOException | InterruptedException e) {
             return false;
@@ -36,8 +38,10 @@ public class SuUtils {
             os.writeBytes("am force-stop " + pkgName + "\n");
             os.writeBytes("exit\n");
             os.flush();
-            process.waitFor();
             os.close();
+            process.getInputStream().close();
+            process.getErrorStream().close();
+            process.waitFor();
             return process.exitValue() == 0;
         } catch (IOException | InterruptedException e) {
             return false;
@@ -63,8 +67,10 @@ public class SuUtils {
             }
             os.writeBytes("exit\n");
             os.flush();
-            process.waitFor();
             os.close();
+            process.getInputStream().close();
+            process.getErrorStream().close();
+            process.waitFor();
             return killMyApps ? 1 : 0;
         } catch (Exception e) {
             return -1;
@@ -77,20 +83,6 @@ public class SuUtils {
     }
 
     public static void killMyApps() {
-        try {
-            process = Runtime.getRuntime().exec("su");
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("am force-stop dedeadend.killmyapps\n");
-            os.writeBytes("exit\n");
-            os.flush();
-            process.waitFor();
-            os.close();
-        } catch (Exception ignored) {
-        } finally {
-            if (process != null) {
-                process.destroyForcibly();
-                process = null;
-            }
-        }
+        killApp("dedeadend.killmyapps");
     }
 }
