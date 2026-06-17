@@ -30,8 +30,8 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.Killer;
 import dedeadend.killmyapps.R;
-import dedeadend.killmyapps.SuUtils;
 import dedeadend.killmyapps.databinding.FragmentHomeBinding;
 import dedeadend.killmyapps.model.AppInfo;
 
@@ -132,22 +132,19 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
                     public void run() {
                         List<AppInfo> appList = homeViewModel.getAppsList().getValue();
                         if (appList != null) {
-                            int result = SuUtils.killListOfApps(homeViewModel.getAppsList().getValue());
-                            if (result == -1) {
+                            if (Killer.killListOfApps(homeViewModel.getAppsList().getValue())) {
                                 App.handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        onSuError();
+                                        App.toast(getActivity(), "DONE",
+                                                homeViewModel.clearList() + " apps killed successfully");
                                     }
                                 });
                             } else {
                                 App.handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (result == 1)
-                                            SuUtils.killMyApps();
-                                        App.toast(getActivity(), "DONE",
-                                                homeViewModel.clearList() + " apps killed successfully");
+                                        onKillError();
                                     }
                                 });
                             }
@@ -187,7 +184,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
     }
 
     @Override
-    public void onSuError() {
+    public void onKillError() {
         InfoDialog infoDialog = new InfoDialog(getContext());
         infoDialog.show();
     }

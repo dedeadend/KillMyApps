@@ -55,15 +55,24 @@ public class SettingsFragment extends Fragment {
                     binding.themeSettings.check(binding.darkTheme.getId());
             }
         });
+        settingsViewModel.getKillerMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer == 1)
+                    binding.killerModeSettings.check(binding.rootMode.getId());
+                else if (integer == 2)
+                    binding.killerModeSettings.check(binding.shizukuMode.getId());
+            }
+        });
         settingsViewModel.getListMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if (integer == 0)
-                    binding.modeSettings.check(binding.userMode.getId());
+                    binding.listModeSettings.check(binding.userMode.getId());
                 else if (integer == 1)
-                    binding.modeSettings.check(binding.launcherMode.getId());
+                    binding.listModeSettings.check(binding.launcherMode.getId());
                 else if (integer == 2)
-                    binding.modeSettings.check(binding.systemMode.getId());
+                    binding.listModeSettings.check(binding.systemMode.getId());
                 binding.hideSystemUi.setEnabled(integer == 2);
             }
         });
@@ -87,7 +96,16 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setThemeMode(2);
             }
         });
-        binding.modeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        binding.killerModeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull RadioGroup group, int checkedId) {
+                if (checkedId == binding.rootMode.getId())
+                    settingsViewModel.setKillerMode(1);
+                else if (checkedId == binding.shizukuMode.getId())
+                    settingsViewModel.setKillerMode(2);
+            }
+        });
+        binding.listModeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull RadioGroup group, int checkedId) {
                 if (checkedId == binding.userMode.getId())

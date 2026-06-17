@@ -7,14 +7,16 @@ import dedeadend.killmyapps.App;
 
 public class SettingsViewModel extends ViewModel {
 
-    private final MutableLiveData<Integer> themeMode, listMode;
+    private final MutableLiveData<Integer> themeMode, killerMode, listMode;
     //themeMode = 0 -> auto , 1 -> light , 2 -> dark
     //listMode = 0 -> user , 1 -> launcher , 2 -> system
+    //killerMode = (0 -> auto) , 1 -> root , 2 -> shizuku
     private final MutableLiveData<Boolean> hideKillMyApps, hideDefaultLauncher, hideSystemUI,
             showAppsPkgName, clickToAppInfo, longClickToCopy;
 
     public SettingsViewModel() {
         themeMode = new MutableLiveData<>();
+        killerMode = new MutableLiveData<>();
         listMode = new MutableLiveData<>();
         hideKillMyApps = new MutableLiveData<>();
         hideDefaultLauncher = new MutableLiveData<>();
@@ -27,6 +29,7 @@ public class SettingsViewModel extends ViewModel {
 
     private void loadSettings() {
         themeMode.setValue(App.settings.getInt(App.THEME_MODE, 0));
+        killerMode.setValue(App.settings.getInt(App.KILLER_MODE, 1));
         listMode.setValue(App.settings.getInt(App.LIST_MODE, 1));
         hideKillMyApps.setValue(App.settings.getBoolean(App.HIDE_KILL_MY_APPS, true));
         hideDefaultLauncher.setValue(App.settings.getBoolean(App.HIDE_DEFAULT_LAUNCHER, true));
@@ -40,6 +43,11 @@ public class SettingsViewModel extends ViewModel {
         themeMode.setValue(mode);
         App.settings.edit().putInt(App.THEME_MODE, mode).apply();
         App.setAppThemeMode();
+    }
+
+    public void setKillerMode(int mode) {
+        killerMode.setValue(mode);
+        App.settings.edit().putInt(App.KILLER_MODE, mode).apply();
     }
 
     public void setListMode(int mode) {
@@ -79,6 +87,10 @@ public class SettingsViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getThemeMode() {
         return themeMode;
+    }
+
+    public MutableLiveData<Integer> getKillerMode() {
+        return killerMode;
     }
 
     public MutableLiveData<Integer> getListMode() {

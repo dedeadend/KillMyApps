@@ -17,6 +17,7 @@ import www.sanju.motiontoast.MotionToastStyle;
 public class App extends Application {
 
     public static final String THEME_MODE = "themeMode";
+    public static final String KILLER_MODE = "killerMode";
     public static final String LIST_MODE = "listMode";
     public static final String HIDE_KILL_MY_APPS = "hideKillMyApps";
     public static final String HIDE_DEFAULT_LAUNCHER = "hideDefaultLauncher";
@@ -54,10 +55,10 @@ public class App extends Application {
     }
 
     public static void toast(Activity activity, String title, String message) {
-        MotionToast.Companion.createColorToast(activity, title, message,
+        MotionToast.Companion.darkToast(activity, title, message,
                 MotionToastStyle.SUCCESS,
                 MotionToast.GRAVITY_BOTTOM,
-                MotionToast.LONG_DURATION,
+                MotionToast.SHORT_DURATION,
                 ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
 
     }

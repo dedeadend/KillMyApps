@@ -30,14 +30,14 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="ROOT PERMISSION"/>
+                android:text="Root/Shizuku Required"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginVertical="16dp"
                 android:gravity="center"
-                android:text="The KILL function requires ROOT permission to operate.\nWithout ROOT, you can continue using the app, but you'll need to manually force-stop apps by tapping on them and selecting the 'FORCE STOP' option."/>
+                android:text="The KILL feature requires Root or Shizuku access to operate.\n\nWithout it, you can still use the app, but you'll need to manually force-stop apps by tapping on each one and selecting the FORCE STOP option.\n\nYou can change your preferred mode between Root and Shizuku anytime in the app settings"/>
             <Button
                 android:id="@+id/close_dialog_btn"
                 android:layout_width="wrap_content"
