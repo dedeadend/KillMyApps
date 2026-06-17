@@ -10,7 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 import dedeadend.killmyapps.App;
@@ -109,10 +111,6 @@ public class ExcludedViewModel extends ViewModel {
 
     private void getSystemAppsList(Context context) {
         List<ApplicationInfo> applications = context.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
-        for (int i = 0; i < applications.size(); i++) {
-            if (filterList(applications, i))
-                i--;
-        }
         List<AppInfo> temp = AppInfo.utils.applicationInfoList2AppInfoList(context, applications);
         temp.sort(AppInfo::compareTo);
         appsList.getValue().clear();
@@ -125,10 +123,7 @@ public class ExcludedViewModel extends ViewModel {
             if ((applications.get(i).flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) {
                 applications.remove(i);
                 i--;
-                continue;
             }
-            if (filterList(applications, i))
-                i--;
         }
         List<AppInfo> temp = AppInfo.utils.applicationInfoList2AppInfoList(context, applications);
         temp.sort(AppInfo::compareTo);
@@ -140,22 +135,22 @@ public class ExcludedViewModel extends ViewModel {
         PackageManager pm = context.getPackageManager();
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<AppInfo> temp = AppInfo.utils.resolveInfoList2AppInfoList(context, pm.queryIntentActivities(intent, 0));
-        temp.sort(AppInfo::compareTo);
+        List<AppInfo> applications = AppInfo.utils.resolveInfoList2AppInfoList(context, pm.queryIntentActivities(intent, 0));
+        applications.sort(AppInfo::compareTo);
         appsList.getValue().clear();
-        appsList.getValue().addAll(temp);
+        appsList.getValue().addAll(applications);
     }
 
     private void getExcludedAppsList() {
         List<AppInfo> temp = new ArrayList<>();
         List<PKGName> pkgs = App.database.excludedPkgDao().getAll();
+        Map<String, AppInfo> appsListMap = new HashMap<>();
+        for (AppInfo appInfo : appsList.getValue())
+            appsListMap.put(appInfo.getPkgName(), appInfo);
         for (int i = 0; i < pkgs.size(); i++) {
-            for (int j = 0; j < appsList.getValue().size(); j++) {
-                if (pkgs.get(i).name.equals(appsList.getValue().get(j).getPkgName())) {
-                    temp.add(appsList.getValue().get(j));
-                    appsList.getValue().remove(j);
-                    break;
-                }
+            if (appsListMap.containsKey(pkgs.get(i).name)) {
+                temp.add(appsListMap.get(pkgs.get(i).name));
+                appsList.getValue().remove(appsListMap.get(pkgs.get(i).name));
             }
         }
         temp.sort(AppInfo::compareTo);

@@ -19,22 +19,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.Killer;
 import dedeadend.killmyapps.R;
-import dedeadend.killmyapps.SuUtils;
 import dedeadend.killmyapps.model.AppInfo;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
-    List<AppInfo> appList, backupList;
-    onItemClickListener listener;
+    private List<AppInfo> appList, backupList;
+    private Map<String, AppInfo> appListMap;
+    private onItemClickListener listener;
 
     public HomeRecyclerViewAdapter(List<AppInfo> appList, onItemClickListener listener) {
         this.appList = appList;
         this.listener = listener;
         backupList = new ArrayList<>(appList);
+        appListMap = new HashMap<>();
+        for (AppInfo appInfo : appList)
+            appListMap.put(appInfo.getPkgName(), appInfo);
     }
 
     @NonNull
@@ -79,19 +85,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         ).setDuration(400L).start();
         String pkgName = (String) v.getTag();
         if (v == v.findViewById(R.id.kill_icon)) {
-            for (int i = 0; i < appList.size(); i++) {
-                if (appList.get(i).getPkgName().equals(pkgName)) {
-                    if (SuUtils.killApp(pkgName)) {
-                        listener.onPaused(i);
-                        backupList.remove(appList.get(i));
-                        appList.remove(i);
-                        notifyItemRemoved(i);
-                    } else {
-                        listener.onSuError();
-                    }
-                    return;
-                }
-            }
+            if (Killer.killApp(pkgName)) {
+                int index = appList.indexOf(appListMap.get(pkgName));
+                listener.onPaused(index);
+                backupList.remove(appList.get(index));
+                appList.remove(index);
+                appListMap.remove(pkgName);
+                notifyItemRemoved(index);
+            } else
+                listener.onKillError();
         } else {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -126,7 +128,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     public interface onItemClickListener {
         void onPaused(int position);
 
-        void onSuError();
+        void onKillError();
 
         void onAppInfo(String pkgName);
     }

@@ -19,7 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.R;
@@ -30,6 +32,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
     List<AppInfo> appList, backupAppList;
     List<AppInfo> excludedList, backupExcludedList;
     List<AppInfo> allList;
+    Map<String, AppInfo> allListMap;
     onIconClickListener listener;
 
     public ExcludedRecyclerViewAdapter(List<AppInfo> appList, List<AppInfo> excludedList, onIconClickListener listener) {
@@ -40,6 +43,9 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         allList = new ArrayList<>();
         allList.addAll(excludedList);
         allList.addAll(appList);
+        allListMap = new HashMap<>();
+        for (AppInfo appInfo : allList)
+            allListMap.put(appInfo.getPkgName(), appInfo);
         this.listener = listener;
     }
 
@@ -91,31 +97,28 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         ).setDuration(400L).start();
         String pkgName = (String) v.getTag();
         if (v == v.findViewById(R.id.kill_icon)) {
-            for (int i = 0; i < allList.size(); i++) {
-                if (allList.get(i).getPkgName().equals(pkgName)) {
-                    if (excludedList.contains(allList.get(i))) {
-                        listener.onRemoveIconClick(allList.get(i));
-                        appList.add(excludedList.get(i));
-                        backupAppList.add(excludedList.get(i));
-                        backupExcludedList.remove(excludedList.get(i));
-                        excludedList.remove(i);
-                        allList.remove(i);
-                        notifyItemRemoved(i);
-                        allList.add(appList.get(appList.size() - 1));
-                        notifyItemInserted(allList.size() - 1);
-                    } else {
-                        listener.onAddIconClick(allList.get(i));
-                        backupAppList.remove(appList.get(i - excludedList.size()));
-                        appList.remove(i - excludedList.size());
-                        excludedList.add(allList.get(i));
-                        backupExcludedList.add(allList.get(i));
-                        allList.remove(i);
-                        notifyItemRemoved(i);
-                        allList.add(excludedList.size() - 1, excludedList.get(excludedList.size() - 1));
-                        notifyItemInserted(excludedList.size() - 1);
-                    }
-                    break;
-                }
+            AppInfo clickedApp = allListMap.get(pkgName);
+            int index = allList.indexOf(clickedApp);
+            if (excludedList.contains(clickedApp)) {
+                listener.onRemoveIconClick(clickedApp);
+                appList.add(clickedApp);
+                backupAppList.add(clickedApp);
+                backupExcludedList.remove(clickedApp);
+                excludedList.remove(clickedApp);
+                allList.remove(clickedApp);
+                notifyItemRemoved(index);
+                allList.add(clickedApp);
+                notifyItemInserted(allList.size() - 1);
+            } else {
+                listener.onAddIconClick(clickedApp);
+                backupAppList.remove(clickedApp);
+                appList.remove(clickedApp);
+                excludedList.add(clickedApp);
+                backupExcludedList.add(clickedApp);
+                allList.remove(clickedApp);
+                notifyItemRemoved(index);
+                allList.add(excludedList.size() - 1, clickedApp);
+                notifyItemInserted(excludedList.size() - 1);
             }
         } else {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
