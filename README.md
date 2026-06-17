@@ -14,12 +14,13 @@
 
 Kill My Apps is a lightweight utility designed to terminate background processes, helping you **extend battery life**, **boost gaming performance** and **reclaim system resources**.
 
-The KILL function requires ROOT permission to operate. Without ROOT, you can continue using the app, but you'll need to manually force-stop apps by tapping on them and selecting the 'FORCE STOP' option.
+The KILL feature requires **Root** or **Shizuku** access to operate. Without it, you can still use the app, but you'll need to manually force-stop apps by tapping on each one and selecting the FORCE STOP option. You can change your preferred mode between Root and Shizuku anytime in the app settings.
 
 
 ## ✨ Features
 
 - ⚡ **One-Click Optimization**: Terminate all background activities instantly.
+- 🔰 **Killer Modes**: Support Root and Shizuku for an automated app termination process.
 - 🛡️ **Exclusion List**: Whitelist your important apps to keep them running.
 - 🔍 **Smart Filtering**: Categorize apps by User, Launchable, or System processes.
 - 🔋 **Battery Saver**: Reduce power consumption by eliminating idle app activities.
@@ -39,13 +40,13 @@ The KILL function requires ROOT permission to operate. Without ROOT, you can con
 ### Prerequisites
 
 - Android 8.0+ "Oreo"
-- **Root Access** (Highly recommended for automation)
+- **Root** or **Shizuku** (Experimental) for automating the killing process.
 
 ### Installation
 
 1. Download the latest APK from the [Releases Page](https://github.com/dedeadend/KillMyApps/releases/latest).
 2. Install the APK on your device.
-3. Grant Root permissions when prompted for the best experience.
+3. Grant Root/Shizuku permissions when prompted for the best experience.
 4. Enjoy 💚
 
 
