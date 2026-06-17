@@ -40,7 +40,7 @@ The KILL feature requires **Root** or **Shizuku** access to operate. Without it,
 ### Prerequisites
 
 - Android 8.0+ "Oreo"
-- **Root** or **Shizuku** (Experimental) for automating the killing process.
+- **Root** or **Shizuku** for automating the killing process.
 
 ### Installation
 
