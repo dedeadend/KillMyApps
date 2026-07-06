@@ -12,19 +12,22 @@
 
 # ❄️ Kill My Apps
 
-Kill My Apps is a lightweight utility designed to terminate background processes, helping you extend battery life, boost gaming performance and reclaim system resources. **It also keeps your device clean from intrusive notifications, unwanted background activities, tracking and telemetry**.
+Kill My Apps is a lightweight utility designed to terminate background processes, helping you extend battery life, boost gaming performance and reclaim system resources. **It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry**.
 
-The KILL feature requires **Root** or **Shizuku** access to operate. Without it, you can still use the app, but you'll need to manually force-stop apps by tapping on each one and selecting the FORCE STOP option. You can change your preferred mode between Root and Shizuku anytime in the app settings.
+
+> [!NOTE]
+> The KILL feature requires **Root** or **Shizuku** access to operate. Without it, you can still use the app, but you'll need to manually force-stop apps by tapping on each one and selecting the FORCE STOP option. You can change your preferred mode between Root and Shizuku anytime in the app settings.
 
 
 ## ✨ Features
 
-- ⚡ **One-Click Optimization**: Terminate all background activities instantly.
+- ⚡ **One-Click Optimization**: Terminate all running apps instantly.
 - 🔰 **Killer Modes**: Support Root and Shizuku for an automated app termination process.
 - 🛡️ **Exclusion List**: Whitelist your important apps to keep them running.
 - 🔍 **Smart Filtering**: Categorize apps by User, Launchable, or System processes.
 - 🔋 **Battery Saver**: Reduce power consumption by eliminating idle app activities.
 - 🚀 **Performance Boost**: Free up RAM and CPU for high-demand tasks like gaming.
+- 🔒 **Enhanced Privacy**: Reduce unnecessary background activity, tracking and telemetry.
 - 🍃 **Clean UI**: Simple and intuitive Material Design interface.
 
 
