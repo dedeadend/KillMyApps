@@ -55,7 +55,7 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 
 ## 📌 Note
 
-Since KillMyApps is a newly released, self-signed APK not yet distributed via the Play Store, Google Play Protect may flag it as "Unknown". As an open-source project, you can always audit the source code yourself or build the APK from source to ensure total transparency.
+Since KillMyApps is a self-signed APK not distributed via the Google Play Store, Google Play Protect may flag it as "Unknown". As an open-source project, you can always audit the source code yourself or build the APK from source to ensure total transparency.
 
 
 ## ♠️ Support
