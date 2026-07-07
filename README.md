@@ -22,7 +22,7 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 ## ✨ Features
 
 - ⚡ **One-Tap Kill**: Terminate all running apps instantly.
-- 🔰 **Killer Modes**: Support Root and Shizuku for an automated app termination process.
+- 🔰 **Killer Mode**: Support Root and Shizuku for an automated app termination process.
 - 🛡️ **Exclusion List**: Whitelist your important apps to keep them running.
 - 🔍 **Smart Filtering**: Categorize apps by User, Launchable, or System processes.
 - 🔋 **Save Battery**: Reduce battery usage by stopping unnecessary background activities.
@@ -49,7 +49,7 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 
 1. Download the latest APK from the [Releases Page](https://github.com/dedeadend/KillMyApps/releases/latest).
 2. Install the APK on your device.
-3. Grant Root/Shizuku permission when prompted for the best experience.
+3. Grant `Root`/`Shizuku` permission when prompted for the best experience.
 4. Enjoy 💚
 
 
