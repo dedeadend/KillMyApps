@@ -21,7 +21,7 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 
 ## ✨ Features
 
-- ⚡ **One-Click Killer**: Terminate all running apps instantly.
+- ⚡ **One-Tap Killer**: Terminate all running apps instantly.
 - 🔰 **Killer Modes**: Support Root and Shizuku for an automated app termination process.
 - 🛡️ **Exclusion List**: Whitelist your important apps to keep them running.
 - 🔍 **Smart Filtering**: Categorize apps by User, Launchable, or System processes.
