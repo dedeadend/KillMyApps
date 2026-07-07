@@ -16,12 +16,12 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 
 
 > [!IMPORTANT]
-> The KILL feature requires **`Root`** or **`Shizuku`** access to operate. Without it, you can still use the app, but you'll need to manually force-stop apps by tapping on each one and selecting the Force Stop option. You can change your preferred mode between Root and Shizuku anytime in the app settings.
+> The KILL feature requires **`Root`** or **`Shizuku`** access to operate. Without it, you can still use the app, but you'll need to manually kill running apps by tapping on each one and selecting the Force Stop option. You can change your preferred mode between Root and Shizuku anytime in the app settings.
 
 
 ## ✨ Features
 
-- ⚡ **One-Click Optimization**: Terminate all running apps instantly.
+- ⚡ **One-Click Killer**: Terminate all running apps instantly.
 - 🔰 **Killer Modes**: Support Root and Shizuku for an automated app termination process.
 - 🛡️ **Exclusion List**: Whitelist your important apps to keep them running.
 - 🔍 **Smart Filtering**: Categorize apps by User, Launchable, or System processes.
