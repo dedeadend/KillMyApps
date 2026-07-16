@@ -34,9 +34,9 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 
   ## 📸 Screenshots
 
-| Dark | Light |
-|:---:|:---:|
-| <img src="screenshots/screenshot2.png" alt="Dark Screenshot"> | <img src="screenshots/screenshot1.png" alt="Light Screenshot"> |
+| Dark Theme | Quick Tile | Light Theme |
+|:---:|:---:|:---:|
+| <img src="screenshots/screenshot2.png" alt="Dark Screenshot"> | <img src="screenshots/screenshot3.png" alt="Quick Settings Tile Screenshot"> | <img src="screenshots/screenshot1.png" alt="Light Screenshot"> |
 
 
 ## 📥 Getting Started
