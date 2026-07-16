@@ -24,8 +24,8 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 - ⚡ **One-Tap Kill**: Terminate all running apps instantly with a single tap.
 - 🫧 **Quick Settings Tile**: Kill running apps directly from your notification panel without even opening the app.
 - 🔰 **Killer Mode**: Support Root and Shizuku for an automated app termination process.
-- 🛡️ **Source Mode**: Categorize apps by User, Launchable, or System processes, backed by customizeable critical app protections.
-- 🔎 **Selection Mode**: Flexible app targeting between Exclude (don't kill selected apps) and Include (only kill selected apps) modes.
+- 🛡️ **Source Mode**: Categorize apps by User, Launchable, or System processes, backed by customizable critical app protections.
+- 🔎 **Selection Mode**: Flexible app targeting between Exclude and Include modes.
 - 🔋 **Save Battery**: Reduce battery usage by stopping unnecessary background activities.
 - 🚀 **Boost Performance**: Free up RAM and CPU for high-demand tasks like gaming.
 - 🔒 **Enhance Privacy**: Eliminate unnecessary background activity, tracking and telemetry.
