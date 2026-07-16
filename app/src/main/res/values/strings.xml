@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">KillMyApps</string>
     <string name="title_home">Running Apps</string>
-    <string name="title_excluded">Excluded</string>
+    <string name="title_selection">Selection</string>
     <string name="title_settings">Settings</string>
 </resources>

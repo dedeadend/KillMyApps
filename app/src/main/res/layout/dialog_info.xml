@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:cardCornerRadius="12dp"
         android:elevation="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:cardCornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/dialog_icon"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                app:srcCompat="@drawable/ic_info"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_info" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:text="Root/Shizuku Required"/>
+                android:text="Root/Shizuku Required"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginVertical="16dp"
                 android:gravity="center"
-                android:text="The KILL feature requires Root or Shizuku access to operate.\n\nWithout it, you can still use the app, but you'll need to manually force-stop apps by tapping on each one and selecting the FORCE STOP option.\n\nYou can change your preferred mode between Root and Shizuku anytime in the app settings"/>
+                android:text="The KILL feature requires Root or Shizuku access to operate.\n\nWithout it, you can still use the app, but you'll need to manually kill running apps by tapping on each one and selecting the Force Stop option.\n\nYou can change your preferred mode between Root and Shizuku anytime in the app settings."
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/close_dialog_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="close"/>
+                android:text="close" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

@@ -1,5 +1,8 @@
 package dedeadend.killmyapps;
 
+import android.app.ActivityManager;
+import android.content.Context;
+
 import java.util.List;
 
 import dedeadend.killmyapps.model.AppInfo;
@@ -25,12 +28,13 @@ public class Killer {
     public static boolean killListOfApps(List<AppInfo> appList) {
         if (!checkAccess())
             return false;
+
         if (killerMode == 1) {
             int result = SuUtils.killListOfApps(appList);
             if (result == 0)
                 return true;
             else if (result == 1) {
-                SuUtils.killMyApps();
+                selfDestruct();
                 return true;
             } else
                 return false;
@@ -39,7 +43,7 @@ public class Killer {
             if (result == 0)
                 return true;
             else if (result == 1) {
-                ShizukuUtils.killMyApps();
+                selfDestruct();
                 return true;
             } else
                 return false;
@@ -48,13 +52,35 @@ public class Killer {
     }
 
     public static boolean killApp(String pkgName) {
+        if (pkgName.equals("dedeadend.killmyapps"))
+            selfDestruct();
+
         if (!checkAccess())
             return false;
+
         if (killerMode == 1)
             return SuUtils.killApp(pkgName);
+
         else if (killerMode == 2)
             return ShizukuUtils.killApp(pkgName);
+
         else
             return false;
+    }
+
+    private static void selfDestruct() {
+        try {
+            ActivityManager activityManager = (ActivityManager) App.context.getSystemService(Context.ACTIVITY_SERVICE);
+            if (activityManager != null) {
+                List<ActivityManager.AppTask> appTasks = activityManager.getAppTasks();
+                if (appTasks != null) {
+                    for (ActivityManager.AppTask task : appTasks) {
+                        task.finishAndRemoveTask();
+                    }
+                }
+            }
+        } finally {
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
     }
 }

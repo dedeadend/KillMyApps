@@ -81,8 +81,4 @@ public class SuUtils {
             }
         }
     }
-
-    public static void killMyApps() {
-        killApp("dedeadend.killmyapps");
-    }
 }

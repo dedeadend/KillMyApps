@@ -73,15 +73,28 @@ public class SettingsFragment extends Fragment {
                     binding.listModeSettings.check(binding.launcherMode.getId());
                 else if (integer == 2)
                     binding.listModeSettings.check(binding.systemMode.getId());
-                binding.hideSystemUi.setEnabled(integer == 2);
+            }
+        });
+        settingsViewModel.getSelectionMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer == 0)
+                    binding.selectionModeSettings.check(binding.excludeMode.getId());
+                else if (integer == 1)
+                    binding.selectionModeSettings.check(binding.includeMode.getId());
             }
         });
         settingsViewModel.getHideKillMyApps().observe(getViewLifecycleOwner(), binding.hideKillMyApps::setChecked);
         settingsViewModel.getHideDefaultLauncher().observe(getViewLifecycleOwner(), binding.hideDefaultLauncher::setChecked);
-        settingsViewModel.getHideSystemUI().observe(getViewLifecycleOwner(), binding.hideSystemUi::setChecked);
+        settingsViewModel.getHideDefaultAlarm().observe(getViewLifecycleOwner(), binding.hideDefaultAlarm::setChecked);
+        settingsViewModel.getHideDefaultKeyboard().observe(getViewLifecycleOwner(), binding.hideDefaultKeyboard::setChecked);
+        settingsViewModel.getHideDefaultDialer().observe(getViewLifecycleOwner(), binding.hideDefaultDialer::setChecked);
+        settingsViewModel.getHideDefaultSMS().observe(getViewLifecycleOwner(), binding.hideDefaultSms::setChecked);
+        settingsViewModel.getHideCriticalSystemApps().observe(getViewLifecycleOwner(), binding.hideCriticalSystemApps::setChecked);
         settingsViewModel.getShowAppsPkgName().observe(getViewLifecycleOwner(), binding.showPkgname::setChecked);
         settingsViewModel.getClickToAppInfo().observe(getViewLifecycleOwner(), binding.clickToAppInfo::setChecked);
-        settingsViewModel.getLongClickToCopy().observe(getViewLifecycleOwner(), binding.longClickToCopy::setChecked);
+        settingsViewModel.getLongClickToMenu().observe(getViewLifecycleOwner(), binding.longClickToMenu::setChecked);
+        settingsViewModel.getShowScrollAnimation().observe(getViewLifecycleOwner(), binding.showScrollAnimation::setChecked);
     }
 
     private void setListeners() {
@@ -116,6 +129,15 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setListMode(2);
             }
         });
+        binding.selectionModeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull RadioGroup group, int checkedId) {
+                if (checkedId == binding.excludeMode.getId())
+                    settingsViewModel.setSelectionMode(0);
+                else if (checkedId == binding.includeMode.getId())
+                    settingsViewModel.setSelectionMode(1);
+            }
+        });
         binding.hideKillMyApps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,10 +150,34 @@ public class SettingsFragment extends Fragment {
                 settingsViewModel.setHideDefaultLauncher(binding.hideDefaultLauncher.isChecked());
             }
         });
-        binding.hideSystemUi.setOnClickListener(new View.OnClickListener() {
+        binding.hideDefaultAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingsViewModel.setHideSystemUI(binding.hideSystemUi.isChecked());
+                settingsViewModel.setHideDefaultAlarm(binding.hideDefaultAlarm.isChecked());
+            }
+        });
+        binding.hideDefaultKeyboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsViewModel.setHideDefaultKeyboard(binding.hideDefaultKeyboard.isChecked());
+            }
+        });
+        binding.hideDefaultDialer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsViewModel.setHideDefaultDialer(binding.hideDefaultDialer.isChecked());
+            }
+        });
+        binding.hideDefaultSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsViewModel.setHideDefaultSMS(binding.hideDefaultSms.isChecked());
+            }
+        });
+        binding.hideCriticalSystemApps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsViewModel.setHideCriticalSystemApps(binding.hideCriticalSystemApps.isChecked());
             }
         });
         binding.showPkgname.setOnClickListener(new View.OnClickListener() {
@@ -146,10 +192,16 @@ public class SettingsFragment extends Fragment {
                 settingsViewModel.setClickToAppInfo(binding.clickToAppInfo.isChecked());
             }
         });
-        binding.longClickToCopy.setOnClickListener(new View.OnClickListener() {
+        binding.longClickToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingsViewModel.setLongClickToCopy(binding.longClickToCopy.isChecked());
+                settingsViewModel.setLongClickToMenu(binding.longClickToMenu.isChecked());
+            }
+        });
+        binding.showScrollAnimation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsViewModel.setShowScrollAnimation(binding.showScrollAnimation.isChecked());
             }
         });
         binding.github.setOnClickListener(new View.OnClickListener() {

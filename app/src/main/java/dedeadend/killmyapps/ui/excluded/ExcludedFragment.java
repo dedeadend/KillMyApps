@@ -1,5 +1,7 @@
 package dedeadend.killmyapps.ui.excluded;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -54,6 +56,7 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
     public void onResume() {
         super.onResume();
         excludedViewModel.refreshList();
+        binding.search.setQuery("", false);
     }
 
     @Override
@@ -74,9 +77,13 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
             @Override
             public void onChanged(List<AppInfo> appInfos) {
                 setAdapter();
-                if (excludedViewModel.getAppsList().getValue().isEmpty() && appInfos.isEmpty()) {
-                    binding.search.setVisibility(View.GONE);
-                } else {
+                if (excludedViewModel.getAppsList().getValue().isEmpty() && appInfos.isEmpty())
+                    binding.search.setVisibility(View.INVISIBLE);
+                else {
+                    if (App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true))
+                        ObjectAnimator.ofPropertyValuesHolder(binding.search,
+                                        PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
+                                .setDuration(400L).start();
                     binding.search.setVisibility(View.VISIBLE);
                 }
             }
@@ -115,17 +122,17 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
     @Override
     public void onAddIconClick(AppInfo appInfo) {
         excludedViewModel.addExcluded(appInfo);
-        App.toast(getActivity(), "DONE", "\"" + appInfo.getName() + "\" added to excluded list");
+        App.toast(getActivity(), "DONE", "\"" + appInfo.getName() + "\" added to selection list");
     }
 
     @Override
     public void onRemoveIconClick(AppInfo appInfo) {
         excludedViewModel.removeExcluded(appInfo);
-        App.toast(getActivity(), "DONE", "\"" + appInfo.getName() + "\" removed from excluded list");
+        App.toast(getActivity(), "DONE", "\"" + appInfo.getName() + "\" removed from selection list");
     }
 
     @Override
-    public void onAppInfo(String pkgName) {
+    public void onAppInfoLongClicked(View v, String pkgName) {
         ClipboardManager clipboardManager = (ClipboardManager) App.context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("pkgName", pkgName);
         clipboardManager.setPrimaryClip(clipData);

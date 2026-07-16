@@ -2,20 +2,15 @@ package dedeadend.killmyapps.ui.home;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,15 +22,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import dedeadend.killmyapps.App;
-import dedeadend.killmyapps.Killer;
+import dedeadend.killmyapps.InfoDialog;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentHomeBinding;
 import dedeadend.killmyapps.model.AppInfo;
 
-public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.onItemClickListener {
+public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
@@ -67,6 +61,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
     public void onResume() {
         super.onResume();
         homeViewModel.refreshList();
+        binding.search.setQuery("", false);
     }
 
     @Override
@@ -87,26 +82,25 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
             @Override
             public void onChanged(List<AppInfo> appInfos) {
                 setAdapter();
-                if (appInfos.size() == 0) {
-                    binding.killAllBtn.setAlpha(0f);
-                    binding.search.setAlpha(0f);
+                if (appInfos.isEmpty()) {
                     ObjectAnimator.ofPropertyValuesHolder(binding.allDead,
-                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(3000L).start();
+                                    PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
+                            .setDuration(3000L).start();
                     binding.killAllBtn.setVisibility(View.INVISIBLE);
                     binding.search.setVisibility(View.INVISIBLE);
                     binding.allDead.setVisibility(View.VISIBLE);
                 } else {
-                    ObjectAnimator.ofPropertyValuesHolder(binding.killAllBtn,
-                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(400L).start();
-                    ObjectAnimator.ofPropertyValuesHolder(binding.search,
-                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(400L).start();
-                    binding.allDead.setAlpha(0f);
+                    if (App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true)) {
+                        ObjectAnimator.ofPropertyValuesHolder(binding.killAllBtn,
+                                        PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
+                                .setDuration(400L).start();
+                        ObjectAnimator.ofPropertyValuesHolder(binding.search,
+                                        PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
+                                .setDuration(400L).start();
+                    }
+                    binding.allDead.setVisibility(View.INVISIBLE);
                     binding.killAllBtn.setVisibility(View.VISIBLE);
                     binding.search.setVisibility(View.VISIBLE);
-                    binding.allDead.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -127,28 +121,20 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
                         PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
                         PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
                 ).setDuration(400L).start();
-                Executors.newSingleThreadExecutor().execute(new Runnable() {
+
+                homeViewModel.onKillAllAppsClicked(new HomeViewModel.OnResultListener() {
                     @Override
-                    public void run() {
-                        List<AppInfo> appList = homeViewModel.getAppsList().getValue();
-                        if (appList != null) {
-                            if (Killer.killListOfApps(homeViewModel.getAppsList().getValue())) {
-                                App.handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        App.toast(getActivity(), "DONE",
-                                                homeViewModel.clearList() + " apps killed successfully");
-                                    }
-                                });
-                            } else {
-                                App.handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        onKillError();
-                                    }
-                                });
-                            }
-                        }
+                    public void onKillSuccessfully(int count) {
+                        if (count == 1)
+                            App.toast(getActivity(), "DONE", "1 app is dead");
+                        else
+                            App.toast(getActivity(), "DONE", count + " apps are dead");
+                    }
+
+                    @Override
+                    public void onKillFailed() {
+                        InfoDialog infoDialog = new InfoDialog(getContext());
+                        infoDialog.show();
                     }
                 });
             }
@@ -171,63 +157,33 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.on
 
 
     private void setAdapter() {
-        adapter = new HomeRecyclerViewAdapter(homeViewModel.getAppsList().getValue(), this);
+        adapter = new HomeRecyclerViewAdapter(homeViewModel.getAppsList().getValue(), new HomeRecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onKillButtonClicked(String pkgName, String name) {
+                homeViewModel.onKillSingleAppClicked(pkgName, new HomeViewModel.OnResultListener() {
+                    @Override
+                    public void onKillSuccessfully(int count) {
+                        adapter.itemKilled(pkgName);
+                        App.toast(getActivity(), "DONE", "\"" + name + "\" is dead");
+                        homeViewModel.checkForRefresh();
+                    }
+
+                    @Override
+                    public void onKillFailed() {
+                        InfoDialog infoDialog = new InfoDialog(getContext());
+                        infoDialog.show();
+                    }
+                });
+            }
+
+            @Override
+            public void onAppInfoLongClicked(View v, String pkgName) {
+                ClipboardManager clipboardManager = (ClipboardManager) App.context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("pkgName", pkgName);
+                clipboardManager.setPrimaryClip(clipData);
+                App.toast(getActivity(), "DONE", "package name copied to clipboard");
+            }
+        });
         binding.homeRecyclerView.swapAdapter(adapter, true);
-    }
-
-    @Override
-    public void onPaused(int position) {
-        App.toast(getActivity(), "DONE",
-                "\"" + homeViewModel.getAppsList().getValue().get(position).getName() +
-                        "\" killed successfully");
-        homeViewModel.checkForRefresh();
-    }
-
-    @Override
-    public void onKillError() {
-        InfoDialog infoDialog = new InfoDialog(getContext());
-        infoDialog.show();
-    }
-
-    @Override
-    public void onAppInfo(String pkgName) {
-        ClipboardManager clipboardManager = (ClipboardManager) App.context.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText("pkgName", pkgName);
-        clipboardManager.setPrimaryClip(clipData);
-        App.toast(getActivity(), "DONE", "package name copied to clipboard");
-    }
-
-    private class InfoDialog extends Dialog {
-        Context context;
-        Button close;
-
-        public InfoDialog(@NonNull Context context) {
-            super(context);
-            this.context = context;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.dialog_info);
-            getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-            setCancelable(true);
-            close = findViewById(R.id.close_dialog_btn);
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            });
-            ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(findViewById(R.id.dialog_icon),
-                    PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.8f, 1),
-                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.8f, 1)
-            );
-            objectAnimator.setDuration(2000L);
-            objectAnimator.setRepeatCount(30);
-            objectAnimator.start();
-        }
     }
 }

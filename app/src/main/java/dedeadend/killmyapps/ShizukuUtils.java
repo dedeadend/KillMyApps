@@ -35,7 +35,7 @@ public class ShizukuUtils {
 
     public static boolean killApp(String pkgName) {
         try {
-            process = Shizuku.newProcess(new String[]{"am", "force-stop", "--user", "0", pkgName}, null, null);
+            process = Shizuku.newProcess(new String[]{"am", "force-stop", pkgName}, null, null);
             process.getOutputStream().close();
             process.getInputStream().close();
             process.getErrorStream().close();
@@ -62,7 +62,7 @@ public class ShizukuUtils {
                     killMyApps = true;
                     continue;
                 }
-                String command = "am force-stop --user 0 " + pkg + "\n";
+                String command = "am force-stop " + pkg + "\n";
                 os.write(command.getBytes());
             }
             os.write("exit\n".getBytes());
@@ -80,9 +80,5 @@ public class ShizukuUtils {
                 process = null;
             }
         }
-    }
-
-    public static void killMyApps() {
-        killApp("dedeadend.killmyapps");
     }
 }

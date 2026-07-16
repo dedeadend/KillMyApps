@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -20,8 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.R;
@@ -29,11 +32,15 @@ import dedeadend.killmyapps.model.AppInfo;
 
 public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRecyclerViewAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
-    List<AppInfo> appList, backupAppList;
-    List<AppInfo> excludedList, backupExcludedList;
-    List<AppInfo> allList;
-    Map<String, AppInfo> allListMap;
-    onIconClickListener listener;
+    private List<AppInfo> appList, backupAppList;
+    private List<AppInfo> excludedList, backupExcludedList;
+    private List<AppInfo> allList;
+    private Map<String, AppInfo> allListMap;
+    private Set<String> excludedListHash;
+    private onIconClickListener listener;
+    private boolean isAppInfoEnable, isLongClickEnable, isShowPackageNameEnable, isScrollAnimationEnable;
+
+    private Drawable addIcon, removeIcon;
 
     public ExcludedRecyclerViewAdapter(List<AppInfo> appList, List<AppInfo> excludedList, onIconClickListener listener) {
         this.appList = appList;
@@ -46,7 +53,16 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         allListMap = new HashMap<>();
         for (AppInfo appInfo : allList)
             allListMap.put(appInfo.getPkgName(), appInfo);
+        excludedListHash = new HashSet<>();
+        for (AppInfo appInfo : excludedList)
+            excludedListHash.add(appInfo.getPkgName());
         this.listener = listener;
+        isAppInfoEnable = App.settings.getBoolean(App.CLICK_TO_APP_INFO, true);
+        isLongClickEnable = App.settings.getBoolean(App.LONG_CLICK_TO_MENU, true);
+        isShowPackageNameEnable = App.settings.getBoolean(App.SHOW_PKGNAME, true);
+        isScrollAnimationEnable = App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true);
+        addIcon = App.context.getDrawable(R.drawable.ic_add);
+        removeIcon = App.context.getDrawable(R.drawable.ic_remove);
     }
 
     @NonNull
@@ -63,25 +79,26 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         holder.name.setText(allList.get(position).getName());
         holder.pkgName.setText(allList.get(position).getPkgName());
         holder.icon.setImageDrawable(allList.get(position).getIcon());
-        holder.itemView.startAnimation(AnimationUtils.loadAnimation(App.context, R.anim.scale_in));
-        if (excludedList.contains(allList.get(position))) {
-            holder.add.setImageDrawable(App.context.getDrawable(R.drawable.ic_remove));
+        if (excludedListHash.contains(allList.get(position).getPkgName())) {
+            holder.add.setImageDrawable(removeIcon);
             holder.add.setRotation(0);
         } else {
-            holder.add.setImageDrawable(App.context.getDrawable(R.drawable.ic_add));
+            holder.add.setImageDrawable(addIcon);
             holder.add.setRotation(45);
         }
         holder.add.setTag(allList.get(position).getPkgName());
         holder.parent.setTag(allList.get(position).getPkgName());
         holder.add.setOnClickListener(this);
-        if (App.settings.getBoolean(App.CLICK_TO_APP_INFO, true))
+        if (isAppInfoEnable)
             holder.parent.setOnClickListener(this);
-        if (App.settings.getBoolean(App.LONG_CLICK_TO_COPY, true))
+        if (isLongClickEnable)
             holder.parent.setOnLongClickListener(this);
-        if (App.settings.getBoolean(App.SHOW_PKGNAME, true))
+        if (isShowPackageNameEnable)
             holder.pkgName.setVisibility(View.VISIBLE);
         else
             holder.pkgName.setVisibility(View.GONE);
+        if (isScrollAnimationEnable)
+            holder.itemView.startAnimation(AnimationUtils.loadAnimation(App.context, R.anim.scale_in));
     }
 
     @Override
@@ -99,12 +116,13 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         if (v == v.findViewById(R.id.kill_icon)) {
             AppInfo clickedApp = allListMap.get(pkgName);
             int index = allList.indexOf(clickedApp);
-            if (excludedList.contains(clickedApp)) {
+            if (excludedListHash.contains(pkgName)) {
                 listener.onRemoveIconClick(clickedApp);
                 appList.add(clickedApp);
                 backupAppList.add(clickedApp);
                 backupExcludedList.remove(clickedApp);
                 excludedList.remove(clickedApp);
+                excludedListHash.remove(pkgName);
                 allList.remove(clickedApp);
                 notifyItemRemoved(index);
                 allList.add(clickedApp);
@@ -115,6 +133,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
                 appList.remove(clickedApp);
                 excludedList.add(clickedApp);
                 backupExcludedList.add(clickedApp);
+                excludedListHash.add(pkgName);
                 allList.remove(clickedApp);
                 notifyItemRemoved(index);
                 allList.add(excludedList.size() - 1, clickedApp);
@@ -135,7 +154,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
         ).setDuration(400L).start();
         String pkgName = (String) v.getTag();
-        listener.onAppInfo(pkgName);
+        listener.onAppInfoLongClicked(v.findViewById(R.id.package_name), pkgName);
         return true;
     }
 
@@ -163,7 +182,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
 
         void onRemoveIconClick(AppInfo appInfo);
 
-        void onAppInfo(String pkgName);
+        void onAppInfoLongClicked(View v, String pkgName);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

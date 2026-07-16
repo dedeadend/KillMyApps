@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_excluded"
         android:name="dedeadend.killmyapps.ui.excluded.ExcludedFragment"
-        android:label="@string/title_excluded"
+        android:label="@string/title_selection"
         tools:layout="@layout/fragment_excluded" />
 
     <fragment
