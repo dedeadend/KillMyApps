@@ -38,7 +38,7 @@
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
         <service
-            android:name=".services.KillTileService"
+            android:name=".service.KillTileService"
             android:exported="true"
             android:icon="@drawable/ic_snow"
             android:label="Kill Apps"

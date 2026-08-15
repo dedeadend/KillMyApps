@@ -11,7 +11,7 @@ public class SettingsViewModel extends ViewModel {
     //themeMode = 0 -> auto , 1 -> light , 2 -> dark
     //listMode = 0 -> user , 1 -> launcher , 2 -> system
     //selectionMode = 0 -> exclude , 1 -> include
-    //killerMode = (0 -> auto) , 1 -> root , 2 -> shizuku
+    //killerMode = (0 -> auto) , 1 -> root , 2 -> shizuku , 3 -> shizuku+
     private final MutableLiveData<Boolean> hideKillMyApps, hideDefaultLauncher, hideDefaultAlarm,
             hideDefaultKeyboard, hideDefaultDialer, hideDefaultSMS, hideCriticalSystemApps,
             showAppsPkgName, clickToAppInfo, longClickToMenu, showScrollAnimation;

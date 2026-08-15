@@ -6,6 +6,9 @@ import android.content.Context;
 import java.util.List;
 
 import dedeadend.killmyapps.model.AppInfo;
+import dedeadend.killmyapps.util.ShizukuPlusUtils;
+import dedeadend.killmyapps.util.ShizukuUtils;
+import dedeadend.killmyapps.util.SuUtils;
 
 public class Killer {
 
@@ -18,6 +21,12 @@ public class Killer {
         else if (killerMode == 2) {
             if (!ShizukuUtils.checkShizuku()) {
                 ShizukuUtils.requestPermission();
+                return false;
+            }
+            return true;
+        } else if (killerMode == 3) {
+            if (!ShizukuPlusUtils.checkShizuku()) {
+                ShizukuPlusUtils.requestPermission();
                 return false;
             }
             return true;
@@ -47,6 +56,15 @@ public class Killer {
                 return true;
             } else
                 return false;
+        } else if (killerMode == 3) {
+            int result = ShizukuPlusUtils.killListOfApps(appList);
+            if (result == 0)
+                return true;
+            else if (result == 1) {
+                selfDestruct();
+                return true;
+            } else
+                return false;
         } else
             return false;
     }
@@ -63,6 +81,9 @@ public class Killer {
 
         else if (killerMode == 2)
             return ShizukuUtils.killApp(pkgName);
+
+        else if (killerMode == 3)
+            return ShizukuPlusUtils.killApp(pkgName);
 
         else
             return false;

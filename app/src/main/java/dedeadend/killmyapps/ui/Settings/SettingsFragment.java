@@ -62,6 +62,8 @@ public class SettingsFragment extends Fragment {
                     binding.killerModeSettings.check(binding.rootMode.getId());
                 else if (integer == 2)
                     binding.killerModeSettings.check(binding.shizukuMode.getId());
+                else if (integer == 3)
+                    binding.killerModeSettings.check(binding.shizukuPlusMode.getId());
             }
         });
         settingsViewModel.getListMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
@@ -116,6 +118,8 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setKillerMode(1);
                 else if (checkedId == binding.shizukuMode.getId())
                     settingsViewModel.setKillerMode(2);
+                else if (checkedId == binding.shizukuPlusMode.getId())
+                    settingsViewModel.setKillerMode(3);
             }
         });
         binding.listModeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

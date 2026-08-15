@@ -114,6 +114,14 @@
                         android:text="Shizuku"
                         android:textSize="14sp"
                         android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/shizuku_plus_mode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Shizuku+"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </RadioGroup>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

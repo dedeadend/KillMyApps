@@ -1,4 +1,4 @@
-package dedeadend.killmyapps;
+package dedeadend.killmyapps.util;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

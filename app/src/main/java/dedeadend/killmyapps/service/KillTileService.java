@@ -1,4 +1,4 @@
-package dedeadend.killmyapps.services;
+package dedeadend.killmyapps.service;
 
 import android.content.Context;
 import android.content.Intent;

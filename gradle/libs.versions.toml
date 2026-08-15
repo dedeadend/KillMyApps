@@ -1,6 +1,6 @@
 [versions]
-agp = "9.0.0"
-api = "12.1.0"
+agp = "9.0.1"
+api = "13.1.0"
 appcompat = "1.7.1"
 material = "1.13.0"
 constraintlayout = "2.2.1"
