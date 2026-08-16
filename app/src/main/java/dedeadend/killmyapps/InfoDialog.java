@@ -42,7 +42,7 @@ public class InfoDialog extends Dialog {
                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.8f, 1)
         );
         objectAnimator.setDuration(2000L);
-        objectAnimator.setRepeatCount(60);
+        objectAnimator.setRepeatCount(100);
         objectAnimator.start();
     }
 }

@@ -3,7 +3,7 @@
 -keep interface rikka.shizuku.** { *; }
 
 # 2. Keep UserService & its constructor (Prevent Reflection issues)
--keep class dedeadend.killmyapps.service.UserService {
+-keep class dedeadend.killmyapps.service.ShizukuUserService {
     public <init>();
     public *;
 }

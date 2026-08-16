@@ -5,7 +5,7 @@ import java.util.List;
 
 import dedeadend.killmyapps.IKillAppService;
 
-public class UserService extends IKillAppService.Stub {
+public class ShizukuUserService extends IKillAppService.Stub {
 
     @Override
     public boolean killApp(String pkgName) {
