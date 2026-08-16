@@ -42,8 +42,8 @@ public class ExcludedViewModel extends ViewModel {
                 List<AppInfo> exApps = new ArrayList<>();
                 List<PKGName> pkgs = App.database.excludedPkgDao().getAll();
                 Map<String, AppInfo> appsListMap = new HashMap<>();
-                for (AppInfo appInfo : apps)
-                    appsListMap.put(appInfo.getPkgName(), appInfo);
+                for (AppInfo app : apps)
+                    appsListMap.put(app.getPkgName(), app);
                 for (int i = 0; i < pkgs.size(); i++) {
                     if (appsListMap.containsKey(pkgs.get(i).name)) {
                         exApps.add(appsListMap.get(pkgs.get(i).name));
@@ -57,6 +57,7 @@ public class ExcludedViewModel extends ViewModel {
                     public void run() {
                         appsList.setValue(apps);
                         excludedList.setValue(exApps);
+                        App.liteToast(String.valueOf(apps.size()));
                     }
                 });
             }

@@ -21,13 +21,7 @@ import dedeadend.killmyapps.model.PKGName;
 
 public class AppListUtils {
     public static List<AppInfo> getAppsList(Context context, boolean forceHideKillMyApps) {
-        List<PKGName> excludedList = App.database.excludedPkgDao().getAll();
-        Set<String> selectionListHash = new HashSet<>();
-        for (PKGName pkgName : excludedList)
-            selectionListHash.add(pkgName.name);
-
         int listMode = App.settings.getInt(App.LIST_MODE, 1);
-        int selectionMode = App.settings.getInt(App.SELECTION_MODE, 0);
         boolean hideKillMyApps = App.settings.getBoolean(App.HIDE_KILL_MY_APPS, true) || forceHideKillMyApps;
         boolean hideDefaultLauncher = App.settings.getBoolean(App.HIDE_DEFAULT_LAUNCHER, true);
         boolean hideDefaultAlarm = App.settings.getBoolean(App.HIDE_DEFAULT_ALARM, true);
@@ -64,8 +58,6 @@ public class AppListUtils {
                 shouldRemove = !launcherPkgNames.contains(pkgName);
 
             return shouldRemove
-                    || (selectionMode == 0 && selectionListHash.contains(pkgName))
-                    || (selectionMode == 1 && !selectionListHash.contains(pkgName))
                     || (hideCriticalPackages && CRITICAL_PACKAGES.contains(pkgName))
                     || (hideDefaultLauncher && pkgName.equals(launcherPkg))
                     || (hideDefaultAlarm && pkgName.equals(alarmPkg))
