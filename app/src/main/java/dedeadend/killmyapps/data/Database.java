@@ -1,4 +1,4 @@
-package dedeadend.killmyapps;
+package dedeadend.killmyapps.data;
 
 import androidx.room.RoomDatabase;
 

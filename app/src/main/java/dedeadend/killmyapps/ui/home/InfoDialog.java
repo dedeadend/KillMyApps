@@ -1,4 +1,4 @@
-package dedeadend.killmyapps;
+package dedeadend.killmyapps.ui.home;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+
+import dedeadend.killmyapps.R;
 
 public class InfoDialog extends Dialog {
     Context context;

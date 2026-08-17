@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dedeadend.killmyapps.App;
-import dedeadend.killmyapps.Killer;
+import dedeadend.killmyapps.data.Killer;
 import dedeadend.killmyapps.model.AppInfo;
 import dedeadend.killmyapps.util.AppListUtils;
 

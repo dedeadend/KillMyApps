@@ -24,7 +24,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.List;
 
 import dedeadend.killmyapps.App;
-import dedeadend.killmyapps.InfoDialog;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentHomeBinding;
 import dedeadend.killmyapps.model.AppInfo;
