@@ -57,7 +57,6 @@ public class ExcludedViewModel extends ViewModel {
                     public void run() {
                         appsList.setValue(apps);
                         excludedList.setValue(exApps);
-                        App.liteToast(String.valueOf(apps.size()));
                     }
                 });
             }
