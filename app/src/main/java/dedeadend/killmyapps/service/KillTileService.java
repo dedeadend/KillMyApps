@@ -10,7 +10,7 @@ import java.util.List;
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.data.Killer;
 import dedeadend.killmyapps.model.AppInfo;
-import dedeadend.killmyapps.util.AppListUtils;
+import dedeadend.killmyapps.util.AppListHelper;
 
 public class KillTileService extends TileService {
 
@@ -28,7 +28,7 @@ public class KillTileService extends TileService {
         App.executorService.execute(new Runnable() {
             @Override
             public void run() {
-                final List<AppInfo> targets = AppListUtils.getFilteredAppsList(App.context, true);
+                final List<AppInfo> targets = AppListHelper.getFilteredAppsList(App.context, true);
 
                 if (targets.isEmpty()) {
                     App.handler.post(new Runnable() {

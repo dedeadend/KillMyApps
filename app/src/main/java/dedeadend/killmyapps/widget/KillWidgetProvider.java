@@ -15,7 +15,7 @@ import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.data.Killer;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.model.AppInfo;
-import dedeadend.killmyapps.util.AppListUtils;
+import dedeadend.killmyapps.util.AppListHelper;
 
 public class KillWidgetProvider extends AppWidgetProvider {
 
@@ -41,7 +41,7 @@ public class KillWidgetProvider extends AppWidgetProvider {
             updateWidgetUI(context, appWidgetManager, thisWidget, "Killing...", State.PROCESSING);
 
             App.executorService.execute(() -> {
-                List<AppInfo> targets = AppListUtils.getFilteredAppsList(App.context, true);
+                List<AppInfo> targets = AppListHelper.getFilteredAppsList(App.context, true);
 
                 String resultText;
                 State state;

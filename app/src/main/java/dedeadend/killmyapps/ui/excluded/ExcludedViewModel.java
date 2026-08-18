@@ -11,7 +11,7 @@ import java.util.Map;
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.model.AppInfo;
 import dedeadend.killmyapps.model.PKGName;
-import dedeadend.killmyapps.util.AppListUtils;
+import dedeadend.killmyapps.util.AppListHelper;
 
 public class ExcludedViewModel extends ViewModel {
 
@@ -36,7 +36,7 @@ public class ExcludedViewModel extends ViewModel {
         App.executorService.execute(new Runnable() {
             @Override
             public void run() {
-                List<AppInfo> apps = AppListUtils.getAppsList(App.context, false);
+                List<AppInfo> apps = AppListHelper.getAppsList(App.context, false);
                 apps.sort(AppInfo::compareTo);
 
                 List<AppInfo> exApps = new ArrayList<>();

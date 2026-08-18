@@ -19,7 +19,7 @@ import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.model.AppInfo;
 import dedeadend.killmyapps.model.PKGName;
 
-public class AppListUtils {
+public class AppListHelper {
     public static List<AppInfo> getAppsList(Context context, boolean forceHideKillMyApps) {
         int listMode = App.settings.getInt(App.LIST_MODE, 1);
         boolean hideKillMyApps = App.settings.getBoolean(App.HIDE_KILL_MY_APPS, true) || forceHideKillMyApps;

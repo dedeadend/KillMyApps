@@ -9,7 +9,7 @@ import java.util.List;
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.data.Killer;
 import dedeadend.killmyapps.model.AppInfo;
-import dedeadend.killmyapps.util.AppListUtils;
+import dedeadend.killmyapps.util.AppListHelper;
 
 public class HomeViewModel extends ViewModel {
 
@@ -27,7 +27,7 @@ public class HomeViewModel extends ViewModel {
         App.executorService.execute(new Runnable() {
             @Override
             public void run() {
-                List<AppInfo> apps = AppListUtils.getFilteredAppsList(App.context, false);
+                List<AppInfo> apps = AppListHelper.getFilteredAppsList(App.context, false);
                 apps.sort(AppInfo::compareTo);
 
                 App.handler.post(new Runnable() {

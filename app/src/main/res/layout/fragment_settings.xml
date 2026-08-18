@@ -376,6 +376,146 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:layoutDirection="rtl"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Auto Killer (Experimental)"
+                    android:textColor="@color/purple_400"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/screen_off_auto_kill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Auto kill on screen lock"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/screen_off_auto_kill_delay_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layoutDirection="ltr"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/screen_off_auto_kill_delay_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Delay: 5 Minutes"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/screen_off_auto_kill_delay_seekbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:max="60"
+                        android:min="0"
+                        android:progress="5" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/fixed_time_auto_kill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Auto kill at scheduled time"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/fixed_time_auto_kill_hour_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layoutDirection="ltr"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/fixed_time_auto_kill_hour_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Hour: 3"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/fixed_time_auto_kill_hour_seekbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:max="23"
+                        android:min="0"
+                        android:progress="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fixed_time_auto_kill_minute_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layoutDirection="ltr"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/fixed_time_auto_kill_minute_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Minute: 30"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/fixed_time_auto_kill_minute_seekbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:max="59"
+                        android:min="0"
+                        android:progress="30" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:justificationMode="inter_character"
+                    android:text="WARNING: Auto kill forcibly closes background apps without confirmation, which can cause unsaved data loss, broken downloads ,or other related problems. Please use this feature with caution."
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/github"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
