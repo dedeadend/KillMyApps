@@ -7,14 +7,16 @@ import dedeadend.killmyapps.App;
 
 public class SettingsViewModel extends ViewModel {
 
-    private final MutableLiveData<Integer> themeMode, killerMode, listMode, selectionMode;
+    private final MutableLiveData<Integer> themeMode, killerMode, listMode, selectionMode,
+            screenOffAutoKillDelay, fixedTimeAutoKillHour, fixedTimeAutoKillMinute;
     //themeMode = 0 -> auto , 1 -> light , 2 -> dark
     //listMode = 0 -> user , 1 -> launcher , 2 -> system
     //selectionMode = 0 -> exclude , 1 -> include
     //killerMode = (0 -> auto) , 1 -> root , 2 -> shizuku , 3 -> shizuku+
     private final MutableLiveData<Boolean> hideKillMyApps, hideDefaultLauncher, hideDefaultAlarm,
             hideDefaultKeyboard, hideDefaultDialer, hideDefaultSMS, hideCriticalSystemApps,
-            showAppsPkgName, clickToAppInfo, longClickToMenu, showScrollAnimation;
+            showAppsPkgName, clickToAppInfo, longClickToMenu, showScrollAnimation,
+            screenOffAutoKill, fixedTimeAutoKill;
 
     public SettingsViewModel() {
         themeMode = new MutableLiveData<>();
@@ -32,6 +34,11 @@ public class SettingsViewModel extends ViewModel {
         clickToAppInfo = new MutableLiveData<>();
         longClickToMenu = new MutableLiveData<>();
         showScrollAnimation = new MutableLiveData<>();
+        screenOffAutoKill = new MutableLiveData<>();
+        screenOffAutoKillDelay = new MutableLiveData<>();
+        fixedTimeAutoKill = new MutableLiveData<>();
+        fixedTimeAutoKillHour = new MutableLiveData<>();
+        fixedTimeAutoKillMinute = new MutableLiveData<>();
         loadSettings();
     }
 
@@ -51,6 +58,11 @@ public class SettingsViewModel extends ViewModel {
         clickToAppInfo.setValue(App.settings.getBoolean(App.CLICK_TO_APP_INFO, true));
         longClickToMenu.setValue(App.settings.getBoolean(App.LONG_CLICK_TO_MENU, true));
         showScrollAnimation.setValue(App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true));
+        screenOffAutoKill.setValue(App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false));
+        screenOffAutoKillDelay.setValue(App.settings.getInt(App.SCREEN_OFF_AUTO_KILL_DELAY, 5));
+        fixedTimeAutoKill.setValue(App.settings.getBoolean(App.FIXED_TIME_AUTO_KILL, false));
+        fixedTimeAutoKillHour.setValue(App.settings.getInt(App.FIXED_TIME_AUTO_KILL_HOUR, 3));
+        fixedTimeAutoKillMinute.setValue(App.settings.getInt(App.FIXED_TIME_AUTO_KILL_MINUTE, 30));
     }
 
     public void setThemeMode(int mode) {
@@ -129,6 +141,31 @@ public class SettingsViewModel extends ViewModel {
         App.settings.edit().putBoolean(App.SHOW_SCROLL_ANIMATION, show).apply();
     }
 
+    public void setScreenOffAutoKill(boolean screenOff) {
+        screenOffAutoKill.setValue(screenOff);
+        App.settings.edit().putBoolean(App.SCREEN_OFF_AUTO_KILL, screenOff).apply();
+    }
+
+    public void setScreenOffAutoKillDelay(int delay) {
+        screenOffAutoKillDelay.setValue(delay);
+        App.settings.edit().putInt(App.SCREEN_OFF_AUTO_KILL_DELAY, delay).apply();
+    }
+
+    public void setFixedTimeAutoKill(boolean fixedTime) {
+        fixedTimeAutoKill.setValue(fixedTime);
+        App.settings.edit().putBoolean(App.FIXED_TIME_AUTO_KILL, fixedTime).apply();
+    }
+
+    public void setFixedTimeAutoKillHour(int hour) {
+        fixedTimeAutoKillHour.setValue(hour);
+        App.settings.edit().putInt(App.FIXED_TIME_AUTO_KILL_HOUR, hour).apply();
+    }
+
+    public void setFixedTimeAutoKillMinute(int minute) {
+        fixedTimeAutoKillMinute.setValue(minute);
+        App.settings.edit().putInt(App.FIXED_TIME_AUTO_KILL_MINUTE, minute).apply();
+    }
+
 
     public MutableLiveData<Integer> getThemeMode() {
         return themeMode;
@@ -188,5 +225,25 @@ public class SettingsViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getShowScrollAnimation() {
         return showScrollAnimation;
+    }
+
+    public MutableLiveData<Boolean> getScreenOffAutoKill() {
+        return screenOffAutoKill;
+    }
+
+    public MutableLiveData<Integer> getScreenOffAutoKillDelay() {
+        return screenOffAutoKillDelay;
+    }
+
+    public MutableLiveData<Boolean> getFixedTimeAutoKill() {
+        return fixedTimeAutoKill;
+    }
+
+    public MutableLiveData<Integer> getFixedTimeAutoKillHour() {
+        return fixedTimeAutoKillHour;
+    }
+
+    public MutableLiveData<Integer> getFixedTimeAutoKillMinute() {
+        return fixedTimeAutoKillMinute;
     }
 }

@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.room.Room;
 
@@ -16,6 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dedeadend.killmyapps.data.Database;
+import dedeadend.killmyapps.util.AutoKillHelper;
 import www.sanju.motiontoast.MotionToast;
 import www.sanju.motiontoast.MotionToastStyle;
 
@@ -36,6 +40,11 @@ public class App extends Application {
     public static final String CLICK_TO_APP_INFO = "clickToAppInfo";
     public static final String LONG_CLICK_TO_MENU = "longClickToMenu";
     public static final String SHOW_SCROLL_ANIMATION = "showScrollAnimation";
+    public static final String SCREEN_OFF_AUTO_KILL = "screenOffAutoKill";
+    public static final String SCREEN_OFF_AUTO_KILL_DELAY = "screenOffAutoKillDelay";
+    public static final String FIXED_TIME_AUTO_KILL = "fixedTimeAutoKill";
+    public static final String FIXED_TIME_AUTO_KILL_HOUR = "fixedTimeAutoKillHour";
+    public static final String FIXED_TIME_AUTO_KILL_MINUTE = "fixedTimeAutoKillMinute";
 
     public static Database database;
     public static SharedPreferences settings;
@@ -55,6 +64,7 @@ public class App extends Application {
         isFirstRun = settings.getBoolean("isFirstRun", true);
         if (isFirstRun)
             settings.edit().putBoolean("isFirstRun", false).apply();
+        initAutoKillServices();
     }
 
     public static void setAppThemeMode() {
@@ -75,6 +85,17 @@ public class App extends Application {
                 ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
     }
 
+    public static void notificationWarningToast(Activity activity) {
+        MotionToast.Companion.darkToast(
+                activity,
+                "Permission Required",
+                "Notification permission is required to keep the auto-kill service running",
+                MotionToastStyle.WARNING,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
+    }
+
     public static void liteToast(String message) {
         handler.post(new Runnable() {
             @Override
@@ -82,5 +103,27 @@ public class App extends Application {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void initAutoKillServices() {
+        if (settings.getBoolean(SCREEN_OFF_AUTO_KILL, false)) {
+            boolean hasNotificationPermission = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                hasNotificationPermission = ContextCompat.checkSelfPermission(
+                        context,
+                        android.Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED;
+            if (hasNotificationPermission)
+                AutoKillHelper.enableScreenOffKill(
+                        context,
+                        settings.getInt(SCREEN_OFF_AUTO_KILL_DELAY, 5)
+                );
+        }
+        if (settings.getBoolean(FIXED_TIME_AUTO_KILL, false))
+            AutoKillHelper.enableFixedTimeKill(
+                    context,
+                    settings.getInt(FIXED_TIME_AUTO_KILL_HOUR, 3),
+                    settings.getInt(FIXED_TIME_AUTO_KILL_MINUTE, 30)
+            );
     }
 }

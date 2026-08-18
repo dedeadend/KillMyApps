@@ -1,22 +1,31 @@
 package dedeadend.killmyapps.ui.Settings;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.databinding.FragmentSettingsBinding;
+import dedeadend.killmyapps.util.AutoKillHelper;
 
 public class SettingsFragment extends Fragment {
 
@@ -97,6 +106,84 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getClickToAppInfo().observe(getViewLifecycleOwner(), binding.clickToAppInfo::setChecked);
         settingsViewModel.getLongClickToMenu().observe(getViewLifecycleOwner(), binding.longClickToMenu::setChecked);
         settingsViewModel.getShowScrollAnimation().observe(getViewLifecycleOwner(), binding.showScrollAnimation::setChecked);
+        settingsViewModel.getScreenOffAutoKill().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean)
+                    AutoKillHelper.enableScreenOffKill(
+                            requireContext(),
+                            settingsViewModel.getScreenOffAutoKillDelay().getValue()
+                    );
+                else
+                    AutoKillHelper.disableScreenOffKill(requireContext());
+
+                binding.screenOffAutoKill.setChecked(aBoolean);
+                binding.screenOffAutoKillDelayLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+            }
+        });
+        settingsViewModel.getScreenOffAutoKillDelay().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (binding.screenOffAutoKillDelaySeekbar.getProgress() != integer)
+                    binding.screenOffAutoKillDelaySeekbar.setProgress(integer);
+                if (integer == 0)
+                    binding.screenOffAutoKillDelayText.setText("Delay: Off");
+                else if (integer == 1)
+                    binding.screenOffAutoKillDelayText.setText("Delay: 1 Minute");
+                else
+                    binding.screenOffAutoKillDelayText.setText("Delay: " + integer + " Minutes");
+
+                AutoKillHelper.enableScreenOffKill(
+                        requireContext(),
+                        settingsViewModel.getScreenOffAutoKillDelay().getValue()
+                );
+            }
+        });
+        settingsViewModel.getFixedTimeAutoKill().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean)
+                    AutoKillHelper.enableFixedTimeKill(
+                            requireContext(),
+                            settingsViewModel.getFixedTimeAutoKillHour().getValue(),
+                            settingsViewModel.getFixedTimeAutoKillMinute().getValue()
+                    );
+                else
+                    AutoKillHelper.disableFixedTimeKill(requireContext());
+
+                binding.fixedTimeAutoKill.setChecked(aBoolean);
+                binding.fixedTimeAutoKillHourLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+                binding.fixedTimeAutoKillMinuteLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+            }
+        });
+        settingsViewModel.getFixedTimeAutoKillHour().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (binding.fixedTimeAutoKillHourSeekbar.getProgress() != integer)
+                    binding.fixedTimeAutoKillHourSeekbar.setProgress(integer);
+                binding.fixedTimeAutoKillHourText.setText("Hour: " + integer);
+
+                AutoKillHelper.enableFixedTimeKill(
+                        requireContext(),
+                        settingsViewModel.getFixedTimeAutoKillHour().getValue(),
+                        settingsViewModel.getFixedTimeAutoKillMinute().getValue()
+                );
+            }
+        });
+        settingsViewModel.getFixedTimeAutoKillMinute().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (binding.fixedTimeAutoKillMinuteSeekbar.getProgress() != integer)
+                    binding.fixedTimeAutoKillMinuteSeekbar.setProgress(integer);
+                binding.fixedTimeAutoKillMinuteText.setText("Minute: " + integer);
+
+                AutoKillHelper.enableFixedTimeKill(
+                        requireContext(),
+                        settingsViewModel.getFixedTimeAutoKillHour().getValue(),
+                        settingsViewModel.getFixedTimeAutoKillMinute().getValue()
+                );
+            }
+        });
     }
 
     private void setListeners() {
@@ -111,6 +198,7 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setThemeMode(2);
             }
         });
+
         binding.killerModeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull RadioGroup group, int checkedId) {
@@ -122,6 +210,7 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setKillerMode(3);
             }
         });
+
         binding.listModeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull RadioGroup group, int checkedId) {
@@ -133,6 +222,7 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setListMode(2);
             }
         });
+
         binding.selectionModeSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull RadioGroup group, int checkedId) {
@@ -142,72 +232,155 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setSelectionMode(1);
             }
         });
+
         binding.hideKillMyApps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setHideKillMyApps(binding.hideKillMyApps.isChecked());
             }
         });
+
         binding.hideDefaultLauncher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setHideDefaultLauncher(binding.hideDefaultLauncher.isChecked());
             }
         });
+
         binding.hideDefaultAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setHideDefaultAlarm(binding.hideDefaultAlarm.isChecked());
             }
         });
+
         binding.hideDefaultKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setHideDefaultKeyboard(binding.hideDefaultKeyboard.isChecked());
             }
         });
+
         binding.hideDefaultDialer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setHideDefaultDialer(binding.hideDefaultDialer.isChecked());
             }
         });
+
         binding.hideDefaultSms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setHideDefaultSMS(binding.hideDefaultSms.isChecked());
             }
         });
+
         binding.hideCriticalSystemApps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setHideCriticalSystemApps(binding.hideCriticalSystemApps.isChecked());
             }
         });
+
         binding.showPkgname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setShowAppsPkgName(binding.showPkgname.isChecked());
             }
         });
+
         binding.clickToAppInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setClickToAppInfo(binding.clickToAppInfo.isChecked());
             }
         });
+
         binding.longClickToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setLongClickToMenu(binding.longClickToMenu.isChecked());
             }
         });
+
         binding.showScrollAnimation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingsViewModel.setShowScrollAnimation(binding.showScrollAnimation.isChecked());
             }
         });
+
+        binding.screenOffAutoKill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isChecked = binding.screenOffAutoKill.isChecked();
+                if (isChecked) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                        binding.screenOffAutoKill.setChecked(false);
+                        requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+                        return;
+                    }
+                }
+                settingsViewModel.setScreenOffAutoKill(isChecked);
+            }
+        });
+
+        binding.screenOffAutoKillDelaySeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser)
+                    settingsViewModel.setScreenOffAutoKillDelay(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        binding.fixedTimeAutoKill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsViewModel.setFixedTimeAutoKill(binding.fixedTimeAutoKill.isChecked());
+            }
+        });
+
+        binding.fixedTimeAutoKillHourSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser)
+                    settingsViewModel.setFixedTimeAutoKillHour(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        binding.fixedTimeAutoKillMinuteSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser)
+                    settingsViewModel.setFixedTimeAutoKillMinute(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
         binding.github.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,4 +394,12 @@ public class SettingsFragment extends Fragment {
             }
         });
     }
+
+    private final ActivityResultLauncher<String> requestNotificationPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted)
+                    settingsViewModel.setScreenOffAutoKill(true);
+                else
+                    App.notificationWarningToast(getActivity());
+            });
 }
