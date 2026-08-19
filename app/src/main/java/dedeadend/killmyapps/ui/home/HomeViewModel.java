@@ -41,7 +41,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void checkForRefresh() {
-        if (appsList.getValue().size() == 1)
+        if (appsList.getValue().isEmpty())
             refreshList();
     }
 
