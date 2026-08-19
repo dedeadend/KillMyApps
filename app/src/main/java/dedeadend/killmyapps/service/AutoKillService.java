@@ -38,7 +38,7 @@ public class AutoKillService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (Intent.ACTION_SCREEN_OFF.equals(action))
-                scheduleKillTask();
+                scheduleKillTask(context);
             else if (Intent.ACTION_SCREEN_ON.equals(action))
                 cancelKillTask();
         }
@@ -63,12 +63,12 @@ public class AutoKillService extends Service {
         return START_STICKY;
     }
 
-    private void scheduleKillTask() {
+    private void scheduleKillTask(Context context) {
         cancelKillTask();
         long delayMillis = App.settings.getInt(App.SCREEN_OFF_AUTO_KILL_DELAY, 5) * 60 * 1000L;
 
         killRunnable = () -> App.executorService.execute(() -> {
-            List<AppInfo> targets = AppListHelper.getFilteredAppsList(getApplicationContext(), true);
+            List<AppInfo> targets = AppListHelper.getFilteredAppsList(context, true);
             if (!targets.isEmpty()) {
                 Killer.killListOfApps(targets);
             }

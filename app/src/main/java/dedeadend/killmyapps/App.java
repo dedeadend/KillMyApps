@@ -114,9 +114,9 @@ public class App extends Application {
                         android.Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED;
             if (hasNotificationPermission)
-                AutoKillHelper.enableScreenOffKill(context);
+                AutoKillHelper.enableScreenOffKill();
         }
         if (settings.getBoolean(FIXED_TIME_AUTO_KILL, false))
-            AutoKillHelper.enableFixedTimeKill(context);
+            AutoKillHelper.enableFixedTimeKill();
     }
 }

@@ -40,7 +40,7 @@ public class AutoKillReceiver extends BroadcastReceiver {
                     ) == PackageManager.PERMISSION_GRANTED;
                 }
                 if (hasPermission)
-                    AutoKillHelper.enableScreenOffKill(context);
+                    AutoKillHelper.enableScreenOffKill();
             }
             return;
         }

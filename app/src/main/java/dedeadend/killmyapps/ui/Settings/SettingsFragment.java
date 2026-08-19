@@ -110,9 +110,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean)
-                    AutoKillHelper.enableScreenOffKill(requireContext());
+                    AutoKillHelper.enableScreenOffKill();
                 else
-                    AutoKillHelper.disableScreenOffKill(requireContext());
+                    AutoKillHelper.disableScreenOffKill();
 
                 binding.screenOffAutoKill.setChecked(aBoolean);
                 binding.screenOffAutoKillDelayLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
@@ -131,16 +131,16 @@ public class SettingsFragment extends Fragment {
                     binding.screenOffAutoKillDelayText.setText("Delay: " + integer + " Minutes");
 
                 if (settingsViewModel.getScreenOffAutoKill().getValue())
-                    AutoKillHelper.enableScreenOffKill(requireContext());
+                    AutoKillHelper.enableScreenOffKill();
             }
         });
         settingsViewModel.getFixedTimeAutoKill().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean)
-                    AutoKillHelper.enableFixedTimeKill(requireContext());
+                    AutoKillHelper.enableFixedTimeKill();
                 else
-                    AutoKillHelper.disableFixedTimeKill(requireContext());
+                    AutoKillHelper.disableFixedTimeKill();
 
                 binding.fixedTimeAutoKill.setChecked(aBoolean);
                 binding.fixedTimeAutoKillHourLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
@@ -155,7 +155,7 @@ public class SettingsFragment extends Fragment {
                 binding.fixedTimeAutoKillHourText.setText("Hour: " + integer);
 
                 if (settingsViewModel.getFixedTimeAutoKill().getValue())
-                    AutoKillHelper.enableFixedTimeKill(requireContext());
+                    AutoKillHelper.enableFixedTimeKill();
             }
         });
         settingsViewModel.getFixedTimeAutoKillMinute().observe(getViewLifecycleOwner(), new Observer<Integer>() {
@@ -166,7 +166,7 @@ public class SettingsFragment extends Fragment {
                 binding.fixedTimeAutoKillMinuteText.setText("Minute: " + integer);
 
                 if (settingsViewModel.getFixedTimeAutoKill().getValue())
-                    AutoKillHelper.enableFixedTimeKill(requireContext());
+                    AutoKillHelper.enableFixedTimeKill();
             }
         });
     }
