@@ -3,6 +3,7 @@ package dedeadend.killmyapps.ui.Settings;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,12 +19,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.databinding.FragmentSettingsBinding;
 import dedeadend.killmyapps.util.AutoKillHelper;
 
@@ -31,6 +34,7 @@ public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
     private SettingsViewModel settingsViewModel;
+    private CardView donateLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +48,23 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setObservers();
         setListeners();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        donateLayout = ((MainActivity) requireActivity()).getDonateLayout();
+        ObjectAnimator.ofPropertyValuesHolder(
+                donateLayout,
+                PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+        ).setDuration(500L).start();
+        donateLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        donateLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -372,10 +393,15 @@ public class SettingsFragment extends Fragment {
                 ObjectAnimator.ofPropertyValuesHolder(v,
                         PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
                         PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-                ).setDuration(400L).start();
-                String url = "https://github.com/dedeadend/KillMyApps/";
-                Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(urlIntent);
+                ).setDuration(500L).start();
+                try {
+                    String url = "https://github.com/dedeadend/KillMyApps/";
+                    Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(urlIntent);
+                } catch (
+                        ActivityNotFoundException e) {
+                    App.liteToast("No browser app found to open link");
+                }
             }
         });
     }

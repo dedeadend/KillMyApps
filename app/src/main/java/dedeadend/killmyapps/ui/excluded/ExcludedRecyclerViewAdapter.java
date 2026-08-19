@@ -111,7 +111,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         ObjectAnimator.ofPropertyValuesHolder(v,
                 PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-        ).setDuration(400L).start();
+        ).setDuration(500L).start();
         String pkgName = (String) v.getTag();
         if (v == v.findViewById(R.id.kill_icon)) {
             AppInfo clickedApp = allListMap.get(pkgName);
@@ -152,7 +152,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         ObjectAnimator.ofPropertyValuesHolder(v,
                 PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-        ).setDuration(400L).start();
+        ).setDuration(500L).start();
         String pkgName = (String) v.getTag();
         listener.onAppInfoLongClicked(v.findViewById(R.id.package_name), pkgName);
         return true;
