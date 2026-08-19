@@ -6,15 +6,19 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +28,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.List;
 
 import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentExcludedBinding;
 import dedeadend.killmyapps.model.AppInfo;
@@ -31,7 +36,9 @@ import dedeadend.killmyapps.model.AppInfo;
 public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAdapter.onIconClickListener {
 
     private FragmentExcludedBinding binding;
-    ExcludedViewModel excludedViewModel;
+    private ExcludedViewModel excludedViewModel;
+    private CardView searchLayout;
+    private EditText searchEditText;
 
     private ExcludedRecyclerViewAdapter adapter;
 
@@ -48,6 +55,13 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
         binding.excludedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_scale_in);
         binding.excludedRecyclerView.setLayoutAnimation(animation);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        searchLayout = ((MainActivity) requireActivity()).getSearchLayout();
+        searchEditText = ((MainActivity) requireActivity()).getSearchEditText();
         setObservers();
         setListeners();
     }
@@ -56,13 +70,14 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
     public void onResume() {
         super.onResume();
         excludedViewModel.refreshList();
-        binding.search.setQuery("", false);
+        searchEditText.setText("");
     }
 
     @Override
     public void onStop() {
         super.onStop();
         excludedViewModel.clearList();
+        searchLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -78,13 +93,13 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
             public void onChanged(List<AppInfo> appInfos) {
                 setAdapter();
                 if (excludedViewModel.getAppsList().getValue().isEmpty() && appInfos.isEmpty())
-                    binding.search.setVisibility(View.INVISIBLE);
+                    searchLayout.setVisibility(View.INVISIBLE);
                 else {
-                    if (App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true))
-                        ObjectAnimator.ofPropertyValuesHolder(binding.search,
-                                        PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
-                                .setDuration(400L).start();
-                    binding.search.setVisibility(View.VISIBLE);
+                    ObjectAnimator.ofPropertyValuesHolder(
+                            searchLayout,
+                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                    ).setDuration(500L).start();
+                    searchLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -98,17 +113,19 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
                 binding.refreshLayout.setRefreshing(false);
             }
         });
-        binding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void afterTextChanged(Editable s) {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (adapter != null)
-                    adapter.filterList(newText);
-                return true;
+                    adapter.filterList(s.toString());
             }
         });
     }

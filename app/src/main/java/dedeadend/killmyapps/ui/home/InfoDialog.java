@@ -2,6 +2,7 @@ package dedeadend.killmyapps.ui.home;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -40,11 +42,13 @@ public class InfoDialog extends Dialog {
             }
         });
         ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(findViewById(R.id.dialog_icon),
-                PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.8f, 1),
-                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.8f, 1)
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 0.8f, 1.0f),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.8f, 1.0f)
         );
         objectAnimator.setDuration(2000L);
-        objectAnimator.setRepeatCount(100);
+        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         objectAnimator.start();
     }
 }

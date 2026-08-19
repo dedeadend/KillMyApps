@@ -6,24 +6,33 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.search.SearchBar;
 
 import java.util.List;
 
 import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentHomeBinding;
 import dedeadend.killmyapps.model.AppInfo;
@@ -33,6 +42,8 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
     private HomeRecyclerViewAdapter adapter;
+    private CardView searchLayout;
+    private EditText searchEditText;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,8 +58,6 @@ public class HomeFragment extends Fragment {
         binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_scale_in);
         binding.homeRecyclerView.setLayoutAnimation(animation);
-        setObservers();
-        setListeners();
         if (App.isFirstRun) {
             InfoDialog infoDialog = new InfoDialog(getContext());
             infoDialog.show();
@@ -57,16 +66,26 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        searchLayout = ((MainActivity) requireActivity()).getSearchLayout();
+        searchEditText = ((MainActivity) requireActivity()).getSearchEditText();
+        setObservers();
+        setListeners();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         homeViewModel.refreshList();
-        binding.search.setQuery("", false);
+        searchEditText.setText("");
     }
 
     @Override
     public void onStop() {
         super.onStop();
         homeViewModel.clearList();
+        searchLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -82,24 +101,25 @@ public class HomeFragment extends Fragment {
             public void onChanged(List<AppInfo> appInfos) {
                 setAdapter();
                 if (appInfos.isEmpty()) {
-                    ObjectAnimator.ofPropertyValuesHolder(binding.allDead,
-                                    PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
-                            .setDuration(3000L).start();
+                    ObjectAnimator.ofPropertyValuesHolder(
+                            binding.allDead,
+                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                    ).setDuration(3000L).start();
                     binding.killAllBtn.setVisibility(View.INVISIBLE);
-                    binding.search.setVisibility(View.INVISIBLE);
+                    searchLayout.setVisibility(View.INVISIBLE);
                     binding.allDead.setVisibility(View.VISIBLE);
                 } else {
-                    if (App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true)) {
-                        ObjectAnimator.ofPropertyValuesHolder(binding.killAllBtn,
-                                        PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
-                                .setDuration(400L).start();
-                        ObjectAnimator.ofPropertyValuesHolder(binding.search,
-                                        PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f))
-                                .setDuration(400L).start();
-                    }
+                    ObjectAnimator.ofPropertyValuesHolder(
+                            binding.killAllBtn,
+                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                    ).setDuration(500L).start();
+                    ObjectAnimator.ofPropertyValuesHolder(
+                            searchLayout,
+                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+                    ).setDuration(500L).start();
                     binding.allDead.setVisibility(View.INVISIBLE);
                     binding.killAllBtn.setVisibility(View.VISIBLE);
-                    binding.search.setVisibility(View.VISIBLE);
+                    searchLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -119,7 +139,7 @@ public class HomeFragment extends Fragment {
                 ObjectAnimator.ofPropertyValuesHolder(v,
                         PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
                         PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-                ).setDuration(400L).start();
+                ).setDuration(500L).start();
 
                 homeViewModel.onKillAllAppsClicked(new HomeViewModel.OnResultListener() {
                     @Override
@@ -139,17 +159,19 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        binding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void afterTextChanged(Editable s) {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (adapter != null)
-                    adapter.filterList(newText);
-                return true;
+                    adapter.filterList(s.toString());
             }
         });
     }
