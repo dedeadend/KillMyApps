@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "dedeadend.killmyapps"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "dedeadend.killmyapps"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 140
-        versionName = "1.4"
+        targetSdk = 37
+        versionCode = 150
+        versionName = "1.5"
     }
 
     buildTypes {
