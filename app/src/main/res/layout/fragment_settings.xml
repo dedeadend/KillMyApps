@@ -123,6 +123,15 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RadioGroup>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:justificationMode="inter_character"
+                    android:text="Note: Shizuku+ is still standard Shizuku under the hood. It uses an AIDL UserService for higher stability and better compatibility with modified Shizuku builds."
+                    android:textSize="13sp" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -261,7 +270,7 @@
                     android:id="@+id/hide_kill_my_apps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hide Kill My Apps app"
+                    android:text="Hide KillMyApps app"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
