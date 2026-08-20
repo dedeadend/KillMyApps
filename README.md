@@ -12,7 +12,7 @@
 
 # ❄️ Kill My Apps
 
-Kill My Apps is a lightweight utility designed to terminate background processes, helping extend battery life, improve gaming performance, and free up system resources. **It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry**.
+KillMyApps is a lightweight utility designed to terminate background processes, helping extend battery life, improve gaming performance, and free up system resources. **It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry**.
 
 
 > [!IMPORTANT]
@@ -22,17 +22,19 @@ Kill My Apps is a lightweight utility designed to terminate background processes
 ## ✨ Features
 
 - ⚡ **One-Tap Kill**: Terminate all running apps instantly with a single tap.
-- 🫧 **Quick Settings Tile**: Kill running apps directly from your notification panel without even opening the app.
 - 🔰 **Killer Mode**: Support Root and Shizuku for an automated app termination process.
 - 🛡️ **Source Mode**: Categorize apps by User, Launchable, or System processes, backed by customizable critical app protections.
 - 🔎 **Selection Mode**: Flexible app targeting between Exclude and Include modes.
+- ⏰ **Auto Killer**: Schedule automatic process termination when your screen turns off (with customizable delay) or at a fixed daily time.
+- 🫧 **Quick Settings Tile**: Kill running apps directly from your notification panel without even opening the app.
+- 🧩 **Home Screen Widgets**: Instantly terminate background processes right from your home screen using app widgets.
 - 🔋 **Save Battery**: Reduce battery usage by stopping unnecessary background activities.
 - 🚀 **Boost Performance**: Free up RAM and CPU for high-demand tasks like gaming.
 - 🔒 **Enhance Privacy**: Eliminate unnecessary background activity, tracking and telemetry.
 - 🍃 **Clean UI**: Simple and intuitive Material Design interface.
 
 
-  ## 📸 Screenshots
+## 📸 Screenshots
 
 | Dark Theme | Quick Tile | Light Theme |
 |:---:|:---:|:---:|
