@@ -1,0 +1,17 @@
+KillMyApps is a lightweight utility designed to terminate background processes, helping extend battery life, improve gaming performance, and free up system resources. It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry.
+
+Important:
+* The KILL feature requires Root or Shizuku access to operate. Without it, you can still use the app, but you'll need to manually kill running apps by tapping on each one and selecting the Force Stop option. You can change your preferred mode between Root and Shizuku anytime in the app settings.
+
+Features:
+* ⚡ One-Tap Kill: Terminate all running apps instantly with a single tap.
+* 🔰 Killer Mode: Support Root and Shizuku for an automated app termination process.
+* 🛡️ Source Mode: Categorize apps by User, Launchable, or System processes, backed by customizable critical app protections.
+* 🔎 Selection Mode: Flexible app targeting between Exclude and Include modes.
+* ⏰ Auto Killer: Schedule automatic process termination when your screen turns off (with customizable delay) or at a fixed daily time.
+* 🫧 Quick Settings Tile: Kill running apps directly from your notification panel without even opening the app.
+* 🧩 Home Screen Widgets: Instantly terminate background processes right from your home screen using app widgets.
+* 🔋 Save Battery: Reduce battery usage by stopping unnecessary background activities.
+* 🚀 Boost Performance: Free up RAM and CPU for high-demand tasks like gaming.
+* 🔒 Enhance Privacy: Eliminate unnecessary background activity, tracking and telemetry.
+* 🍃 Clean UI: Simple and intuitive Material Design interface.

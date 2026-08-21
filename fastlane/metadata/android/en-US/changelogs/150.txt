@@ -1,0 +1,11 @@
+Added:
+- Auto Killer: Automatically terminate background apps when screen turns off or at scheduled times.
+- Home Screen Widgets: Added 1x1 and 1x3 widgets for instant termination.
+- Shizuku+ Mode: Added UserService via AIDL for compatibility with all Shizuku forks.
+- Support Development: Added a dedicated Donate option in Settings.
+
+Improved:
+- Toolbar & UI: Integrated search bar into main toolbar, updated app icon, and polished animations.
+- Layout: Adjusted item dimensions, paddings, and spacing in app list.
+- Android 17 Support: Target API updated to 37 (Android 17).
+- Performance: Codebase optimization, faster execution, and minor bug fixes.
