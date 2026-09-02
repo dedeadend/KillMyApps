@@ -2,7 +2,7 @@ package dedeadend.killmyapps;
 
 interface IKillAppService {
 
-    boolean killApp(String pkgName);
+    boolean killApp(String pkgName, int level);
 
-    int killListOfApps(in List<String> packages);
+    int killListOfApps(in List<String> packages, int level);
 }

@@ -155,6 +155,72 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
+                    android:text="Kill Level"
+                    android:textColor="@color/purple_400"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/kill_level_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/kill_level_soft"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Soft (hibernate + keep notifications)"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/kill_level_deep"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Deep (default full stop)"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/kill_level_killer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Killer (deeper than deep + clear recents)"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:justificationMode="inter_character"
+                    android:text="Note: Apps killed in Soft level will appear again in the running apps list. This is normal behavior since they are not completely dead."
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:layoutDirection="rtl"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:text="Source Mode"
                     android:textColor="@color/purple_400"
                     android:textSize="18sp"

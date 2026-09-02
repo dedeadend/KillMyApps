@@ -2,6 +2,7 @@ package dedeadend.killmyapps.util;
 
 import android.content.pm.PackageManager;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -33,10 +34,16 @@ public class ShizukuUtils {
         }
     }
 
-    public static boolean killApp(String pkgName) {
+    public static boolean killApp(String pkgName, int level) {
         try {
-            process = Shizuku.newProcess(new String[]{"am", "force-stop", pkgName}, null, null);
-            process.getOutputStream().close();
+            process = Shizuku.newProcess(new String[]{"sh"}, null, null);
+            OutputStream os = process.getOutputStream();
+
+            appendKillCommands(os, pkgName, level);
+
+            os.write("exit\n".getBytes());
+            os.flush();
+            os.close();
             process.getInputStream().close();
             process.getErrorStream().close();
             process.waitFor();
@@ -51,20 +58,21 @@ public class ShizukuUtils {
         }
     }
 
-    public static int killListOfApps(List<AppInfo> appList) {
+    public static int killListOfApps(List<AppInfo> appList, int level) {
         try {
             process = Shizuku.newProcess(new String[]{"sh"}, null, null);
             OutputStream os = process.getOutputStream();
             boolean killMyApps = false;
+
             for (AppInfo app : appList) {
                 String pkg = app.getPkgName();
                 if (pkg.equals("dedeadend.killmyapps")) {
                     killMyApps = true;
                     continue;
                 }
-                String command = "am force-stop " + pkg + "\n";
-                os.write(command.getBytes());
+                appendKillCommands(os, pkg, level);
             }
+
             os.write("exit\n".getBytes());
             os.flush();
             os.close();
@@ -79,6 +87,25 @@ public class ShizukuUtils {
                 process.destroyForcibly();
                 process = null;
             }
+        }
+    }
+
+    private static void appendKillCommands(OutputStream os, String pkgName, int level) throws IOException {
+        switch (level) {
+            case 0:
+                os.write(("am kill " + pkgName + "\n").getBytes());
+                os.write(("am set-inactive " + pkgName + " true\n").getBytes());
+                break;
+
+            case 2:
+                os.write(("am force-stop " + pkgName + "\n").getBytes());
+                os.write(("cmd package suspend " + pkgName + " 2>/dev/null && cmd package unsuspend " + pkgName + " 2>/dev/null\n").getBytes());
+                break;
+
+            case 1:
+            default:
+                os.write(("am force-stop " + pkgName + "\n").getBytes());
+                break;
         }
     }
 }

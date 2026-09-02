@@ -7,12 +7,14 @@ import dedeadend.killmyapps.App;
 
 public class SettingsViewModel extends ViewModel {
 
-    private final MutableLiveData<Integer> themeMode, killerMode, listMode, selectionMode,
-            screenOffAutoKillDelay, fixedTimeAutoKillHour, fixedTimeAutoKillMinute;
     //themeMode = 0 -> auto , 1 -> light , 2 -> dark
     //listMode = 0 -> user , 1 -> launcher , 2 -> system
     //selectionMode = 0 -> exclude , 1 -> include
     //killerMode = (0 -> auto) , 1 -> root , 2 -> shizuku , 3 -> shizuku+
+    //killLevel = 0 -> soft , 1 -> deep , 2 -> killer
+    private final MutableLiveData<Integer> themeMode, killerMode, listMode, selectionMode,
+            screenOffAutoKillDelay, fixedTimeAutoKillHour, fixedTimeAutoKillMinute,
+            killLevel;
     private final MutableLiveData<Boolean> hideKillMyApps, hideDefaultLauncher, hideDefaultAlarm,
             hideDefaultKeyboard, hideDefaultDialer, hideDefaultSMS, hideCriticalSystemApps,
             showAppsPkgName, clickToAppInfo, longClickToMenu, showScrollAnimation,
@@ -21,6 +23,7 @@ public class SettingsViewModel extends ViewModel {
     public SettingsViewModel() {
         themeMode = new MutableLiveData<>();
         killerMode = new MutableLiveData<>();
+        killLevel = new MutableLiveData<>();
         listMode = new MutableLiveData<>();
         selectionMode = new MutableLiveData<>();
         hideKillMyApps = new MutableLiveData<>();
@@ -45,6 +48,7 @@ public class SettingsViewModel extends ViewModel {
     private void loadSettings() {
         themeMode.setValue(App.settings.getInt(App.THEME_MODE, 0));
         killerMode.setValue(App.settings.getInt(App.KILLER_MODE, 1));
+        killLevel.setValue(App.settings.getInt(App.KILLER_LEVEL, 1));
         listMode.setValue(App.settings.getInt(App.LIST_MODE, 1));
         selectionMode.setValue(App.settings.getInt(App.SELECTION_MODE, 0));
         hideKillMyApps.setValue(App.settings.getBoolean(App.HIDE_KILL_MY_APPS, true));
@@ -74,6 +78,11 @@ public class SettingsViewModel extends ViewModel {
     public void setKillerMode(int mode) {
         killerMode.setValue(mode);
         App.settings.edit().putInt(App.KILLER_MODE, mode).apply();
+    }
+
+    public void setKillLevel(int level) {
+        killLevel.setValue(level);
+        App.settings.edit().putInt(App.KILLER_LEVEL, level).apply();
     }
 
     public void setListMode(int mode) {
@@ -173,6 +182,10 @@ public class SettingsViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getKillerMode() {
         return killerMode;
+    }
+
+    public MutableLiveData<Integer> getKillLevel() {
+        return killLevel;
     }
 
     public MutableLiveData<Integer> getListMode() {

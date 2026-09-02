@@ -70,30 +70,33 @@ public class ShizukuPlusUtils {
 
     public static boolean checkShizuku() {
         try {
-            if (!Shizuku.pingBinder()) return false;
+            if (!Shizuku.pingBinder())
+                return false;
             return Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED;
         } catch (Throwable e) {
             return false;
         }
     }
 
-    public static boolean killApp(String pkgName) {
-        if (!ensureServiceBound()) return false;
+    public static boolean killApp(String pkgName, int level) {
+        if (!ensureServiceBound())
+            return false;
         try {
-            return killAppService.killApp(pkgName);
+            return killAppService.killApp(pkgName, level);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public static int killListOfApps(List<AppInfo> appList) {
-        if (!ensureServiceBound()) return -1;
+    public static int killListOfApps(List<AppInfo> appList, int level) {
+        if (!ensureServiceBound())
+            return -1;
         try {
             List<String> pkgList = new ArrayList<>(appList.size());
             for (AppInfo app : appList) {
                 pkgList.add(app.getPkgName());
             }
-            return killAppService.killListOfApps(pkgList);
+            return killAppService.killListOfApps(pkgList, level);
         } catch (Exception e) {
             return -1;
         }

@@ -95,6 +95,16 @@ public class SettingsFragment extends Fragment {
                 else if (integer == 3)
                     binding.killerModeSettings.check(binding.shizukuPlusMode.getId());
             }
+        });settingsViewModel.getKillLevel().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer == 0)
+                    binding.killLevelSettings.check(binding.killLevelSoft.getId());
+                else if (integer == 1)
+                    binding.killLevelSettings.check(binding.killLevelDeep.getId());
+                else if (integer == 2)
+                    binding.killLevelSettings.check(binding.killLevelKiller.getId());
+            }
         });
         settingsViewModel.getListMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
@@ -214,6 +224,18 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setKillerMode(2);
                 else if (checkedId == binding.shizukuPlusMode.getId())
                     settingsViewModel.setKillerMode(3);
+            }
+        });
+
+        binding.killLevelSettings.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull RadioGroup group, int checkedId) {
+                if (checkedId == binding.killLevelSoft.getId())
+                    settingsViewModel.setKillLevel(0);
+                else if (checkedId == binding.killLevelDeep.getId())
+                    settingsViewModel.setKillLevel(1);
+                else if (checkedId == binding.killLevelKiller.getId())
+                    settingsViewModel.setKillLevel(2);
             }
         });
 

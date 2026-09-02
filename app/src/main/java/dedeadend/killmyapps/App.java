@@ -27,6 +27,7 @@ public class App extends Application {
 
     public static final String THEME_MODE = "themeMode";
     public static final String KILLER_MODE = "killerMode";
+    public static final String KILLER_LEVEL = "killLevel";
     public static final String LIST_MODE = "listMode";
     public static final String SELECTION_MODE = "selectionMode";
     public static final String HIDE_KILL_MY_APPS = "hideKillMyApps";

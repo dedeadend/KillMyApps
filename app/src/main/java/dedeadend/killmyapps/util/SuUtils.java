@@ -31,11 +31,13 @@ public class SuUtils {
         }
     }
 
-    public static boolean killApp(String pkgName) {
+    public static boolean killApp(String pkgName, int level) {
         try {
             process = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("am force-stop " + pkgName + "\n");
+
+            appendKillCommands(os, pkgName, level);
+
             os.writeBytes("exit\n");
             os.flush();
             os.close();
@@ -53,18 +55,21 @@ public class SuUtils {
         }
     }
 
-    public static int killListOfApps(List<AppInfo> appList) {
+    public static int killListOfApps(List<AppInfo> appList, int level) {
         try {
             process = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(process.getOutputStream());
             boolean killMyApps = false;
+
             for (AppInfo app : appList) {
-                if (app.getPkgName().equals("dedeadend.killmyapps")) {
+                String pkgName = app.getPkgName();
+                if (pkgName.equals("dedeadend.killmyapps")) {
                     killMyApps = true;
                     continue;
                 }
-                os.writeBytes("am force-stop " + app.getPkgName() + "\n");
+                appendKillCommands(os, pkgName, level);
             }
+
             os.writeBytes("exit\n");
             os.flush();
             os.close();
@@ -79,6 +84,25 @@ public class SuUtils {
                 process.destroyForcibly();
                 process = null;
             }
+        }
+    }
+
+    private static void appendKillCommands(DataOutputStream os, String pkgName, int level) throws IOException {
+        switch (level) {
+            case 0:
+                os.writeBytes("am kill " + pkgName + "\n");
+                os.writeBytes("am set-inactive " + pkgName + " true\n");
+                break;
+
+            case 2:
+                os.writeBytes("am force-stop " + pkgName + "\n");
+                os.writeBytes("cmd package suspend " + pkgName + " 2>/dev/null && cmd package unsuspend " + pkgName + " 2>/dev/null\n");
+                break;
+
+            case 1:
+            default:
+                os.writeBytes("am force-stop " + pkgName + "\n");
+                break;
         }
     }
 }

@@ -14,9 +14,11 @@ import dedeadend.killmyapps.util.SuUtils;
 public class Killer {
 
     private static int killerMode = 1;
+    private static int killLevel = 1;
 
     private static boolean checkAccess() {
         killerMode = App.settings.getInt(App.KILLER_MODE, 1);
+        killLevel = App.settings.getInt(App.KILLER_LEVEL, 1);
         if (killerMode == 1)
             return SuUtils.checkSU();
         else if (killerMode == 2) {
@@ -40,7 +42,7 @@ public class Killer {
             return false;
 
         if (killerMode == 1) {
-            int result = SuUtils.killListOfApps(appList);
+            int result = SuUtils.killListOfApps(appList, killLevel);
             if (result == 0)
                 return true;
             else if (result == 1) {
@@ -49,7 +51,7 @@ public class Killer {
             } else
                 return false;
         } else if (killerMode == 2) {
-            int result = ShizukuUtils.killListOfApps(appList);
+            int result = ShizukuUtils.killListOfApps(appList, killLevel);
             if (result == 0)
                 return true;
             else if (result == 1) {
@@ -58,7 +60,7 @@ public class Killer {
             } else
                 return false;
         } else if (killerMode == 3) {
-            int result = ShizukuPlusUtils.killListOfApps(appList);
+            int result = ShizukuPlusUtils.killListOfApps(appList, killLevel);
             if (result == 0)
                 return true;
             else if (result == 1) {
@@ -78,13 +80,13 @@ public class Killer {
             return false;
 
         if (killerMode == 1)
-            return SuUtils.killApp(pkgName);
+            return SuUtils.killApp(pkgName, killLevel);
 
         else if (killerMode == 2)
-            return ShizukuUtils.killApp(pkgName);
+            return ShizukuUtils.killApp(pkgName, killLevel);
 
         else if (killerMode == 3)
-            return ShizukuPlusUtils.killApp(pkgName);
+            return ShizukuPlusUtils.killApp(pkgName, killLevel);
 
         else
             return false;
