@@ -33,6 +33,11 @@ android {
         viewBinding = true
         aidl = true
     }
+
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
 }
 
 dependencies {
