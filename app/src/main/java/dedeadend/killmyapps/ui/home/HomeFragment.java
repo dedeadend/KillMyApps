@@ -104,7 +104,7 @@ public class HomeFragment extends Fragment {
                     ObjectAnimator.ofPropertyValuesHolder(
                             binding.allDead,
                             PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(3000L).start();
+                    ).setDuration(5000L).start();
                     binding.killAllBtn.setVisibility(View.INVISIBLE);
                     searchLayout.setVisibility(View.INVISIBLE);
                     binding.allDead.setVisibility(View.VISIBLE);
