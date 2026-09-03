@@ -1,18 +1,18 @@
 [versions]
-agp = "9.0.1"
-api = "13.1.0"
-appcompat = "1.7.1"
-material = "1.13.0"
-constraintlayout = "2.2.1"
-lifecycleLivedataKtx = "2.10.0"
-lifecycleViewmodelKtx = "2.10.0"
-navigationFragment = "2.9.7"
-navigationUi = "2.9.7"
+agp = "9.2.1"
+shizukuApi = "13.1.0"
+appcompat = "1.8.0"
+material = "1.14.0"
+constraintlayout = "2.2.2"
+lifecycleLivedataKtx = "2.11.0"
+lifecycleViewmodelKtx = "2.11.0"
+navigationFragment = "2.10.0"
+navigationUi = "2.10.0"
 roomRuntime = "2.8.4"
 swiperefreshlayout = "1.2.0"
 
 [libraries]
-api = { module = "dev.rikka.shizuku:api", version.ref = "api" }
+api = { module = "dev.rikka.shizuku:api", version.ref = "shizukuApi" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -20,7 +20,7 @@ lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-lived
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
-provider = { module = "dev.rikka.shizuku:provider", version.ref = "api" }
+provider = { module = "dev.rikka.shizuku:provider", version.ref = "shizukuApi" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }

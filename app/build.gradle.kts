@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -53,5 +52,4 @@ dependencies {
     implementation(libs.provider)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
-    ksp(libs.room.compiler)
 }
