@@ -1,6 +1,5 @@
 package dedeadend.killmyapps;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,11 +7,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.room.Room;
 
 import java.util.concurrent.ExecutorService;
@@ -20,8 +17,6 @@ import java.util.concurrent.Executors;
 
 import dedeadend.killmyapps.data.Database;
 import dedeadend.killmyapps.util.AutoKillHelper;
-import www.sanju.motiontoast.MotionToast;
-import www.sanju.motiontoast.MotionToastStyle;
 
 public class App extends Application {
 
@@ -76,34 +71,6 @@ public class App extends Application {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         else if (themeMode == 2)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-    }
-
-    public static void toast(Activity activity, String title, String message) {
-        MotionToast.Companion.darkToast(activity, title, message,
-                MotionToastStyle.SUCCESS,
-                MotionToast.GRAVITY_BOTTOM,
-                MotionToast.SHORT_DURATION,
-                ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
-    }
-
-    public static void notificationWarningToast(Activity activity) {
-        MotionToast.Companion.darkToast(
-                activity,
-                "Permission Required",
-                "Notification permission is required to keep the auto-kill service running",
-                MotionToastStyle.WARNING,
-                MotionToast.GRAVITY_BOTTOM,
-                MotionToast.LONG_DURATION,
-                ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
-    }
-
-    public static void liteToast(String message) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void initAutoKillServices() {

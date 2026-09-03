@@ -25,10 +25,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.databinding.FragmentSettingsBinding;
 import dedeadend.killmyapps.util.AutoKillHelper;
+import dedeadend.killmyapps.util.CapsuleToast;
 
 public class SettingsFragment extends Fragment {
 
@@ -95,7 +95,8 @@ public class SettingsFragment extends Fragment {
                 else if (integer == 3)
                     binding.killerModeSettings.check(binding.shizukuPlusMode.getId());
             }
-        });settingsViewModel.getKillLevel().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+        });
+        settingsViewModel.getKillLevel().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if (integer == 0)
@@ -420,9 +421,8 @@ public class SettingsFragment extends Fragment {
                     String url = "https://github.com/dedeadend/KillMyApps/";
                     Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(urlIntent);
-                } catch (
-                        ActivityNotFoundException e) {
-                    App.liteToast("No browser app found to open link");
+                } catch (ActivityNotFoundException e) {
+                    CapsuleToast.showInfo(getActivity(), "No browser app found to open link");
                 }
             }
         });
@@ -433,6 +433,6 @@ public class SettingsFragment extends Fragment {
                 if (isGranted)
                     settingsViewModel.setScreenOffAutoKill(true);
                 else
-                    App.notificationWarningToast(getActivity());
+                    CapsuleToast.showInfo(getActivity(), "Notification permission is required to keep the auto-kill service running");
             });
 }

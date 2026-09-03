@@ -1,6 +1,5 @@
 package dedeadend.killmyapps;
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
@@ -12,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -28,6 +26,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import dedeadend.killmyapps.databinding.ActivityMainBinding;
+import dedeadend.killmyapps.util.CapsuleToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
                     String url = "https://nowpayments.io/donation/dedeadend/";
                     Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(urlIntent);
+                    CapsuleToast.showInfo(navHostFragment.getActivity(), "Thank You");
                 } catch (ActivityNotFoundException e) {
-                    App.liteToast("No browser app found to open link");
+                    CapsuleToast.showInfo(navHostFragment.getActivity(), "No browser app found to open link");
                 }
             }
         });

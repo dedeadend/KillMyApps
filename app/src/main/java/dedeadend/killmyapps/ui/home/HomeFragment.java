@@ -13,21 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.google.android.material.search.SearchBar;
 
 import java.util.List;
 
@@ -36,6 +31,7 @@ import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentHomeBinding;
 import dedeadend.killmyapps.model.AppInfo;
+import dedeadend.killmyapps.util.CapsuleToast;
 
 public class HomeFragment extends Fragment {
 
@@ -140,18 +136,19 @@ public class HomeFragment extends Fragment {
                         PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
                         PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
                 ).setDuration(500L).start();
-
+                CapsuleToast capsuleToast = CapsuleToast.showLoading(getActivity(), "Killing...");
                 homeViewModel.onKillAllAppsClicked(new HomeViewModel.OnResultListener() {
                     @Override
                     public void onKillSuccessfully(int count) {
                         if (count == 1)
-                            App.toast(getActivity(), "DONE", "1 app is dead");
+                            capsuleToast.updateSuccess("1 app is dead");
                         else
-                            App.toast(getActivity(), "DONE", count + " apps are dead");
+                            capsuleToast.updateSuccess(count + " apps are dead");
                     }
 
                     @Override
                     public void onKillFailed() {
+                        capsuleToast.updateError("Failed");
                         InfoDialog infoDialog = new InfoDialog(getContext());
                         infoDialog.show();
                     }
@@ -181,16 +178,18 @@ public class HomeFragment extends Fragment {
         adapter = new HomeRecyclerViewAdapter(homeViewModel.getAppsList().getValue(), new HomeRecyclerViewAdapter.onItemClickListener() {
             @Override
             public void onKillButtonClicked(String pkgName, String name) {
+                CapsuleToast capsuleToast = CapsuleToast.showLoading(getActivity(), "Killing...");
                 homeViewModel.onKillSingleAppClicked(pkgName, new HomeViewModel.OnResultListener() {
                     @Override
                     public void onKillSuccessfully(int count) {
                         adapter.itemKilled(pkgName);
-                        App.toast(getActivity(), "DONE", "\"" + name + "\" is dead");
+                        capsuleToast.updateSuccess("\"" + name + "\" is dead");
                         homeViewModel.checkForRefresh();
                     }
 
                     @Override
                     public void onKillFailed() {
+                        capsuleToast.updateError("Failed");
                         InfoDialog infoDialog = new InfoDialog(getContext());
                         infoDialog.show();
                     }
@@ -202,7 +201,7 @@ public class HomeFragment extends Fragment {
                 ClipboardManager clipboardManager = (ClipboardManager) App.context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText("pkgName", pkgName);
                 clipboardManager.setPrimaryClip(clipData);
-                App.toast(getActivity(), "DONE", "package name copied to clipboard");
+                CapsuleToast.showInfo(getActivity(), "package name copied to clipboard");
             }
         });
         binding.homeRecyclerView.swapAdapter(adapter, true);

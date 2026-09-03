@@ -49,10 +49,9 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.swiperefreshlayout)
+    implementation(libs.api)
+    implementation(libs.provider)
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
-    implementation(libs.motiontoast)
-    implementation(libs.api)
-    implementation(libs.provider)
 }

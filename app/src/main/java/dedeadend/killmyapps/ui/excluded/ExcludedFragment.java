@@ -17,7 +17,6 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -32,6 +31,7 @@ import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentExcludedBinding;
 import dedeadend.killmyapps.model.AppInfo;
+import dedeadend.killmyapps.util.CapsuleToast;
 
 public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAdapter.onIconClickListener {
 
@@ -139,13 +139,13 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
     @Override
     public void onAddIconClick(AppInfo appInfo) {
         excludedViewModel.addExcluded(appInfo);
-        App.toast(getActivity(), "DONE", "\"" + appInfo.getName() + "\" added to selection list");
+        CapsuleToast.showInfo(getActivity(), "\"" + appInfo.getName() + "\" added to selection list");
     }
 
     @Override
     public void onRemoveIconClick(AppInfo appInfo) {
         excludedViewModel.removeExcluded(appInfo);
-        App.toast(getActivity(), "DONE", "\"" + appInfo.getName() + "\" removed from selection list");
+        CapsuleToast.showInfo(getActivity(), "\"" + appInfo.getName() + "\" removed from selection list");
     }
 
     @Override
@@ -153,6 +153,6 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
         ClipboardManager clipboardManager = (ClipboardManager) App.context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("pkgName", pkgName);
         clipboardManager.setPrimaryClip(clipData);
-        App.toast(getActivity(), "DONE", "package name copied to clipboard");
+        CapsuleToast.showInfo(getActivity(), "package name copied to clipboard");
     }
 }
