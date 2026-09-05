@@ -2,9 +2,6 @@ package dedeadend.killmyapps.ui.excluded;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -12,11 +9,12 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -32,15 +30,15 @@ import dedeadend.killmyapps.model.AppInfo;
 
 public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRecyclerViewAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
-    private List<AppInfo> appList, backupAppList;
-    private List<AppInfo> excludedList, backupExcludedList;
-    private List<AppInfo> allList;
-    private Map<String, AppInfo> allListMap;
-    private Set<String> excludedListHash;
-    private onIconClickListener listener;
-    private boolean isAppInfoEnable, isLongClickEnable, isShowPackageNameEnable, isScrollAnimationEnable;
+    private final List<AppInfo> appList, backupAppList;
+    private final List<AppInfo> excludedList, backupExcludedList;
+    private final List<AppInfo> allList;
+    private final Map<String, AppInfo> allListMap;
+    private final Set<String> excludedListHash;
+    private final onIconClickListener listener;
+    private final boolean isAppInfoEnable, isLongClickEnable, isShowPackageNameEnable, isScrollAnimationEnable;
 
-    private Drawable addIcon, removeIcon;
+    private final Drawable addIcon, removeIcon;
 
     public ExcludedRecyclerViewAdapter(List<AppInfo> appList, List<AppInfo> excludedList, onIconClickListener listener) {
         this.appList = appList;
@@ -61,8 +59,8 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         isLongClickEnable = App.settings.getBoolean(App.LONG_CLICK_TO_MENU, true);
         isShowPackageNameEnable = App.settings.getBoolean(App.SHOW_PKGNAME, true);
         isScrollAnimationEnable = App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true);
-        addIcon = App.context.getDrawable(R.drawable.ic_add);
-        removeIcon = App.context.getDrawable(R.drawable.ic_remove);
+        addIcon = AppCompatResources.getDrawable(App.context, R.drawable.ic_add);
+        removeIcon = AppCompatResources.getDrawable(App.context, R.drawable.ic_remove);
     }
 
     @NonNull
@@ -73,7 +71,6 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         return new ExcludedRecyclerViewAdapter.ViewHolder(view);
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull ExcludedRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.name.setText(allList.get(position).getName());
@@ -97,8 +94,18 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
             holder.pkgName.setVisibility(View.VISIBLE);
         else
             holder.pkgName.setVisibility(View.GONE);
-        if (isScrollAnimationEnable)
-            holder.itemView.startAnimation(AnimationUtils.loadAnimation(App.context, R.anim.scale_in));
+        if (isScrollAnimationEnable) {
+            holder.itemView.setScaleX(0.5f);
+            holder.itemView.setScaleY(0.5f);
+            holder.itemView.setAlpha(0f);
+            holder.itemView.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .alpha(1f)
+                    .setDuration(400)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .start();
+        }
     }
 
     @Override
@@ -108,10 +115,9 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
 
     @Override
     public void onClick(View v) {
-        ObjectAnimator.ofPropertyValuesHolder(v,
-                PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
-                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-        ).setDuration(500L).start();
+        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+        ).start();
         String pkgName = (String) v.getTag();
         if (v == v.findViewById(R.id.kill_icon)) {
             AppInfo clickedApp = allListMap.get(pkgName);
@@ -149,10 +155,9 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
 
     @Override
     public boolean onLongClick(View v) {
-        ObjectAnimator.ofPropertyValuesHolder(v,
-                PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
-                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-        ).setDuration(500L).start();
+        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+        ).start();
         String pkgName = (String) v.getTag();
         listener.onAppInfoLongClicked(v.findViewById(R.id.package_name), pkgName);
         return true;

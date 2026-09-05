@@ -1,7 +1,6 @@
 package dedeadend.killmyapps;
 
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -31,6 +30,7 @@ import dedeadend.killmyapps.util.CapsuleToast;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private ObjectAnimator logoAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +59,10 @@ public class MainActivity extends AppCompatActivity {
             return windowInsets;
         });
 
-        ObjectAnimator rotateAnimator = ObjectAnimator.ofFloat(binding.logo, "rotation", 0f, 360f);
-        rotateAnimator.setDuration(6000);
-        rotateAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        rotateAnimator.setInterpolator(new LinearInterpolator());
-        rotateAnimator.start();
+        logoAnimator = ObjectAnimator.ofFloat(binding.logo, "rotation", 0f, 360f);
+        logoAnimator.setDuration(6000);
+        logoAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        logoAnimator.setInterpolator(new LinearInterpolator());
 
         binding.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +77,9 @@ public class MainActivity extends AppCompatActivity {
         binding.donateLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObjectAnimator.ofPropertyValuesHolder(v,
-                        PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
-                        PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-                ).setDuration(500L).start();
+                v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+                ).start();
                 try {
                     String url = "https://nowpayments.io/donation/dedeadend/";
                     Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -92,6 +90,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        logoAnimator.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        logoAnimator.cancel();
     }
 
     public CardView getSearchLayout() {

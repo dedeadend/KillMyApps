@@ -18,12 +18,11 @@ import androidx.annotation.NonNull;
 import dedeadend.killmyapps.R;
 
 public class InfoDialog extends Dialog {
-    Context context;
-    Button close;
+
+    private ObjectAnimator objectAnimator;
 
     public InfoDialog(@NonNull Context context) {
         super(context);
-        this.context = context;
     }
 
     @Override
@@ -34,14 +33,14 @@ public class InfoDialog extends Dialog {
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         setCancelable(true);
-        close = findViewById(R.id.close_dialog_btn);
+        Button close = findViewById(R.id.close_dialog_btn);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(findViewById(R.id.dialog_icon),
+        objectAnimator = ObjectAnimator.ofPropertyValuesHolder(findViewById(R.id.dialog_icon),
                 PropertyValuesHolder.ofFloat(View.SCALE_X, 0.8f, 1.0f),
                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.8f, 1.0f)
         );
@@ -49,6 +48,17 @@ public class InfoDialog extends Dialog {
         objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
         objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
         objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         objectAnimator.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        objectAnimator.cancel();
     }
 }

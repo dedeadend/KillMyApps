@@ -121,6 +121,6 @@ public class CapsuleToast {
     }
 
     private void dismissWithDelay() {
-        handler.postDelayed(this::dismiss, 4000L);
+        handler.postDelayed(this::dismiss, 3000L);
     }
 }

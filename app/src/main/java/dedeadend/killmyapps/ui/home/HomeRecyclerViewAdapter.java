@@ -2,9 +2,6 @@ package dedeadend.killmyapps.ui.home;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -12,11 +9,12 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -30,13 +28,13 @@ import dedeadend.killmyapps.model.AppInfo;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
 
-    private List<AppInfo> appList, backupList;
-    private Map<String, AppInfo> appListMap;
-    private onItemClickListener listener;
+    private final List<AppInfo> appList, backupList;
+    private final Map<String, AppInfo> appListMap;
+    private final onItemClickListener listener;
 
-    private boolean isAppInfoEnable, isLongClickEnable, isShowPackageNameEnable, isScrollAnimationEnable;
+    private final boolean isAppInfoEnable, isLongClickEnable, isShowPackageNameEnable, isScrollAnimationEnable;
 
-    private Drawable iconPause;
+    private final Drawable iconPause;
 
     public HomeRecyclerViewAdapter(List<AppInfo> appList, onItemClickListener listener) {
         this.appList = appList;
@@ -49,7 +47,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         isLongClickEnable = App.settings.getBoolean(App.LONG_CLICK_TO_MENU, true);
         isShowPackageNameEnable = App.settings.getBoolean(App.SHOW_PKGNAME, true);
         isScrollAnimationEnable = App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true);
-        iconPause = App.context.getDrawable(R.drawable.ic_pause);
+        iconPause = AppCompatResources.getDrawable(App.context, R.drawable.ic_pause);
     }
 
     @NonNull
@@ -60,7 +58,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         return new ViewHolder(view);
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull HomeRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.name.setText(appList.get(position).getName());
@@ -78,8 +75,18 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             holder.pkgName.setVisibility(View.VISIBLE);
         else
             holder.pkgName.setVisibility(View.GONE);
-        if (isScrollAnimationEnable)
-            holder.itemView.startAnimation(AnimationUtils.loadAnimation(App.context, R.anim.scale_in));
+        if (isScrollAnimationEnable) {
+            holder.itemView.setScaleX(0.5f);
+            holder.itemView.setScaleY(0.5f);
+            holder.itemView.setAlpha(0f);
+            holder.itemView.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .alpha(1f)
+                    .setDuration(400)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .start();
+        }
     }
 
     @Override
@@ -89,10 +96,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 
     @Override
     public void onClick(View v) {
-        ObjectAnimator.ofPropertyValuesHolder(v,
-                PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
-                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-        ).setDuration(500L).start();
+        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+        ).start();
         String pkgName = (String) v.getTag();
         if (v == v.findViewById(R.id.kill_icon)) {
             listener.onKillButtonClicked(pkgName, appListMap.get(pkgName).getName());
@@ -106,10 +112,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 
     @Override
     public boolean onLongClick(View v) {
-        ObjectAnimator.ofPropertyValuesHolder(v,
-                PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
-                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-        ).setDuration(500L).start();
+        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+        ).start();
         String pkgName = (String) v.getTag();
         listener.onAppInfoLongClicked(v.findViewById(R.id.package_name), pkgName);
         return true;

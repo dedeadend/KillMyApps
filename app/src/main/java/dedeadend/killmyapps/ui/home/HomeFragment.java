@@ -1,7 +1,5 @@
 package dedeadend.killmyapps.ui.home;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -11,8 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -28,7 +24,6 @@ import java.util.List;
 
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.MainActivity;
-import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentHomeBinding;
 import dedeadend.killmyapps.model.AppInfo;
 import dedeadend.killmyapps.util.CapsuleToast;
@@ -52,8 +47,6 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_scale_in);
-        binding.homeRecyclerView.setLayoutAnimation(animation);
         if (App.isFirstRun) {
             InfoDialog infoDialog = new InfoDialog(getContext());
             infoDialog.show();
@@ -97,23 +90,17 @@ public class HomeFragment extends Fragment {
             public void onChanged(List<AppInfo> appInfos) {
                 setAdapter();
                 if (appInfos.isEmpty()) {
-                    ObjectAnimator.ofPropertyValuesHolder(
-                            binding.allDead,
-                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(5000L).start();
-                    binding.killAllBtn.setVisibility(View.INVISIBLE);
-                    searchLayout.setVisibility(View.INVISIBLE);
+                    binding.allDead.setAlpha(0f);
+                    binding.allDead.animate().alpha(1f).setDuration(3000L).setStartDelay(1000L).start();
+                    binding.killAllBtn.setVisibility(View.GONE);
+                    searchLayout.setVisibility(View.GONE);
                     binding.allDead.setVisibility(View.VISIBLE);
                 } else {
-                    ObjectAnimator.ofPropertyValuesHolder(
-                            binding.killAllBtn,
-                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(500L).start();
-                    ObjectAnimator.ofPropertyValuesHolder(
-                            searchLayout,
-                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(500L).start();
-                    binding.allDead.setVisibility(View.INVISIBLE);
+                    binding.killAllBtn.setAlpha(0f);
+                    searchLayout.setAlpha(0f);
+                    binding.killAllBtn.animate().alpha(1f).setDuration(400L).start();
+                    searchLayout.animate().alpha(1f).setDuration(400L).start();
+                    binding.allDead.setVisibility(View.GONE);
                     binding.killAllBtn.setVisibility(View.VISIBLE);
                     searchLayout.setVisibility(View.VISIBLE);
                 }
@@ -132,10 +119,9 @@ public class HomeFragment extends Fragment {
         binding.killAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObjectAnimator.ofPropertyValuesHolder(v,
-                        PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
-                        PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-                ).setDuration(500L).start();
+                v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+                ).start();
                 CapsuleToast capsuleToast = CapsuleToast.showLoading(getActivity(), "Killing...");
                 homeViewModel.onKillAllAppsClicked(new HomeViewModel.OnResultListener() {
                     @Override

@@ -1,8 +1,6 @@
 package dedeadend.killmyapps.ui.Settings;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -54,10 +52,8 @@ public class SettingsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         donateLayout = ((MainActivity) requireActivity()).getDonateLayout();
-        ObjectAnimator.ofPropertyValuesHolder(
-                donateLayout,
-                PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-        ).setDuration(500L).start();
+        donateLayout.setAlpha(0f);
+        donateLayout.animate().alpha(1f).setDuration(400L).setStartDelay(200L).start();
         donateLayout.setVisibility(View.VISIBLE);
     }
 
@@ -413,10 +409,9 @@ public class SettingsFragment extends Fragment {
         binding.github.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObjectAnimator.ofPropertyValuesHolder(v,
-                        PropertyValuesHolder.ofFloat(View.SCALE_X, 1, 0.9f, 1),
-                        PropertyValuesHolder.ofFloat(View.SCALE_Y, 1, 0.9f, 1)
-                ).setDuration(500L).start();
+                v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+                ).start();
                 try {
                     String url = "https://github.com/dedeadend/KillMyApps/";
                     Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

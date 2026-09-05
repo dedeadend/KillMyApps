@@ -1,7 +1,5 @@
 package dedeadend.killmyapps.ui.excluded;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -11,8 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -28,7 +24,6 @@ import java.util.List;
 
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.MainActivity;
-import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentExcludedBinding;
 import dedeadend.killmyapps.model.AppInfo;
 import dedeadend.killmyapps.util.CapsuleToast;
@@ -53,8 +48,7 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.excludedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_scale_in);
-        binding.excludedRecyclerView.setLayoutAnimation(animation);
+        binding.excludedRecyclerView.setItemAnimator(null);
     }
 
     @Override
@@ -93,12 +87,10 @@ public class ExcludedFragment extends Fragment implements ExcludedRecyclerViewAd
             public void onChanged(List<AppInfo> appInfos) {
                 setAdapter();
                 if (excludedViewModel.getAppsList().getValue().isEmpty() && appInfos.isEmpty())
-                    searchLayout.setVisibility(View.INVISIBLE);
+                    searchLayout.setVisibility(View.GONE);
                 else {
-                    ObjectAnimator.ofPropertyValuesHolder(
-                            searchLayout,
-                            PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
-                    ).setDuration(500L).start();
+                    searchLayout.setAlpha(0f);
+                    searchLayout.animate().alpha(1f).setDuration(400L).start();
                     searchLayout.setVisibility(View.VISIBLE);
                 }
             }
