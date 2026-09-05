@@ -57,7 +57,7 @@ public class ExcludedRecyclerViewAdapter extends RecyclerView.Adapter<ExcludedRe
         this.listener = listener;
         isAppInfoEnable = App.settings.getBoolean(App.CLICK_TO_APP_INFO, true);
         isLongClickEnable = App.settings.getBoolean(App.LONG_CLICK_TO_MENU, true);
-        isShowPackageNameEnable = App.settings.getBoolean(App.SHOW_PKGNAME, true);
+        isShowPackageNameEnable = App.settings.getBoolean(App.SHOW_PKG_NAME, true);
         isScrollAnimationEnable = App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true);
         addIcon = AppCompatResources.getDrawable(App.context, R.drawable.ic_add);
         removeIcon = AppCompatResources.getDrawable(App.context, R.drawable.ic_remove);

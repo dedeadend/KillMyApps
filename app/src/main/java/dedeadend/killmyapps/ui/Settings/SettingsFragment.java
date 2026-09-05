@@ -162,39 +162,29 @@ public class SettingsFragment extends Fragment {
                     AutoKillHelper.enableScreenOffKill();
             }
         });
-        settingsViewModel.getFixedTimeAutoKill().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        settingsViewModel.getScheduledAutoKill().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean)
-                    AutoKillHelper.enableFixedTimeKill();
+                    AutoKillHelper.enableScheduledKill();
                 else
-                    AutoKillHelper.disableFixedTimeKill();
+                    AutoKillHelper.disableScheduledKill();
 
-                binding.fixedTimeAutoKill.setChecked(aBoolean);
-                binding.fixedTimeAutoKillHourLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
-                binding.fixedTimeAutoKillMinuteLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+                binding.scheduledAutoKill.setChecked(aBoolean);
+                binding.scheduledAutoKillTimeLayout.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
             }
         });
-        settingsViewModel.getFixedTimeAutoKillHour().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+        settingsViewModel.getScheduledAutoKillTime().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                if (binding.fixedTimeAutoKillHourSeekbar.getProgress() != integer)
-                    binding.fixedTimeAutoKillHourSeekbar.setProgress(integer);
-                binding.fixedTimeAutoKillHourText.setText("Hour: " + integer);
-
-                if (settingsViewModel.getFixedTimeAutoKill().getValue())
-                    AutoKillHelper.enableFixedTimeKill();
-            }
-        });
-        settingsViewModel.getFixedTimeAutoKillMinute().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if (binding.fixedTimeAutoKillMinuteSeekbar.getProgress() != integer)
-                    binding.fixedTimeAutoKillMinuteSeekbar.setProgress(integer);
-                binding.fixedTimeAutoKillMinuteText.setText("Minute: " + integer);
-
-                if (settingsViewModel.getFixedTimeAutoKill().getValue())
-                    AutoKillHelper.enableFixedTimeKill();
+                if (binding.scheduledAutoKillTimeSeekbar.getProgress() != integer)
+                    binding.scheduledAutoKillTimeSeekbar.setProgress(integer);
+                StringBuilder time = new StringBuilder("Around: ");
+                time.append(((integer / 2) < 10) ? ("0" + (integer / 2) + ":") : ((integer / 2) + ":"));
+                time.append(((integer % 2) == 0) ? "00" : "30");
+                binding.scheduledAutoKillTimeText.setText(time);
+                if (settingsViewModel.getScheduledAutoKill().getValue())
+                    AutoKillHelper.enableScheduledKill();
             }
         });
     }
@@ -367,34 +357,18 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        binding.fixedTimeAutoKill.setOnClickListener(new View.OnClickListener() {
+        binding.scheduledAutoKill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingsViewModel.setFixedTimeAutoKill(binding.fixedTimeAutoKill.isChecked());
+                settingsViewModel.setScheduledAutoKill(binding.scheduledAutoKill.isChecked());
             }
         });
 
-        binding.fixedTimeAutoKillHourSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.scheduledAutoKillTimeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser)
-                    settingsViewModel.setFixedTimeAutoKillHour(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        binding.fixedTimeAutoKillMinuteSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser)
-                    settingsViewModel.setFixedTimeAutoKillMinute(progress);
+                    settingsViewModel.setScheduledAutoKillTime(progress);
             }
 
             @Override

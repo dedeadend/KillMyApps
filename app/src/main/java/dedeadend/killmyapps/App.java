@@ -32,15 +32,16 @@ public class App extends Application {
     public static final String HIDE_DEFAULT_DIALER = "hideDefaultDialer";
     public static final String HIDE_DEFAULT_SMS = "hideDefaultSMS";
     public static final String HIDE_CRITICAL_SYSTEM_APPS = "hideCriticalSystemApps";
-    public static final String SHOW_PKGNAME = "showPkgName";
+    public static final String SHOW_PKG_NAME = "showPkgName";
     public static final String CLICK_TO_APP_INFO = "clickToAppInfo";
     public static final String LONG_CLICK_TO_MENU = "longClickToMenu";
     public static final String SHOW_SCROLL_ANIMATION = "showScrollAnimation";
     public static final String SCREEN_OFF_AUTO_KILL = "screenOffAutoKill";
     public static final String SCREEN_OFF_AUTO_KILL_DELAY = "screenOffAutoKillDelay";
-    public static final String FIXED_TIME_AUTO_KILL = "fixedTimeAutoKill";
-    public static final String FIXED_TIME_AUTO_KILL_HOUR = "fixedTimeAutoKillHour";
-    public static final String FIXED_TIME_AUTO_KILL_MINUTE = "fixedTimeAutoKillMinute";
+    public static final String SCHEDULED_AUTO_KILL = "scheduledTimeAutoKill";
+    public static final String SCHEDULED_AUTO_KILL_HOUR = "scheduledTimeAutoKillHour";
+    public static final String SCHEDULED_AUTO_KILL_MINUTE = "scheduledTimeAutoKillMinute";
+    public static final String SCHEDULED_AUTO_KILL_DATE = "scheduledTimeAutoKillDate";
 
     public static Database database;
     public static SharedPreferences settings;
@@ -84,7 +85,7 @@ public class App extends Application {
             if (hasNotificationPermission)
                 AutoKillHelper.enableScreenOffKill();
         }
-        if (settings.getBoolean(FIXED_TIME_AUTO_KILL, false))
-            AutoKillHelper.enableFixedTimeKill();
+        if (settings.getBoolean(SCHEDULED_AUTO_KILL, false))
+            AutoKillHelper.enableScheduledKill();
     }
 }

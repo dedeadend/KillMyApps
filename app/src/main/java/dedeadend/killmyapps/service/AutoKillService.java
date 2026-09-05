@@ -3,6 +3,7 @@ package dedeadend.killmyapps.service;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,17 +14,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.PowerManager;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import java.util.List;
-
 import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.R;
-import dedeadend.killmyapps.data.Killer;
-import dedeadend.killmyapps.model.AppInfo;
-import dedeadend.killmyapps.util.AppListHelper;
+import dedeadend.killmyapps.util.AutoKillHelper;
 
 public class AutoKillService extends Service {
 
@@ -32,15 +31,19 @@ public class AutoKillService extends Service {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable killRunnable;
+    private PowerManager.WakeLock currentWakeLock;
 
     private final BroadcastReceiver screenReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (Intent.ACTION_SCREEN_OFF.equals(action))
-                scheduleKillTask(context);
-            else if (Intent.ACTION_SCREEN_ON.equals(action))
-                cancelKillTask();
+            if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+                if (App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false))
+                    scheduleScreenOffKill();
+            } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
+                cancelScreenOffKill();
+                runScheduledKillFallbackIfNeeded();
+            }
         }
     };
 
@@ -60,49 +63,81 @@ public class AutoKillService extends Service {
             startForeground(NOTIF_ID, buildNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
         else
             startForeground(NOTIF_ID, buildNotification());
+        if (!App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false) &&
+                !App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)) {
+            stopSelf();
+            return START_NOT_STICKY;
+        }
         return START_STICKY;
     }
 
-    private void scheduleKillTask(Context context) {
-        cancelKillTask();
-        long delayMillis = App.settings.getInt(App.SCREEN_OFF_AUTO_KILL_DELAY, 5) * 60 * 1000L;
-
-        killRunnable = () -> App.executorService.execute(() -> {
-            List<AppInfo> targets = AppListHelper.getFilteredAppsList(context, true);
-            if (!targets.isEmpty()) {
-                Killer.killListOfApps(targets);
-            }
-        });
-
+    private void scheduleScreenOffKill() {
+        cancelScreenOffKill();
+        long delayMillis = App.settings.getInt(App.SCREEN_OFF_AUTO_KILL_DELAY, 0) * 60 * 1000L;
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = null;
+        if (powerManager != null) {
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "KillMyApps:ScreenOffWakeLock");
+            wakeLock.acquire(delayMillis + 10000L);
+        }
+        this.currentWakeLock = wakeLock;
+        final PowerManager.WakeLock activeLock = wakeLock;
+        killRunnable = () -> AutoKillHelper.executeKill(() -> releaseWakeLock(activeLock));
         handler.postDelayed(killRunnable, delayMillis);
     }
 
-    private void cancelKillTask() {
+    private void cancelScreenOffKill() {
         if (killRunnable != null) {
             handler.removeCallbacks(killRunnable);
             killRunnable = null;
         }
+        releaseWakeLock(currentWakeLock);
+        currentWakeLock = null;
     }
 
-    private void createNotificationChannel() {
-        NotificationChannel channel = new NotificationChannel(
-                CHANNEL_ID,
-                "Screen Lock Auto Kill",
-                NotificationManager.IMPORTANCE_MIN
-        );
-        channel.setDescription("Keeps the auto kill service active to detect screen lock events.");
-        NotificationManager manager = getSystemService(NotificationManager.class);
-        if (manager != null) {
-            manager.createNotificationChannel(channel);
+    private void runScheduledKillFallbackIfNeeded() {
+        if (AutoKillHelper.isScheduledKillMissedToday())
+            AutoKillHelper.executeKill(AutoKillHelper::markScheduledKillExecutedToday);
+    }
+
+    private void releaseWakeLock(PowerManager.WakeLock lock) {
+        if (lock != null && lock.isHeld()) {
+            try {
+                lock.release();
+            } catch (Exception ignored) {
+            }
         }
     }
 
+    private void createNotificationChannel() {
+        NotificationChannel notificationChannel = new NotificationChannel(
+                CHANNEL_ID,
+                "Auto Kill Service",
+                NotificationManager.IMPORTANCE_MIN
+        );
+        notificationChannel.setDescription("Keeps the auto kill service active to detect screen lock events.");
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        if (notificationManager != null)
+            notificationManager.createNotificationChannel(notificationChannel);
+    }
+
     private Notification buildNotification() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
         return new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Auto kill on screen lock")
-                .setContentText("Ready to kill background apps when screen locks")
+                .setContentTitle("Auto Kill Service")
+                .setContentText("KillMyApps will close apps automatically based on your settings")
                 .setSmallIcon(R.drawable.ic_snow)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .build();
     }
@@ -110,7 +145,6 @@ public class AutoKillService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cancelKillTask();
         try {
             unregisterReceiver(screenReceiver);
         } catch (IllegalArgumentException ignored) {

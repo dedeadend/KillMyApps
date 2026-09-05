@@ -470,7 +470,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:text="Auto Killer (Experimental)"
+                    android:text="Auto Killer"
                     android:textColor="@color/purple_400"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -506,13 +506,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:max="60"
+                        android:max="10"
                         android:min="0"
-                        android:progress="5" />
+                        android:progress="0" />
                 </LinearLayout>
 
                 <CheckBox
-                    android:id="@+id/fixed_time_auto_kill"
+                    android:id="@+id/scheduled_auto_kill"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Auto kill at scheduled time"
@@ -520,7 +520,7 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:id="@+id/fixed_time_auto_kill_hour_layout"
+                    android:id="@+id/scheduled_auto_kill_time_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -531,52 +531,22 @@
                     android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/fixed_time_auto_kill_hour_text"
+                        android:id="@+id/scheduled_auto_kill_time_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Hour: 3"
+                        android:text="Around: 3:30"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <SeekBar
-                        android:id="@+id/fixed_time_auto_kill_hour_seekbar"
+                        android:id="@+id/scheduled_auto_kill_time_seekbar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:max="23"
+                        android:max="47"
                         android:min="0"
-                        android:progress="3" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/fixed_time_auto_kill_minute_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:layoutDirection="ltr"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/fixed_time_auto_kill_minute_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="Minute: 30"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <SeekBar
-                        android:id="@+id/fixed_time_auto_kill_minute_seekbar"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:max="59"
-                        android:min="0"
-                        android:progress="30" />
+                        android:progress="7" />
                 </LinearLayout>
 
                 <TextView

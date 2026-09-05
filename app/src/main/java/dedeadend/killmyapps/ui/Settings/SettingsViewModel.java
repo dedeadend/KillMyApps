@@ -13,12 +13,12 @@ public class SettingsViewModel extends ViewModel {
     //killerMode = (0 -> auto) , 1 -> root , 2 -> shizuku , 3 -> shizuku+
     //killLevel = 0 -> soft , 1 -> deep , 2 -> killer
     private final MutableLiveData<Integer> themeMode, killerMode, listMode, selectionMode,
-            screenOffAutoKillDelay, fixedTimeAutoKillHour, fixedTimeAutoKillMinute,
+            screenOffAutoKillDelay, scheduledAutoKillTime,
             killLevel;
     private final MutableLiveData<Boolean> hideKillMyApps, hideDefaultLauncher, hideDefaultAlarm,
             hideDefaultKeyboard, hideDefaultDialer, hideDefaultSMS, hideCriticalSystemApps,
             showAppsPkgName, clickToAppInfo, longClickToMenu, showScrollAnimation,
-            screenOffAutoKill, fixedTimeAutoKill;
+            screenOffAutoKill, scheduledAutoKill;
 
     public SettingsViewModel() {
         themeMode = new MutableLiveData<>();
@@ -39,9 +39,8 @@ public class SettingsViewModel extends ViewModel {
         showScrollAnimation = new MutableLiveData<>();
         screenOffAutoKill = new MutableLiveData<>();
         screenOffAutoKillDelay = new MutableLiveData<>();
-        fixedTimeAutoKill = new MutableLiveData<>();
-        fixedTimeAutoKillHour = new MutableLiveData<>();
-        fixedTimeAutoKillMinute = new MutableLiveData<>();
+        scheduledAutoKill = new MutableLiveData<>();
+        scheduledAutoKillTime = new MutableLiveData<>();
         loadSettings();
     }
 
@@ -58,15 +57,17 @@ public class SettingsViewModel extends ViewModel {
         hideDefaultDialer.setValue(App.settings.getBoolean(App.HIDE_DEFAULT_DIALER, true));
         hideDefaultSMS.setValue(App.settings.getBoolean(App.HIDE_DEFAULT_SMS, true));
         hideCriticalSystemApps.setValue(App.settings.getBoolean(App.HIDE_CRITICAL_SYSTEM_APPS, true));
-        showAppsPkgName.setValue(App.settings.getBoolean(App.SHOW_PKGNAME, true));
+        showAppsPkgName.setValue(App.settings.getBoolean(App.SHOW_PKG_NAME, true));
         clickToAppInfo.setValue(App.settings.getBoolean(App.CLICK_TO_APP_INFO, true));
         longClickToMenu.setValue(App.settings.getBoolean(App.LONG_CLICK_TO_MENU, true));
         showScrollAnimation.setValue(App.settings.getBoolean(App.SHOW_SCROLL_ANIMATION, true));
         screenOffAutoKill.setValue(App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false));
-        screenOffAutoKillDelay.setValue(App.settings.getInt(App.SCREEN_OFF_AUTO_KILL_DELAY, 5));
-        fixedTimeAutoKill.setValue(App.settings.getBoolean(App.FIXED_TIME_AUTO_KILL, false));
-        fixedTimeAutoKillHour.setValue(App.settings.getInt(App.FIXED_TIME_AUTO_KILL_HOUR, 3));
-        fixedTimeAutoKillMinute.setValue(App.settings.getInt(App.FIXED_TIME_AUTO_KILL_MINUTE, 30));
+        screenOffAutoKillDelay.setValue(App.settings.getInt(App.SCREEN_OFF_AUTO_KILL_DELAY, 0));
+        scheduledAutoKill.setValue(App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false));
+        int time = App.settings.getInt(App.SCHEDULED_AUTO_KILL_HOUR, 3) * 2;
+        if (App.settings.getInt(App.SCHEDULED_AUTO_KILL_HOUR, 30) != 0)
+            time++;
+        scheduledAutoKillTime.setValue(time);
     }
 
     public void setThemeMode(int mode) {
@@ -132,7 +133,7 @@ public class SettingsViewModel extends ViewModel {
 
     public void setShowAppsPkgName(boolean show) {
         showAppsPkgName.setValue(show);
-        App.settings.edit().putBoolean(App.SHOW_PKGNAME, show).apply();
+        App.settings.edit().putBoolean(App.SHOW_PKG_NAME, show).apply();
     }
 
     public void setClickToAppInfo(boolean click) {
@@ -160,21 +161,16 @@ public class SettingsViewModel extends ViewModel {
         App.settings.edit().putInt(App.SCREEN_OFF_AUTO_KILL_DELAY, delay).apply();
     }
 
-    public void setFixedTimeAutoKill(boolean fixedTime) {
-        fixedTimeAutoKill.setValue(fixedTime);
-        App.settings.edit().putBoolean(App.FIXED_TIME_AUTO_KILL, fixedTime).apply();
+    public void setScheduledAutoKill(boolean isScheduled) {
+        scheduledAutoKill.setValue(isScheduled);
+        App.settings.edit().putBoolean(App.SCHEDULED_AUTO_KILL, isScheduled).apply();
     }
 
-    public void setFixedTimeAutoKillHour(int hour) {
-        fixedTimeAutoKillHour.setValue(hour);
-        App.settings.edit().putInt(App.FIXED_TIME_AUTO_KILL_HOUR, hour).apply();
+    public void setScheduledAutoKillTime(int time) {
+        scheduledAutoKillTime.setValue(time);
+        App.settings.edit().putInt(App.SCHEDULED_AUTO_KILL_HOUR, time / 2).apply();
+        App.settings.edit().putInt(App.SCHEDULED_AUTO_KILL_MINUTE, ((time % 2) == 0) ? 0 : 30).apply();
     }
-
-    public void setFixedTimeAutoKillMinute(int minute) {
-        fixedTimeAutoKillMinute.setValue(minute);
-        App.settings.edit().putInt(App.FIXED_TIME_AUTO_KILL_MINUTE, minute).apply();
-    }
-
 
     public MutableLiveData<Integer> getThemeMode() {
         return themeMode;
@@ -248,15 +244,11 @@ public class SettingsViewModel extends ViewModel {
         return screenOffAutoKillDelay;
     }
 
-    public MutableLiveData<Boolean> getFixedTimeAutoKill() {
-        return fixedTimeAutoKill;
+    public MutableLiveData<Boolean> getScheduledAutoKill() {
+        return scheduledAutoKill;
     }
 
-    public MutableLiveData<Integer> getFixedTimeAutoKillHour() {
-        return fixedTimeAutoKillHour;
-    }
-
-    public MutableLiveData<Integer> getFixedTimeAutoKillMinute() {
-        return fixedTimeAutoKillMinute;
+    public MutableLiveData<Integer> getScheduledAutoKillTime() {
+        return scheduledAutoKillTime;
     }
 }
