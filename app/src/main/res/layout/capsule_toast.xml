@@ -23,14 +23,14 @@
         <ProgressBar
             android:id="@+id/capsule_progress"
             style="?android:attr/progressBarStyleSmall"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/capsule_icon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:visibility="gone"
             app:tint="@color/purple_700" />
 
@@ -38,8 +38,7 @@
             android:id="@+id/capsule_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginHorizontal="8dp"
             android:textColor="@color/black"
             android:textSize="13sp"
             android:textStyle="bold" />
