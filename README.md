@@ -78,7 +78,7 @@ When the kill action is triggered, KillMyApps uses **Root** or **Shizuku** to pe
 KillMyApps is one of the **DeDeadend** projects:
 
 <div align="left">
-  <a href="https://dedeadend.github.io/" target="_blank" rel="noreferrer noopener">
+  <a href="https://dedeadend.github.io/projects/killmyapps/" target="_blank" rel="noreferrer noopener">
     <img src="https://img.shields.io/static/v1?message=Website&logo=googlechrome&label=&color=000000&logoColor=white&labelColor=&style=for-the-badge" height="30" alt="DeDeadend Website" />
   </a>
   <a href="https://t.me/dedeadend_projects" target="_blank" rel="noreferrer noopener">
