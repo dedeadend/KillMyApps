@@ -1,76 +1,95 @@
 <p align="center">
-  <img src="screenshots/KillMyAppsBanner.png" alt="KillMyApps Banner" width="100%">
+  <img src="screenshots/KillMyAppsBanner.png" alt="KillMyApps - Android app killer" width="100%">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/v/release/dedeadend/KillMyApps?style=for-the-badge&color=green&logo=android" alt="Release Badge"/>
-  <img src="https://img.shields.io/github/downloads/dedeadend/KillMyApps/total?style=for-the-badge&color=orange&logo=github" alt="Downloads Badge" />
-  <img src="https://api.visitorbadge.io/api/visitors?path=dedeadend%2Fkillmyapps&label=Views&countColor=blue" alt="Views Badge"/>
-  <img src="https://img.shields.io/github/license/dedeadend/KillMyApps?style=for-the-badge&color=yellow" alt="License Badge"/>
+  <img src="https://img.shields.io/github/v/release/dedeadend/KillMyApps?style=for-the-badge&color=green&logo=android" alt="Latest release" />
+  <img src="https://img.shields.io/github/downloads/dedeadend/KillMyApps/total?style=for-the-badge&color=orange&logo=github" alt="Total downloads" />
+  <img src="https://api.visitorbadge.io/api/visitors?path=dedeadend%2Fkillmyapps&label=Views&countColor=blue" alt="Repository views" />
+  <img src="https://img.shields.io/github/license/dedeadend/KillMyApps?style=for-the-badge&color=yellow" alt="GPL-3.0 license" />
 </p>
 
 
-# ❄️ Kill My Apps
+# ❄️ KillMyApps
 
-KillMyApps is a lightweight utility designed to terminate background processes, helping extend battery life, improve gaming performance, and free up system resources. **It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry**.
-
+KillMyApps is an Android utility for terminating running applications through **Root** or **Shizuku**. It helps extend battery life, improve gaming performance, and free up system resources. **It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry**.
 
 > [!IMPORTANT]
-> The KILL feature requires **`Root`** or **`Shizuku`** access to operate. Without it, you can still use the app, but you'll need to manually kill running apps by tapping on each one and selecting the Force Stop option. You can change your preferred mode between Root and Shizuku anytime in the app settings.
+> The kill feature requires **Root** or **Shizuku** access. Without either one, Android's standard **Force Stop** action must be used manually for individual applications. You can switch between Root and Shizuku at any time from the app settings.
 
 
 ## ✨ Features
 
-- ⚡ **One-Tap Kill**: Terminate all running apps instantly with a single tap.
-- 🔰 **Killer Mode**: Support Root and Shizuku for an automated app termination process.
-- 🛡️ **Source Mode**: Categorize apps by User, Launchable, or System processes, backed by customizable critical app protections.
-- 🔎 **Selection Mode**: Flexible app targeting between Exclude and Include modes.
-- ⏰ **Auto Killer**: Schedule automatic process termination when your screen turns off (with customizable delay) or at a fixed daily time.
-- 🫧 **Quick Settings Tile**: Kill running apps directly from your notification panel without even opening the app.
-- 🧩 **Home Screen Widgets**: Instantly terminate background processes right from your home screen using app widgets.
-- 🔋 **Save Battery**: Reduce battery usage by stopping unnecessary background activities.
-- 🚀 **Boost Performance**: Free up RAM and CPU for high-demand tasks like gaming.
-- 🔒 **Enhance Privacy**: Eliminate unnecessary background activity, tracking and telemetry.
-- 🍃 **Clean UI**: Simple and intuitive Material Design interface.
+- ⚡ **One-Tap Kill**: Terminate running applications with a single action.
+- 🔰 **Root & Shizuku**: Use Root or Shizuku as the execution layer for the kill operation.
+- 🛡️ **Source Mode**: Filter the running-app list by categories such as User, Launchable, or System.
+- 🔎 **Selection Mode**: Filter which applications are included in the kill operation using Include or Exclude mode.
+- 🛑 **Hide Critical Apps**: Keep critical applications out of the list by hiding KillMyApps itself, essential system applications, and user default apps.
+- ⏰ **Auto Killer**: Automatically terminate running applications when the screen turns off or at a scheduled daily time.
+- 🫧 **Quick Settings Tile**: Trigger the kill action directly from Android Quick Settings.
+- 🧩 **Home Screen Widgets**: Run the kill action directly from a home screen widget.
+- 🔋 **Save Battery**: Reduce unnecessary background activity that can continue consuming battery.
+- 🚀 **Improve Performance**: Stop unnecessary background applications for resource-intensive tasks such as gaming.
+- 🔒 **Privacy**: Reduce unwanted background activity from applications that do not need to remain running.
+- 🍃 **Material UI**: A simple and modern interface for managing the kill operation.
+
+
+## ⚙️ How It Works
+
+KillMyApps displays currently running applications on its main screen. The kill operation is performed only on applications that are present in that list.
+
+The list can be filtered using the available source and selection options:
+
+- **Source Mode** filters the running applications by categories such as User, Launchable or System.
+- **Include Mode** limits the kill operation to the applications selected by the user.
+- **Exclude Mode** keeps the selected applications out of the kill operation.
+- **Hide Critical Apps** removes selected critical applications from the visible list, including the default user apps, essential system applications, and KillMyApps itself.
+
+When the kill action is triggered, KillMyApps uses **Root** or **Shizuku** to perform the required system-level operation on the running applications that remain within the selected scope.
 
 
 ## 📸 Screenshots
 
-| Dark Theme | Quick Tile | Light Theme |
+| Dark Theme | Quick Settings | Light Theme |
 |:---:|:---:|:---:|
-| <img src="screenshots/screenshot2.png" alt="Dark Screenshot"> | <img src="screenshots/screenshot3.png" alt="Quick Settings Tile Screenshot"> | <img src="screenshots/screenshot1.png" alt="Light Screenshot"> |
+| <img src="screenshots/screenshot2.png" alt="KillMyApps dark theme on Android"> | <img src="screenshots/screenshot3.png" alt="KillMyApps Quick Settings tile"> | <img src="screenshots/screenshot1.png" alt="KillMyApps light theme on Android"> |
 
 
 ## 📥 Getting Started
 
-### Prerequisites
+### Requirements
 
-- Android 8.0+ "Oreo"
-- **Root** or **Shizuku** to automate the killing process.
+- Android 8.0+ (Oreo)
+- **Root** or **Shizuku** for the kill operation
 
 ### Installation
 
 1. Download the latest APK from the [Releases Page](https://github.com/dedeadend/KillMyApps/releases/latest).
-2. Install the APK on your device.
-3. Grant `Root`/`Shizuku` permission when prompted for the best experience.
+2. Install the APK on your Android device.
+3. Grant **Root** or **Shizuku** access when requested.
 4. Enjoy 💚
-
 
 > [!NOTE]
 > Since KillMyApps is a self-signed APK not distributed via the Google Play Store, Google Play Protect may flag it as "Unknown". As an open-source project, you can always audit the source code yourself or build the APK from source to ensure total transparency.
 
 
-## ♠️ Support
+## 🌐 Official DeDeadend Links
 
-Have questions or need help? Feel free to reach out:
+KillMyApps is one of the **DeDeadend** projects:
 
 <div align="left">
-  <a href="https://t.me/dedeadend" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=Telegram&logo=telegram&label=&color=2CA5E0&logoColor=white&labelColor=&style=for-the-badge" height="30" alt="telegram logo"  />
+  <a href="https://dedeadend.github.io/" target="_blank" rel="noreferrer noopener">
+    <img src="https://img.shields.io/static/v1?message=Website&logo=googlechrome&label=&color=000000&logoColor=white&labelColor=&style=for-the-badge" height="30" alt="DeDeadend Website" />
   </a>
-  <!-- <a href="https://www.linkedin.com/in/dedeadend" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="30" alt="linkedin logo"  />
-  </a> -->
+  <a href="https://t.me/dedeadend_projects" target="_blank" rel="noreferrer noopener">
+    <img src="https://img.shields.io/static/v1?message=Channel&logo=telegram&label=&color=000000&logoColor=white&labelColor=&style=for-the-badge" height="30" alt="DeDeadend Telegram Channel" />
+  </a>
+  <a href="https://t.me/dedeadend_community" target="_blank" rel="noreferrer noopener">
+    <img src="https://img.shields.io/static/v1?message=Community&logo=telegram&label=&color=000000&logoColor=white&labelColor=&style=for-the-badge" height="30" alt="DeDeadend Telegram Community" />
+  </a>
+  <a href="https://t.me/dedeadend" target="_blank" rel="noreferrer noopener">
+    <img src="https://img.shields.io/static/v1?message=Profile&logo=telegram&label=&color=000000&logoColor=white&labelColor=&style=for-the-badge" height="30" alt="DeDeadend Telegram Profile" />
+  </a>
 </div>
 
 
