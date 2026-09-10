@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -63,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         logoAnimator.setDuration(6000);
         logoAnimator.setRepeatCount(ValueAnimator.INFINITE);
         logoAnimator.setInterpolator(new LinearInterpolator());
+
+        binding.searchEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                v.clearFocus();
+                return true;
+            }
+            return false;
+        });
 
         binding.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
