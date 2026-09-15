@@ -12,6 +12,7 @@ android {
         targetSdk = 37
         versionCode = 150
         versionName = "1.5"
+        resValue("string", "app_version", "version $versionName")
     }
 
     buildTypes {
@@ -31,6 +32,7 @@ android {
     buildFeatures {
         viewBinding = true
         aidl = true
+        resValues = true
     }
 
     dependenciesInfo {
