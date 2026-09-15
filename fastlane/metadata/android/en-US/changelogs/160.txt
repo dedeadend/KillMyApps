@@ -1,0 +1,10 @@
+Added:
+- Kill Levels: Added Soft, Deep, and Killer levels.
+- Telegram Channel: Added a direct Telegram channel link in Settings.
+- Custom Toasts: Added a custom capsule-style toast design.
+
+Improved:
+- Auto Killer: No longer experimental, with improved reliability, missed-run fallback, and screen-off delay up to 15 minutes.
+- Killer Engine: Renamed Killer Mode to Killer Engine.
+- Search: Keyboard now hides after pressing the search action.
+- Android: Minimum version raised to Android 9.0.
