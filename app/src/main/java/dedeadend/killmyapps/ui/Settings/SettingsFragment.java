@@ -395,6 +395,22 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+
+        binding.telegram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(200L).withEndAction(() ->
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(200L).start()
+                ).start();
+                try {
+                    String url = "https://t.me/dedeadend_projects/";
+                    Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(urlIntent);
+                } catch (ActivityNotFoundException e) {
+                    CapsuleToast.showInfo(getActivity(), "No browser app found to open link");
+                }
+            }
+        });
     }
 
     private final ActivityResultLauncher<String> requestNotificationPermissionLauncher =

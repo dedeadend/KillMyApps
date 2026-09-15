@@ -561,14 +561,12 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/github"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
-            android:layoutDirection="rtl"
             app:cardCornerRadius="12dp"
             app:cardElevation="8dp"
             app:layout_constraintTop_toTopOf="parent">
@@ -579,11 +577,26 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_github" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/github"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_margin="4dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_github" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/telegram"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_margin="4dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_telegram" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
