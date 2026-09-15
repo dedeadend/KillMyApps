@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "dedeadend.killmyapps"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 37
         versionCode = 150
         versionName = "1.5"
