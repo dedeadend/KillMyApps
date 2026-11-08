@@ -2,6 +2,7 @@ package dedeadend.killmyapps.ui.Settings;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,9 +24,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.databinding.FragmentSettingsBinding;
 import dedeadend.killmyapps.util.AutoKillHelper;
+import dedeadend.killmyapps.util.BackupManager;
 import dedeadend.killmyapps.util.CapsuleToast;
 
 public class SettingsFragment extends Fragment {
@@ -46,6 +49,11 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setObservers();
         setListeners();
+        getParentFragmentManager().setFragmentResultListener(
+                BackupPreviewDialogFragment.RESULT_KEY,
+                getViewLifecycleOwner(),
+                (requestKey, result) -> settingsViewModel.reloadSettings()
+        );
     }
 
     @Override
@@ -411,6 +419,20 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+
+        binding.backupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createBackupLauncher.launch(BackupManager.createDefaultFileName());
+            }
+        });
+
+        binding.restoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBackupLauncher.launch(new String[]{BackupManager.MIME_TYPE});
+            }
+        });
     }
 
     private final ActivityResultLauncher<String> requestNotificationPermissionLauncher =
@@ -420,4 +442,43 @@ public class SettingsFragment extends Fragment {
                 else
                     CapsuleToast.showInfo(getActivity(), "Notification permission is required to keep the auto-kill service running");
             });
+
+    private final ActivityResultLauncher<String> createBackupLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.CreateDocument(BackupManager.MIME_TYPE),
+                    uri -> {
+                        if (uri == null)
+                            return;
+
+                        Context appContext = requireContext().getApplicationContext();
+                        App.executorService.execute(() -> {
+                            String message = "";
+                            try {
+                                BackupManager.writeBackup(appContext, uri);
+                                message = "Backup saved successfully";
+                            } catch (Exception e) {
+                                message = "Backup failed: " + e.getMessage();
+                            } finally {
+                                String finalMessage = message;
+                                App.handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CapsuleToast.showInfo(getActivity(), finalMessage);
+                                    }
+                                });
+                            }
+                        });
+                    }
+            );
+
+    private final ActivityResultLauncher<String[]> openBackupLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.OpenDocument(),
+                    uri -> {
+                        if (uri != null) {
+                            BackupPreviewDialogFragment.newInstance(uri)
+                                    .show(getParentFragmentManager(), "backup_preview");
+                        }
+                    }
+            );
 }

@@ -70,6 +70,10 @@ public class SettingsViewModel extends ViewModel {
         scheduledAutoKillTime.setValue(time);
     }
 
+    public void reloadSettings() {
+        loadSettings();
+    }
+
     public void setThemeMode(int mode) {
         themeMode.setValue(mode);
         App.settings.edit().putInt(App.THEME_MODE, mode).apply();

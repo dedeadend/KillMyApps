@@ -74,18 +74,24 @@ public class App extends Application {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
-    private void initAutoKillServices() {
+    public static void initAutoKillServices() {
         if (settings.getBoolean(SCREEN_OFF_AUTO_KILL, false)) {
             boolean hasNotificationPermission = true;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 hasNotificationPermission = ContextCompat.checkSelfPermission(
                         context,
                         android.Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED;
+            }
             if (hasNotificationPermission)
                 AutoKillHelper.enableScreenOffKill();
-        }
+            else
+                AutoKillHelper.disableScreenOffKill();
+        } else
+            AutoKillHelper.disableScreenOffKill();
         if (settings.getBoolean(SCHEDULED_AUTO_KILL, false))
             AutoKillHelper.enableScheduledKill();
+        else
+            AutoKillHelper.disableScheduledKill();
     }
 }
