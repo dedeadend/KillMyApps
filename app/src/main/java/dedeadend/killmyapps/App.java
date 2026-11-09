@@ -38,6 +38,7 @@ public class App extends Application {
     public static final String SHOW_SCROLL_ANIMATION = "showScrollAnimation";
     public static final String SCREEN_OFF_AUTO_KILL = "screenOffAutoKill";
     public static final String SCREEN_OFF_AUTO_KILL_DELAY = "screenOffAutoKillDelay";
+    public static final String SCREEN_OFF_AUTO_KILL_START_TIME = "screenOffAutoKillStartTime";
     public static final String SCHEDULED_AUTO_KILL = "scheduledTimeAutoKill";
     public static final String SCHEDULED_AUTO_KILL_HOUR = "scheduledTimeAutoKillHour";
     public static final String SCHEDULED_AUTO_KILL_MINUTE = "scheduledTimeAutoKillMinute";
@@ -90,7 +91,7 @@ public class App extends Application {
         } else
             AutoKillHelper.disableScreenOffKill();
         if (settings.getBoolean(SCHEDULED_AUTO_KILL, false))
-            AutoKillHelper.enableScheduledKill();
+            AutoKillHelper.initializeScheduledKill();
         else
             AutoKillHelper.disableScheduledKill();
     }

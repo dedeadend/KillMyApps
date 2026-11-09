@@ -26,6 +26,8 @@ import dedeadend.killmyapps.util.AutoKillHelper;
 
 public class AutoKillService extends Service {
 
+    public static final String ACTION_CANCEL_SCREEN_OFF_KILL = "dedeadend.killmyapps.action.CANCEL_SCREEN_OFF_KILL";
+    public static final String ACTION_SKIP_SCHEDULED_FALLBACK = "dedeadend.killmyapps.action.SKIP_SCHEDULED_FALLBACK";
     private static final String CHANNEL_ID = "auto_kill_channel";
     private static final int NOTIF_ID = 1001;
 
@@ -39,9 +41,10 @@ public class AutoKillService extends Service {
             String action = intent.getAction();
             if (Intent.ACTION_SCREEN_OFF.equals(action)) {
                 if (App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false))
-                    scheduleScreenOffKill();
+                    startScreenOffCountdown();
             } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
-                cancelScreenOffKill();
+                cancelScreenOffCountdown();
+                clearPersistedScreenOffStartTime();
                 runScheduledKillFallbackIfNeeded();
             }
         }
@@ -63,30 +66,102 @@ public class AutoKillService extends Service {
             startForeground(NOTIF_ID, buildNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
         else
             startForeground(NOTIF_ID, buildNotification());
-        if (!App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false) &&
-                !App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)) {
+
+        boolean screenOffEnabled = App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false);
+        boolean scheduledEnabled = App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false);
+        if (!screenOffEnabled && !scheduledEnabled) {
+            cancelScreenOffCountdown();
             stopSelf();
             return START_NOT_STICKY;
         }
+
+        String action = intent != null ? intent.getAction() : null;
+        if (ACTION_CANCEL_SCREEN_OFF_KILL.equals(action)) {
+            cancelScreenOffCountdown();
+        } else if (screenOffEnabled) {
+            restoreScreenOffCountdownIfNeeded();
+        }
+        if (isDisplayInteractive() && !ACTION_SKIP_SCHEDULED_FALLBACK.equals(action))
+            runScheduledKillFallbackIfNeeded();
+
         return START_STICKY;
     }
 
-    private void scheduleScreenOffKill() {
-        cancelScreenOffKill();
+    private boolean isDisplayInteractive() {
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        return powerManager == null || powerManager.isInteractive();
+    }
+
+    private void startScreenOffCountdown() {
+        if (!App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false))
+            return;
+
+        long startedAt = System.currentTimeMillis();
+        App.settings.edit()
+                .putLong(App.SCREEN_OFF_AUTO_KILL_START_TIME, startedAt)
+                .apply();
+        scheduleScreenOffKill(startedAt);
+    }
+
+    private void restoreScreenOffCountdownIfNeeded() {
+        if (!App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false))
+            return;
+
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        if (powerManager == null)
+            return;
+
+        if (powerManager.isInteractive()) {
+            cancelScreenOffCountdown();
+            clearPersistedScreenOffStartTime();
+            return;
+        }
+
+        long startedAt = App.settings.getLong(App.SCREEN_OFF_AUTO_KILL_START_TIME, -1L);
+        if (startedAt <= 0L) {
+            startedAt = System.currentTimeMillis();
+            App.settings.edit()
+                    .putLong(App.SCREEN_OFF_AUTO_KILL_START_TIME, startedAt)
+                    .apply();
+        }
+        scheduleScreenOffKill(startedAt);
+    }
+
+    private void scheduleScreenOffKill(long startedAt) {
+        cancelScreenOffCountdown();
+
         long delayMillis = App.settings.getInt(App.SCREEN_OFF_AUTO_KILL_DELAY, 0) * 60 * 1000L;
+        long elapsedMillis = Math.max(0L, System.currentTimeMillis() - startedAt);
+        long remainingMillis = Math.max(0L, delayMillis - elapsedMillis);
+
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         PowerManager.WakeLock wakeLock = null;
         if (powerManager != null) {
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "KillMyApps:ScreenOffWakeLock");
-            wakeLock.acquire(delayMillis + 10000L);
+            wakeLock = powerManager.newWakeLock(
+                    PowerManager.PARTIAL_WAKE_LOCK,
+                    "KillMyApps:ScreenOffWakeLock"
+            );
+            wakeLock.acquire(remainingMillis + 10000L);
         }
-        this.currentWakeLock = wakeLock;
+        currentWakeLock = wakeLock;
         final PowerManager.WakeLock activeLock = wakeLock;
-        killRunnable = () -> AutoKillHelper.executeKill(() -> releaseWakeLock(activeLock));
-        handler.postDelayed(killRunnable, delayMillis);
+
+        killRunnable = new Runnable() {
+            @Override
+            public void run() {
+                killRunnable = null;
+                clearPersistedScreenOffStartTime();
+                AutoKillHelper.executeScreenOffKill(() -> {
+                    releaseWakeLock(activeLock);
+                    if (currentWakeLock == activeLock)
+                        currentWakeLock = null;
+                });
+            }
+        };
+        handler.postDelayed(killRunnable, remainingMillis);
     }
 
-    private void cancelScreenOffKill() {
+    private void cancelScreenOffCountdown() {
         if (killRunnable != null) {
             handler.removeCallbacks(killRunnable);
             killRunnable = null;
@@ -95,9 +170,12 @@ public class AutoKillService extends Service {
         currentWakeLock = null;
     }
 
+    private void clearPersistedScreenOffStartTime() {
+        App.settings.edit().remove(App.SCREEN_OFF_AUTO_KILL_START_TIME).apply();
+    }
+
     private void runScheduledKillFallbackIfNeeded() {
-        if (AutoKillHelper.isScheduledKillMissedToday())
-            AutoKillHelper.executeKill(AutoKillHelper::markScheduledKillExecutedToday);
+        AutoKillHelper.executeScheduledKillIfMissedToday();
     }
 
     private void releaseWakeLock(PowerManager.WakeLock lock) {
@@ -144,6 +222,7 @@ public class AutoKillService extends Service {
 
     @Override
     public void onDestroy() {
+        cancelScreenOffCountdown();
         super.onDestroy();
         try {
             unregisterReceiver(screenReceiver);

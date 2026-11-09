@@ -92,7 +92,7 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="dedeadend.killmyapps.action.FIXED_TIME_KILL" />
+                <action android:name="dedeadend.killmyapps.action.SCHEDULED_KILL" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
