@@ -21,20 +21,11 @@ public class Killer {
         killLevel = App.settings.getInt(App.KILLER_LEVEL, 1);
         if (killerMode == 1)
             return SuUtils.checkSU();
-        else if (killerMode == 2) {
-            if (!ShizukuUtils.checkShizuku()) {
-                ShizukuUtils.requestPermission();
-                return false;
-            }
-            return true;
-        } else if (killerMode == 3) {
-            if (!ShizukuPlusUtils.checkShizuku()) {
-                ShizukuPlusUtils.requestPermission();
-                return false;
-            }
-            return true;
-        } else
-            return false;
+        if (killerMode == 2)
+            return ShizukuUtils.checkShizuku();
+        else if (killerMode == 3)
+            return ShizukuPlusUtils.checkShizuku();
+        return false;
     }
 
     public static boolean killListOfApps(List<AppInfo> appList) {

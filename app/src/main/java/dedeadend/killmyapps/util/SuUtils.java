@@ -14,6 +14,7 @@ public class SuUtils {
         try {
             process = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(process.getOutputStream());
+
             os.writeBytes("exit\n");
             os.flush();
             os.close();
@@ -21,7 +22,7 @@ public class SuUtils {
             process.getErrorStream().close();
             process.waitFor();
             return process.exitValue() == 0;
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             return false;
         } finally {
             if (process != null) {
@@ -45,7 +46,7 @@ public class SuUtils {
             process.getErrorStream().close();
             process.waitFor();
             return process.exitValue() == 0;
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             return false;
         } finally {
             if (process != null) {
@@ -76,6 +77,10 @@ public class SuUtils {
             process.getInputStream().close();
             process.getErrorStream().close();
             process.waitFor();
+
+            if (process.exitValue() != 0)
+                return -1;
+
             return killMyApps ? 1 : 0;
         } catch (Exception e) {
             return -1;
