@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutId="kill_all_apps"
+        android:shortcutLongLabel="@string/shortcut_kill_long"
+        android:shortcutShortLabel="@string/shortcut_kill_short">
+        <intent
+            android:action="dedeadend.killmyapps.action.SHORTCUT_KILL_APPS"
+            android:targetClass="dedeadend.killmyapps.shortcut.KillShortcutActivity"
+            android:targetPackage="dedeadend.killmyapps" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_shortcut_sleep"
+        android:shortcutId="kill_all_apps_sleep"
+        android:shortcutLongLabel="@string/shortcut_kill_sleep_long"
+        android:shortcutShortLabel="@string/shortcut_kill_sleep_short">
+        <intent
+            android:action="dedeadend.killmyapps.action.SHORTCUT_KILL_APPS_AND_SLEEP"
+            android:targetClass="dedeadend.killmyapps.shortcut.KillShortcutActivity"
+            android:targetPackage="dedeadend.killmyapps" />
+    </shortcut>
+</shortcuts>

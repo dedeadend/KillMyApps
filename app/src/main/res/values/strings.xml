@@ -3,4 +3,8 @@
     <string name="title_home">Running Apps</string>
     <string name="title_selection">Selection</string>
     <string name="title_settings">Settings</string>
+    <string name="shortcut_kill_short">Kill</string>
+    <string name="shortcut_kill_long">Kill Apps</string>
+    <string name="shortcut_kill_sleep_short">Sleep</string>
+    <string name="shortcut_kill_sleep_long">Kill Apps &amp; Sleep</string>
 </resources>
