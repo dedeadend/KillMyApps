@@ -110,4 +110,26 @@ public class SuUtils {
                 break;
         }
     }
+
+    public static boolean sleep() {
+        try {
+            process = Runtime.getRuntime().exec("su");
+            DataOutputStream os = new DataOutputStream(process.getOutputStream());
+            os.writeBytes("input keyevent 223\n");
+            os.writeBytes("exit\n");
+            os.flush();
+            os.close();
+            process.getInputStream().close();
+            process.getErrorStream().close();
+            process.waitFor();
+            return process.exitValue() == 0;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            if (process != null) {
+                process.destroyForcibly();
+                process = null;
+            }
+        }
+    }
 }

@@ -43,7 +43,7 @@ public class ShizukuPlusUtils {
                     .daemon(false)
                     .processNameSuffix("shizuku")
                     .debuggable(false)
-                    .version(1);
+                    .version(2);
 
     public static boolean checkShizuku() {
         try {
@@ -131,6 +131,16 @@ public class ShizukuPlusUtils {
             return killAppService.killListOfApps(pkgList, level);
         } catch (Exception e) {
             return -1;
+        }
+    }
+
+    public static boolean sleep() {
+        if (!ensureServiceBound())
+            return false;
+        try {
+            return killAppService.sleep();
+        } catch (Exception e) {
+            return false;
         }
     }
 }

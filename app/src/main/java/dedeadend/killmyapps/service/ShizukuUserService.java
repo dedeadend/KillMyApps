@@ -86,4 +86,25 @@ public class ShizukuUserService extends IKillAppService.Stub {
                 break;
         }
     }
+
+    public boolean sleep() {
+        Process process = null;
+        try {
+            process = Runtime.getRuntime().exec(new String[]{"sh"});
+            OutputStream os = process.getOutputStream();
+            os.write("input keyevent 223\n".getBytes());
+            os.write("exit\n".getBytes());
+            os.flush();
+            os.close();
+            process.getInputStream().close();
+            process.getErrorStream().close();
+            process.waitFor();
+            return process.exitValue() == 0;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            if (process != null)
+                process.destroyForcibly();
+        }
+    }
 }

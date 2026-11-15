@@ -98,4 +98,17 @@ public class Killer {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
+
+    public static boolean sleep() {
+        if (!checkAccess())
+            return false;
+
+        if (killerMode == 1)
+            return SuUtils.sleep();
+        else if (killerMode == 2)
+            return ShizukuUtils.sleep();
+        else if (killerMode == 3)
+            return ShizukuPlusUtils.sleep();
+        return false;
+    }
 }

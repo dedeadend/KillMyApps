@@ -11,3 +11,4 @@
 # 3. Keep AIDL Interface & Stub classes (Prevent Binder IPC Mismatch)
 -keep interface dedeadend.killmyapps.IKillAppService { *; }
 -keep class dedeadend.killmyapps.IKillAppService$* { *; }
+-keep class dedeadend.killmyapps.shortcut.KillShortcutActivity { *; }
