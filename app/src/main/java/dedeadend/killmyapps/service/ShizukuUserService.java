@@ -72,6 +72,11 @@ public class ShizukuUserService extends IKillAppService.Stub {
         }
     }
 
+    @Override
+    public void destroy() {
+        System.exit(0);
+    }
+
     private static void appendKillCommands(OutputStream os, String pkgName, int level) throws IOException {
         switch (level) {
             case 0:
