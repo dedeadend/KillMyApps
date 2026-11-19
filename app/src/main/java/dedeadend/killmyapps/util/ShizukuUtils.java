@@ -100,6 +100,10 @@ public class ShizukuUtils {
             process.getInputStream().close();
             process.getErrorStream().close();
             process.waitFor();
+
+            if (process.exitValue() != 0)
+                return -1;
+
             return killMyApps ? 1 : 0;
         } catch (Exception e) {
             return -1;
