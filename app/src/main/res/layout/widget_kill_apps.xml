@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/btn_kill_action"
+        android:layout_toStartOf="@id/widget_action_kill"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,7 +37,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/widget_status_text"
+            android:id="@+id/widget_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/btn_kill_action"
+        android:id="@+id/widget_action_kill"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentRight="true"
@@ -58,7 +58,7 @@
         android:focusable="true">
 
         <ImageView
-            android:id="@+id/widget_run_icon"
+            android:id="@+id/widget_icon_run"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="center"
@@ -66,7 +66,7 @@
             android:visibility="visible" />
 
         <ImageView
-            android:id="@+id/widget_success_icon"
+            android:id="@+id/widget_icon_success"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
@@ -74,7 +74,7 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/widget_fail_icon"
+            android:id="@+id/widget_icon_fail"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"

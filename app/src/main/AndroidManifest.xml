@@ -20,7 +20,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.KillMyApps"
-        tools:targetApi="36">
+        tools:targetApi="37">
+
 
         <activity
             android:name=".MainActivity"
@@ -39,12 +40,13 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
+
         <activity
-            android:name=".shortcut.KillShortcutActivity"
+            android:name=".shortcut.ShortcutActivity"
             android:excludeFromRecents="true"
             android:exported="false"
-            android:taskAffinity=""
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
 
         <provider
             android:name="rikka.shizuku.ShizukuProvider"
@@ -53,29 +55,124 @@
             android:multiprocess="false"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
+
         <receiver
-            android:name=".widget.KillWidgetProvider"
-            android:exported="true">
+            android:name=".widget.KillAppsWidgetProvider"
+            android:exported="true"
+            android:label="Kill Apps">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="dedeadend.killmyapps.action.KILL_APPS" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/kill_widget_info" />
+                android:resource="@xml/kill_apps_widget_info" />
         </receiver>
+
 
         <receiver
             android:name=".widget.KillWidget1x1Provider"
-            android:exported="true">
+            android:exported="true"
+            android:label="Kill">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="dedeadend.killmyapps.action.KILL_APPS_1X1" />
+                <action android:name="dedeadend.killmyapps.action.WIDGET_ACTION" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/kill_widget_1x1_info" />
         </receiver>
+        <receiver
+            android:name=".widget.SleepWidget1x1Provider"
+            android:exported="true"
+            android:label="Sleep">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="dedeadend.killmyapps.action.WIDGET_ACTION" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sleep_widget_1x1_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.ComboWidget1x1Provider"
+            android:exported="true"
+            android:label="Kill &amp; Sleep">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="dedeadend.killmyapps.action.WIDGET_ACTION" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/combo_widget_1x1_info" />
+        </receiver>
+
+
+        <receiver
+            android:name=".widget.KillWidget1x1TransparentProvider"
+            android:exported="true"
+            android:label="Kill (Transparent)">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="dedeadend.killmyapps.action.WIDGET_ACTION" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/kill_widget_1x1_transparent_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.SleepWidget1x1TransparentProvider"
+            android:exported="true"
+            android:label="Sleep (transparent)">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="dedeadend.killmyapps.action.WIDGET_ACTION" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sleep_widget_1x1_transparent_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.ComboWidget1x1TransparentProvider"
+            android:exported="true"
+            android:label="Kill &amp; Sleep (transparent)">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="dedeadend.killmyapps.action.WIDGET_ACTION" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/combo_widget_1x1_transparent_info" />
+        </receiver>
+
+
+        <receiver
+            android:name=".widget.MultiWidget1Provider"
+            android:exported="true"
+            android:label="Multi Action 1">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="dedeadend.killmyapps.action.WIDE_WIDGET_ACTION" />
+                <action android:name="dedeadend.killmyapps.action.WIDE_WIDGET_REFRESH_COUNT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_multi_1_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.MultiWidget2Provider"
+            android:exported="true"
+            android:label="Multi Action 2">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="dedeadend.killmyapps.action.WIDE_WIDGET_ACTION" />
+                <action android:name="dedeadend.killmyapps.action.WIDE_WIDGET_REFRESH_COUNT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_multi_2_info" />
+        </receiver>
+
 
         <service
             android:name=".service.KillTileService"
@@ -87,6 +184,27 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+        <service
+            android:name=".service.SleepTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_sleep"
+            android:label="Sleep"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.ComboTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_combo"
+            android:label="Kill &amp; Sleep"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
 
         <service
             android:name=".service.AutoKillService"
@@ -97,7 +215,6 @@
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="Monitors screen state to terminate background apps upon screen off." />
         </service>
-
         <receiver
             android:name=".receiver.AutoKillReceiver"
             android:enabled="true"
@@ -107,6 +224,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
 
     </application>
 

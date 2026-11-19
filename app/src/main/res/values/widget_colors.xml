@@ -1,0 +1,9 @@
+<resources>
+    <color name="widget_ink">#11121B</color>
+    <color name="widget_surface">#1D1B29</color>
+    <color name="widget_text">#FFF8FF</color>
+    <color name="widget_muted">#B9B3C7</color>
+    <color name="widget_kill">#F06292</color>
+    <color name="widget_sleep">#4DD0E1</color>
+    <color name="widget_combo">#B39DDB</color>
+</resources>
