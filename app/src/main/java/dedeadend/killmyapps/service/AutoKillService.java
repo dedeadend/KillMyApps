@@ -31,7 +31,6 @@ public class AutoKillService extends Service {
     private static final String CHANNEL_ID = "auto_kill_channel";
     private static final int NOTIF_ID = 1001;
 
-    private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable killRunnable;
     private PowerManager.WakeLock currentWakeLock;
 
@@ -146,24 +145,21 @@ public class AutoKillService extends Service {
         currentWakeLock = wakeLock;
         final PowerManager.WakeLock activeLock = wakeLock;
 
-        killRunnable = new Runnable() {
-            @Override
-            public void run() {
-                killRunnable = null;
-                clearPersistedScreenOffStartTime();
-                AutoKillHelper.executeScreenOffKill(() -> {
-                    releaseWakeLock(activeLock);
-                    if (currentWakeLock == activeLock)
-                        currentWakeLock = null;
-                });
-            }
+        killRunnable = () -> {
+            killRunnable = null;
+            clearPersistedScreenOffStartTime();
+            AutoKillHelper.executeScreenOffKill(() -> {
+                releaseWakeLock(activeLock);
+                if (currentWakeLock == activeLock)
+                    currentWakeLock = null;
+            });
         };
-        handler.postDelayed(killRunnable, remainingMillis);
+        App.handler.postDelayed(killRunnable, remainingMillis);
     }
 
     private void cancelScreenOffCountdown() {
         if (killRunnable != null) {
-            handler.removeCallbacks(killRunnable);
+            App.handler.removeCallbacks(killRunnable);
             killRunnable = null;
         }
         releaseWakeLock(currentWakeLock);

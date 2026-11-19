@@ -50,8 +50,7 @@ public class AutoKillHelper {
 
     public static void executeScreenOffKill(Runnable onComplete) {
         long generation = SCREEN_OFF_KILL_GENERATION.get();
-        executeKill(
-                () -> generation == SCREEN_OFF_KILL_GENERATION.get()
+        executeKill(() -> generation == SCREEN_OFF_KILL_GENERATION.get()
                         && App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false),
                 onComplete
         );
@@ -66,8 +65,9 @@ public class AutoKillHelper {
                         Killer.killListOfApps(apps);
                 }
             } finally {
-                if (onComplete != null)
-                    onComplete.run();
+                if (onComplete != null) {
+                    App.handler.post(onComplete);
+                }
             }
         });
     }
@@ -81,23 +81,28 @@ public class AutoKillHelper {
     }
 
     private static void executeScheduledKill(boolean onlyIfMissed, Runnable onFinished) {
+        long generation = SCHEDULED_KILL_GENERATION.get();
+
         if (!App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)
                 || isScheduledKillExecutedToday()
-                || (onlyIfMissed && !hasScheduledTimePassed())
-                || !SCHEDULED_KILL_IN_PROGRESS.compareAndSet(false, true)) {
+                || (onlyIfMissed && !hasScheduledTimePassed())) {
             if (onFinished != null)
                 onFinished.run();
             return;
         }
 
-        long generation = SCHEDULED_KILL_GENERATION.get();
+        if (!SCHEDULED_KILL_IN_PROGRESS.compareAndSet(false, true)) {
+            if (onFinished != null)
+                onFinished.run();
+            return;
+        }
+
         try {
             executeKill(() -> {
                 if (generation != SCHEDULED_KILL_GENERATION.get()
                         || !App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)
                         || isScheduledKillExecutedToday())
                     return false;
-
                 markScheduledKillExecutedToday();
                 if (generation != SCHEDULED_KILL_GENERATION.get()) {
                     updateScheduledKillDateForCurrentSettings();
