@@ -218,8 +218,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
         isWidgetInIdleState.set(false);
         final RemoteViews views = new RemoteViews(context.getPackageName(), getLayoutResource());
-        views.setTextViewText(countId, "—");
-        manager.partiallyUpdateAppWidget(widgetId, views);
         final Context appContext = context.getApplicationContext();
         try {
             App.executorService.execute(() -> {
@@ -231,6 +229,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
                 }
                 if (manager.getAppWidgetInfo(widgetId) != null) {
                     views.setTextViewText(countId, result);
+                    int engineId = getEngineViewId();
+                    if (getEngineViewId() != 0)
+                        views.setTextViewText(engineId, getEngineLabel());
                     manager.partiallyUpdateAppWidget(widgetId, views);
                 }
                 isWidgetInIdleState.set(true);
