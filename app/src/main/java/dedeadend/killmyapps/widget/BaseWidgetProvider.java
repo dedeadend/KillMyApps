@@ -28,6 +28,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     private static final long RESET_DELAY_MS = 3000L;
 
     private static final AtomicBoolean isWidgetInIdleState = new AtomicBoolean(true);
+
     protected enum WidgetState {
         IDLE, PROCESSING, SUCCESS, FAILED
     }
@@ -110,20 +111,20 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
                 QuickActionsHelper.runAsync(action, result -> {
                     updateWidget(context, manager, widgetId, result.status, result.success ?
                             WidgetState.SUCCESS : WidgetState.FAILED);
-                    App.handler.postDelayed( () ->
-                            updateWidget(context, manager, widgetId, getIdleStatus(), WidgetState.IDLE),
-                            RESET_DELAY_MS);
+                    App.handler.postDelayed(() -> {
+                        updateWidget(context, manager, widgetId, getIdleStatus(), WidgetState.IDLE);
+                        isWidgetInIdleState.set(true);
+                    }, RESET_DELAY_MS);
                     refreshCount(context, widgetId);
-                    isWidgetInIdleState.set(true);
                     pendingResult.finish();
                 });
             } catch (RuntimeException exception) {
                 updateWidget(context, manager, widgetId, QuickActionsHelper.STATUS_FAILED, WidgetState.FAILED);
-                App.handler.postDelayed(() ->
-                                updateWidget(context, manager, widgetId, getIdleStatus(), WidgetState.IDLE),
-                        RESET_DELAY_MS);
+                App.handler.postDelayed(() -> {
+                    updateWidget(context, manager, widgetId, getIdleStatus(), WidgetState.IDLE);
+                    isWidgetInIdleState.set(true);
+                }, RESET_DELAY_MS);
                 refreshCount(context, widgetId);
-                isWidgetInIdleState.set(true);
                 pendingResult.finish();
             }
             return;
@@ -207,7 +208,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     }
 
     private void refreshCount(Context context, int widgetId) {
-
         final int countId = getTargetCountViewId();
         if (countId == 0)
             return;
@@ -216,9 +216,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
         if (manager.getAppWidgetInfo(widgetId) == null)
             return;
 
+        isWidgetInIdleState.set(false);
         final RemoteViews views = new RemoteViews(context.getPackageName(), getLayoutResource());
         views.setTextViewText(countId, "—");
-        setVisibility(views, getRefreshViewId(), false);
         manager.partiallyUpdateAppWidget(widgetId, views);
         final Context appContext = context.getApplicationContext();
         try {
@@ -231,15 +231,12 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
                 }
                 if (manager.getAppWidgetInfo(widgetId) != null) {
                     views.setTextViewText(countId, result);
-                    setVisibility(views, getRefreshViewId(), true);
                     manager.partiallyUpdateAppWidget(widgetId, views);
                 }
+                isWidgetInIdleState.set(true);
             });
         } catch (RuntimeException exception) {
-            if (manager.getAppWidgetInfo(widgetId) != null) {
-                setVisibility(views, getRefreshViewId(), true);
-                manager.partiallyUpdateAppWidget(widgetId, views);
-            }
+            isWidgetInIdleState.set(true);
         }
     }
 
