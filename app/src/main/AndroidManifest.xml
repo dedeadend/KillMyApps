@@ -58,7 +58,7 @@
 
         <receiver
             android:name=".widget.KillAppsWidgetProvider"
-            android:exported="true"
+            android:exported="false"
             android:label="Kill Apps">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -72,7 +72,7 @@
 
         <receiver
             android:name=".widget.KillWidget1x1Provider"
-            android:exported="true"
+            android:exported="false"
             android:label="Kill">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -84,7 +84,7 @@
         </receiver>
         <receiver
             android:name=".widget.SleepWidget1x1Provider"
-            android:exported="true"
+            android:exported="false"
             android:label="Sleep">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -96,7 +96,7 @@
         </receiver>
         <receiver
             android:name=".widget.ComboWidget1x1Provider"
-            android:exported="true"
+            android:exported="false"
             android:label="Kill &amp; Sleep">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -110,7 +110,7 @@
 
         <receiver
             android:name=".widget.KillWidget1x1TransparentProvider"
-            android:exported="true"
+            android:exported="false"
             android:label="Kill (Transparent)">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -122,7 +122,7 @@
         </receiver>
         <receiver
             android:name=".widget.SleepWidget1x1TransparentProvider"
-            android:exported="true"
+            android:exported="false"
             android:label="Sleep (transparent)">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -134,7 +134,7 @@
         </receiver>
         <receiver
             android:name=".widget.ComboWidget1x1TransparentProvider"
-            android:exported="true"
+            android:exported="false"
             android:label="Kill &amp; Sleep (transparent)">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -148,7 +148,7 @@
 
         <receiver
             android:name=".widget.MultiWidget1Provider"
-            android:exported="true"
+            android:exported="false"
             android:label="Multi Action 1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -161,7 +161,7 @@
         </receiver>
         <receiver
             android:name=".widget.MultiWidget2Provider"
-            android:exported="true"
+            android:exported="false"
             android:label="Multi Action 2">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
