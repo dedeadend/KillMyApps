@@ -62,7 +62,6 @@ public class App extends Application {
         isFirstRun = settings.getBoolean("isFirstRun", true);
         if (isFirstRun)
             settings.edit().putBoolean("isFirstRun", false).apply();
-        initAutoKillServices();
     }
 
     public static void setAppThemeMode() {

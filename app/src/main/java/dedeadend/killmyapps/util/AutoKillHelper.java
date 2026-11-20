@@ -29,22 +29,23 @@ public class AutoKillHelper {
     }
 
     private static void syncServiceState(String serviceAction) {
-        boolean hasNotificationPermission = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
-                || ContextCompat.checkSelfPermission(
-                App.context,
-                android.Manifest.permission.POST_NOTIFICATIONS
-        ) == PackageManager.PERMISSION_GRANTED;
+        try {
+            Intent serviceIntent = new Intent(App.context, AutoKillService.class);
+            boolean shouldRunService = App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false)
+                    || App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false);
+            boolean hasNotificationPermission = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+                    || ContextCompat.checkSelfPermission(App.context, android.Manifest.permission.POST_NOTIFICATIONS)
+                    == PackageManager.PERMISSION_GRANTED;
 
-        Intent intent = new Intent(App.context, AutoKillService.class);
-        boolean shouldRunService = App.settings.getBoolean(App.SCREEN_OFF_AUTO_KILL, false)
-                || App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false);
+            if (!shouldRunService || !hasNotificationPermission) {
+                App.context.stopService(serviceIntent);
+                return;
+            }
 
-        if (shouldRunService && hasNotificationPermission) {
             if (serviceAction != null)
-                intent.setAction(serviceAction);
-            ContextCompat.startForegroundService(App.context, intent);
-        } else {
-            App.context.stopService(intent);
+                serviceIntent.setAction(serviceAction);
+            ContextCompat.startForegroundService(App.context, serviceIntent);
+        } catch (RuntimeException ignored) {
         }
     }
 
@@ -56,6 +57,10 @@ public class AutoKillHelper {
         );
     }
 
+    public static void invalidateScreenOffKill() {
+        SCREEN_OFF_KILL_GENERATION.incrementAndGet();
+    }
+
     private static void executeKill(BooleanSupplier canStart, Runnable onComplete) {
         App.executorService.execute(() -> {
             try {
@@ -65,9 +70,8 @@ public class AutoKillHelper {
                         Killer.killListOfApps(apps);
                 }
             } finally {
-                if (onComplete != null) {
+                if (onComplete != null)
                     App.handler.post(onComplete);
-                }
             }
         });
     }
@@ -101,8 +105,9 @@ public class AutoKillHelper {
             executeKill(() -> {
                 if (generation != SCHEDULED_KILL_GENERATION.get()
                         || !App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)
-                        || isScheduledKillExecutedToday())
+                        || isScheduledKillExecutedToday()) {
                     return false;
+                }
                 markScheduledKillExecutedToday();
                 if (generation != SCHEDULED_KILL_GENERATION.get()) {
                     updateScheduledKillDateForCurrentSettings();
@@ -110,7 +115,7 @@ public class AutoKillHelper {
                 }
                 return true;
             }, () -> finishScheduledKill(onFinished));
-        } catch (RuntimeException ignored) {
+        } catch (RuntimeException exception) {
             finishScheduledKill(onFinished);
         }
     }
@@ -156,8 +161,7 @@ public class AutoKillHelper {
     }
 
     private static void updateScheduledKillDateForCurrentSettings() {
-        if (App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)
-                && hasScheduledTimePassed())
+        if (App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false) && hasScheduledTimePassed())
             markScheduledKillExecutedToday();
         else
             App.settings.edit().remove(App.SCHEDULED_AUTO_KILL_DATE).apply();
@@ -175,7 +179,7 @@ public class AutoKillHelper {
     }
 
     public static void disableScreenOffKill() {
-        SCREEN_OFF_KILL_GENERATION.incrementAndGet();
+        invalidateScreenOffKill();
         App.settings.edit().remove(App.SCREEN_OFF_AUTO_KILL_START_TIME).apply();
         syncServiceState(AutoKillService.ACTION_CANCEL_SCREEN_OFF_KILL);
     }

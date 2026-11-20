@@ -14,6 +14,7 @@ import dedeadend.killmyapps.util.AutoKillHelper;
 public class AutoKillReceiver extends BroadcastReceiver {
 
     public static final String ACTION_SCHEDULED_KILL = "dedeadend.killmyapps.action.SCHEDULED_KILL";
+    private static final int ALARM_REQUEST_CODE = 2001;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -30,16 +31,17 @@ public class AutoKillReceiver extends BroadcastReceiver {
             return;
         }
 
-        if (ACTION_SCHEDULED_KILL.equals(action)) {
-            if (!App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)) {
-                cancelDailyAlarm(context);
-                return;
-            }
-            scheduleDailyAlarm(context);
+        if (!ACTION_SCHEDULED_KILL.equals(action))
+            return;
 
-            PendingResult pendingResult = goAsync();
-            AutoKillHelper.executeScheduledKill(pendingResult::finish);
+        if (!App.settings.getBoolean(App.SCHEDULED_AUTO_KILL, false)) {
+            cancelDailyAlarm(context);
+            return;
         }
+
+        scheduleDailyAlarm(context);
+        PendingResult pendingResult = goAsync();
+        AutoKillHelper.executeScheduledKill(pendingResult::finish);
     }
 
     public static void scheduleDailyAlarm(Context context) {
@@ -52,27 +54,25 @@ public class AutoKillReceiver extends BroadcastReceiver {
         if (alarmManager == null)
             return;
 
-        PendingIntent pendingIntent = getAlarmPendingIntent(context);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, App.settings.getInt(App.SCHEDULED_AUTO_KILL_HOUR, 3));
-        calendar.set(Calendar.MINUTE, App.settings.getInt(App.SCHEDULED_AUTO_KILL_MINUTE, 30));
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        if (!calendar.after(Calendar.getInstance()))
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Calendar scheduledTime = Calendar.getInstance();
+        scheduledTime.set(Calendar.HOUR_OF_DAY, App.settings.getInt(App.SCHEDULED_AUTO_KILL_HOUR, 3));
+        scheduledTime.set(Calendar.MINUTE, App.settings.getInt(App.SCHEDULED_AUTO_KILL_MINUTE, 30));
+        scheduledTime.set(Calendar.SECOND, 0);
+        scheduledTime.set(Calendar.MILLISECOND, 0);
+        if (!scheduledTime.after(Calendar.getInstance()))
+            scheduledTime.add(Calendar.DAY_OF_YEAR, 1);
 
         alarmManager.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                pendingIntent
+                scheduledTime.getTimeInMillis(),
+                getAlarmPendingIntent(context)
         );
     }
 
     public static void cancelDailyAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager == null)
-            return;
-        alarmManager.cancel(getAlarmPendingIntent(context));
+        if (alarmManager != null)
+            alarmManager.cancel(getAlarmPendingIntent(context));
     }
 
     private static PendingIntent getAlarmPendingIntent(Context context) {
@@ -80,7 +80,7 @@ public class AutoKillReceiver extends BroadcastReceiver {
         intent.setAction(ACTION_SCHEDULED_KILL);
         return PendingIntent.getBroadcast(
                 context,
-                2001,
+                ALARM_REQUEST_CODE,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
