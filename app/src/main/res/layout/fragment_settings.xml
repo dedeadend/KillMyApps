@@ -588,7 +588,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:justificationMode="inter_character"
-                    android:text="Export your Selection and app Settings to local storage, or restore them from an existing backup."
+                    android:text="Export your Settings and app Selection to local storage, or restore them from an existing backup."
                     android:textSize="13sp" />
 
                 <LinearLayout
