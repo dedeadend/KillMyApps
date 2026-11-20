@@ -37,7 +37,8 @@ public class QuickActionsHelper {
             Result result = null;
             try {
                 result = execute(action);
-            } catch (Exception exception) {
+            } catch (Exception e) {
+                LogHelper.create(LogHelper.TAG_QUICK_ACTIONS, e.getMessage());
                 result = new Result(false, STATUS_FAILED);
             }
             finally {

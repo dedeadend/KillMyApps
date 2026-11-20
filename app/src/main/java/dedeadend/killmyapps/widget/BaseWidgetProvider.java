@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.util.AppListHelper;
+import dedeadend.killmyapps.util.LogHelper;
 import dedeadend.killmyapps.util.QuickActionsHelper;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider {
@@ -119,6 +120,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
                     pendingResult.finish();
                 });
             } catch (RuntimeException exception) {
+                LogHelper.create(LogHelper.TAG_WIDGET_PROVIDER, exception.getMessage());
                 updateWidget(context, manager, widgetId, QuickActionsHelper.STATUS_FAILED, WidgetState.FAILED);
                 App.handler.postDelayed(() -> {
                     updateWidget(context, manager, widgetId, getIdleStatus(), WidgetState.IDLE);
@@ -225,6 +227,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
                 try {
                     result = String.valueOf(AppListHelper.getFilteredAppsList(appContext, true).size());
                 } catch (RuntimeException exception) {
+                    LogHelper.create(LogHelper.TAG_WIDGET_PROVIDER, exception.getMessage());
                     result = "—";
                 }
                 if (manager.getAppWidgetInfo(widgetId) != null) {
@@ -237,6 +240,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
                 isWidgetInIdleState.set(true);
             });
         } catch (RuntimeException exception) {
+            LogHelper.create(LogHelper.TAG_WIDGET_PROVIDER, exception.getMessage());
             isWidgetInIdleState.set(true);
         }
     }

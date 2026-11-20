@@ -45,7 +45,8 @@ public class AutoKillHelper {
             if (serviceAction != null)
                 serviceIntent.setAction(serviceAction);
             ContextCompat.startForegroundService(App.context, serviceIntent);
-        } catch (RuntimeException ignored) {
+        } catch (RuntimeException e) {
+            LogHelper.create(LogHelper.TAG_AUTO_KILL, e.getMessage());
         }
     }
 
@@ -115,7 +116,8 @@ public class AutoKillHelper {
                 }
                 return true;
             }, () -> finishScheduledKill(onFinished));
-        } catch (RuntimeException exception) {
+        } catch (RuntimeException e) {
+            LogHelper.create(LogHelper.TAG_AUTO_KILL, e.getMessage());
             finishScheduledKill(onFinished);
         }
     }

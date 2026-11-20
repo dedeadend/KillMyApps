@@ -85,6 +85,7 @@ public class ShizukuPlusUtils {
                 Shizuku.removeRequestPermissionResultListener(listener);
             }
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             return false;
         }
     }
@@ -112,6 +113,7 @@ public class ShizukuPlusUtils {
             try {
                 Shizuku.bindUserService(userServiceArgs, userServiceConnection);
             } catch (Exception e) {
+                LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
                 if (bindLatch == latch) bindLatch = null;
                 return isServiceAlive();
             }
@@ -119,6 +121,7 @@ public class ShizukuPlusUtils {
         try {
             return latch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS) && isServiceAlive();
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             return false;
         }
     }
@@ -138,6 +141,7 @@ public class ShizukuPlusUtils {
         try {
             return service.killApp(pkgName, level);
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             invalidateService(service);
             return false;
         }
@@ -160,6 +164,7 @@ public class ShizukuPlusUtils {
                 packages.add(app.getPkgName());
             return service.killListOfApps(packages, level);
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             invalidateService(service);
             return -1;
         }
@@ -173,6 +178,7 @@ public class ShizukuPlusUtils {
         try {
             return service.sleep();
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             invalidateService(service);
             return false;
         }

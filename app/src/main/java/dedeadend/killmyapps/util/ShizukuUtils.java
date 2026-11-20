@@ -51,6 +51,7 @@ public class ShizukuUtils {
                 Shizuku.removeRequestPermissionResultListener(listener);
             }
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU, e.getMessage());
             return false;
         }
     }
@@ -70,6 +71,7 @@ public class ShizukuUtils {
             process.waitFor();
             return process.exitValue() == 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU, e.getMessage());
             return false;
         } finally {
             if (process != null) {
@@ -106,6 +108,7 @@ public class ShizukuUtils {
 
             return killMyApps ? 1 : 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU, e.getMessage());
             return -1;
         } finally {
             if (process != null) {
@@ -147,6 +150,7 @@ public class ShizukuUtils {
             process.waitFor();
             return process.exitValue() == 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU, e.getMessage());
             return false;
         } finally {
             if (process != null) {

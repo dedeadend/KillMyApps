@@ -21,6 +21,7 @@ import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.util.AutoKillHelper;
+import dedeadend.killmyapps.util.LogHelper;
 
 public class AutoKillService extends Service {
 
@@ -179,7 +180,8 @@ public class AutoKillService extends Service {
 
         try {
             wakeLock.release();
-        } catch (RuntimeException ignored) {
+        } catch (RuntimeException e) {
+            LogHelper.create(LogHelper.TAG_AUTO_KILL, e.getMessage());
         }
     }
 
@@ -221,7 +223,8 @@ public class AutoKillService extends Service {
         cancelScreenOffCountdown();
         try {
             unregisterReceiver(screenReceiver);
-        } catch (IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException e) {
+            LogHelper.create(LogHelper.TAG_AUTO_KILL, e.getMessage());
         }
         super.onDestroy();
     }

@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 import dedeadend.killmyapps.IKillAppService;
+import dedeadend.killmyapps.util.LogHelper;
 
 public class ShizukuUserService extends IKillAppService.Stub {
 
@@ -25,6 +26,7 @@ public class ShizukuUserService extends IKillAppService.Stub {
             process.waitFor();
             return process.exitValue() == 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             return false;
         } finally {
             if (process != null) {
@@ -64,6 +66,7 @@ public class ShizukuUserService extends IKillAppService.Stub {
 
             return killMyApps ? 1 : 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             return -1;
         } finally {
             if (process != null) {
@@ -110,6 +113,7 @@ public class ShizukuUserService extends IKillAppService.Stub {
             process.waitFor();
             return process.exitValue() == 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SHIZUKU_PLUS, e.getMessage());
             return false;
         } finally {
             if (process != null)

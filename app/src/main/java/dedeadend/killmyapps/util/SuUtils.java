@@ -23,6 +23,7 @@ public class SuUtils {
             process.waitFor();
             return process.exitValue() == 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SU, e.getMessage());
             return false;
         } finally {
             if (process != null) {
@@ -47,6 +48,7 @@ public class SuUtils {
             process.waitFor();
             return process.exitValue() == 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SU, e.getMessage());
             return false;
         } finally {
             if (process != null) {
@@ -83,6 +85,7 @@ public class SuUtils {
 
             return killMyApps ? 1 : 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SU, e.getMessage());
             return -1;
         } finally {
             if (process != null) {
@@ -124,6 +127,7 @@ public class SuUtils {
             process.waitFor();
             return process.exitValue() == 0;
         } catch (Exception e) {
+            LogHelper.create(LogHelper.TAG_SU, e.getMessage());
             return false;
         } finally {
             if (process != null) {
