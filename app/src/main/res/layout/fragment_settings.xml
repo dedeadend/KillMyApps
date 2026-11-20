@@ -128,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
-                    android:justificationMode="inter_character"
+                    android:justificationMode="inter_word"
                     android:text="Note: Shizuku+ is still standard Shizuku under the hood. It uses an AIDL UserService for higher stability and better compatibility with modified Shizuku builds."
                     android:textSize="13sp" />
 
@@ -194,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
-                    android:justificationMode="inter_character"
+                    android:justificationMode="inter_word"
                     android:text="Note: Apps killed in Soft level will appear again in the running apps list. This is normal behavior since they are not completely dead."
                     android:textSize="13sp" />
 
@@ -553,7 +553,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
-                    android:justificationMode="inter_character"
+                    android:justificationMode="inter_word"
                     android:text="WARNING: Auto kill forcibly closes background apps without confirmation, which can cause unsaved data loss, broken downloads ,or other related problems. Please use this feature with caution."
                     android:textSize="13sp" />
 
@@ -587,7 +587,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
-                    android:justificationMode="inter_character"
+                    android:justificationMode="inter_word"
                     android:text="Export your Settings and app Selection to local storage, or restore them from an existing backup."
                     android:textSize="13sp" />
 
