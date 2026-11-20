@@ -49,7 +49,7 @@ public class SettingsViewModel extends ViewModel {
         themeMode.setValue(App.settings.getInt(App.THEME_MODE, 0));
         killerMode.setValue(App.settings.getInt(App.KILLER_MODE, 1));
         killLevel.setValue(App.settings.getInt(App.KILLER_LEVEL, 1));
-        listMode.setValue(App.settings.getInt(App.LIST_MODE, 1));
+        listMode.setValue(App.settings.getInt(App.LIST_MODE, 0));
         selectionMode.setValue(App.settings.getInt(App.SELECTION_MODE, 0));
         hideKillMyApps.setValue(App.settings.getBoolean(App.HIDE_KILL_MY_APPS, true));
         hideDefaultLauncher.setValue(App.settings.getBoolean(App.HIDE_DEFAULT_LAUNCHER, true));

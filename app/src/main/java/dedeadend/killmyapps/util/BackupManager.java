@@ -257,7 +257,7 @@ public class BackupManager {
         settings.put("themeMode", prefs.getInt(App.THEME_MODE, 0));
         settings.put("killerMode", prefs.getInt(App.KILLER_MODE, 1));
         settings.put("killLevel", prefs.getInt(App.KILLER_LEVEL, 1));
-        settings.put("listMode", prefs.getInt(App.LIST_MODE, 1));
+        settings.put("listMode", prefs.getInt(App.LIST_MODE, 0));
 
         settings.put("hideKillMyApps", prefs.getBoolean(App.HIDE_KILL_MY_APPS, true));
         settings.put("hideDefaultLauncher", prefs.getBoolean(App.HIDE_DEFAULT_LAUNCHER, true));
