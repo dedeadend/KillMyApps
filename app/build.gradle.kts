@@ -10,8 +10,8 @@ android {
         applicationId = "dedeadend.killmyapps"
         minSdk = 28
         targetSdk = 37
-        versionCode = 160
-        versionName = "1.6"
+        versionCode = 170
+        versionName = "1.7"
         resValue("string", "app_version", "version $versionName")
     }
 
