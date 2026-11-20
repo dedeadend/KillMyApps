@@ -340,7 +340,6 @@ public class SettingsFragment extends Fragment {
                 if (isChecked) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                        binding.screenOffAutoKill.setChecked(false);
                         requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
                         return;
                     }
@@ -368,7 +367,15 @@ public class SettingsFragment extends Fragment {
         binding.scheduledAutoKill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingsViewModel.setScheduledAutoKill(binding.scheduledAutoKill.isChecked());
+                boolean isChecked = binding.scheduledAutoKill.isChecked();
+                if (isChecked) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                        requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+                        return;
+                    }
+                }
+                settingsViewModel.setScheduledAutoKill(isChecked);
             }
         });
 
@@ -437,10 +444,17 @@ public class SettingsFragment extends Fragment {
 
     private final ActivityResultLauncher<String> requestNotificationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted)
-                    settingsViewModel.setScreenOffAutoKill(true);
-                else
-                    CapsuleToast.showInfo(getActivity(), "Notification permission is required to keep the auto-kill service running");
+                if (isGranted) {
+                    if (binding.screenOffAutoKill.isChecked())
+                        settingsViewModel.setScreenOffAutoKill(true);
+                    if (binding.scheduledAutoKill.isChecked())
+                        settingsViewModel.setScheduledAutoKill(true);
+                }
+                else {
+                    binding.screenOffAutoKill.setChecked(false);
+                    binding.scheduledAutoKill.setChecked(false);
+                    CapsuleToast.showInfo(getActivity(), "Notification permission is required to keep the auto killer service alive");
+                }
             });
 
     private final ActivityResultLauncher<String> createBackupLauncher =
