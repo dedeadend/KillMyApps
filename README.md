@@ -15,23 +15,25 @@
 KillMyApps is an Android utility for terminating running applications through **Root** or **Shizuku**. It helps extend battery life, improve gaming performance, and free up system resources. **It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry**.
 
 > [!IMPORTANT]
-> The kill feature requires **Root** or **Shizuku** access. Without any of these, Android's standard **Force Stop** action must be used manually for individual applications.
+> All of the kill features requires **Root** or **Shizuku** access. Without any of these, Android's standard **Force Stop** action must be used manually for individual applications.
 
 
 ## ✨ Features
 
-- ⚡ **One-Tap Kill**: Terminate running applications with a single action.
+- ⚡ **One-Tap Kill**: Terminate running applications with a single tap.
 - 🔰 **Killer Engine**: Choose between **Root**, **Shizuku** and **Shizuku+** as the execution layer.
 - 🔥 **Kill Levels**: Choose between **Soft**, **Deep** and **Killer** levels to control how aggressively applications are terminated.
 - 🛡️ **Source Mode**: Filter the running-app list by **User**, **Launchable** or **System** applications.
 - 🔎 **Selection Mode**: Control which applications are included in the kill operation using **Include** or **Exclude** mode.
 - 🛑 **Hide Critical Apps**: Keep critical applications out of the list by hiding essential system applications, default user apps, and KillMyApps itself.
 - ⏰ **Auto Killer**: Automatically terminate running applications when the screen turns off or at a scheduled daily time.
-- 🫧 **Quick Settings Tile**: Trigger the kill action directly from Android Quick Settings.
-- 🧩 **Home Screen Widgets**: Run the kill action directly from a home screen widget.
-- 🔋 **Save Battery**: Reduce unnecessary background activity that can continue consuming battery.
-- 🚀 **Improve Performance**: Stop unnecessary background applications to free system resources for resource-intensive tasks such as gaming.
-- 🔒 **Privacy**: Reduce unwanted background activity from applications that do not need to remain running.
+- 💾 **Backup & Restore**: Back up your settings and app selections to local storage and restore them whenever needed.
+- 🫧 **Quick Settings Tile**: Run actions directly from Android Quick Settings.
+- 🧩 **Home Screen Widgets**: Choose from 9 widget variants to quickly access actions.
+- 💧 **Launcher Shortcuts**: Access Kill, Sleep and Kill+Sleep directly from your launcher.
+- 🔋 **Save Battery**: Stop unnecessary background activity that can continue consuming battery.
+- 🚀 **Improve Performance**: Free up system resources for high-demand tasks like gaming.
+- 🔒 **Enhance Privacy**: Reduce unwanted background activity from applications that do not need to remain running.
 - 🍃 **Material UI**: A simple and modern interface for managing the kill operation.
 
 
