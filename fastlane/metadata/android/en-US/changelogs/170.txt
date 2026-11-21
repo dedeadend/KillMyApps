@@ -1,0 +1,11 @@
+Added:
+- Backup & Restore for settings and app selections, with preview.
+- Screen-off action via Root, Shizuku or Shizuku+.
+- Quick Actions: 9 widgets, 3 Quick Settings tiles, and 3 shortcuts for Kill, Sleep and Kill+Sleep.
+
+
+Improved:
+- Auto Killer: Better scheduling and recovery; fixed a startup crash.
+- Root, Shizuku & Shizuku+: Better permission handling and execution checks.
+- Shizuku+: Fixed a process and memory leak.
+- Widgets & Tiles: Improved reliability and security.

@@ -1,19 +1,21 @@
 KillMyApps is a lightweight utility designed to terminate background processes, helping extend battery life, improve gaming performance, and free up system resources. It also helps reduce intrusive notifications, unwanted background activity, tracking and telemetry.
 
 Important:
-* The KILL feature requires Root or Shizuku access. Without it, you can still use the app, but you must manually use Android's Force Stop action for individual applications.
-* You can choose between Root, Shizuku, and Shizuku+ as the Killer Engine from the app settings.
+* All of the kill features requires Root or Shizuku access. Without any of these, Android's standard Force-Stop action must be used manually for individual applications.
 
 Features:
-* ⚡ One-Tap Kill: Terminate running apps instantly with a single tap.
-* 🔰 Killer Engine: Choose between Root, Shizuku, and Shizuku+ for app termination.
-* 🎚️ Kill Levels: Choose between Soft, Deep and Killer levels.
-* 🛡️ Source Mode: Categorize apps by User, Launchable, or System.
-* 🔎 Selection Mode: Choose between Include and Exclude modes to control which apps are affected.
-* ⏰ Auto Killer: Automatically terminate background apps when the screen turns off or at a scheduled daily time, with a customizable delay and missed-run fallback.
-* 🫧 Quick Settings Tile: Kill running apps directly from Android Quick Settings.
-* 🧩 Home Screen Widgets: Instantly terminate background processes from your home screen.
-* 🔋 Save Battery: Reduce battery usage by stopping unnecessary background activity.
+* ⚡ One-Tap Kill: Terminate running apps with a single tap.
+* 🔰 Killer Engine: Choose between Root, Shizuku and Shizuku+ as the execution layer.
+* 🎚️ Kill Levels: Choose between Soft, Deep and Killer levels to control how aggressively applications are terminated.
+* 🛡️ Source Mode: Filter the running-app list by User, Launchable or System applications.
+* 🔎 Selection Mode: Control which applications are included in the kill operation using Include or Exclude mode.
+* 🛑 Hide Critical Apps: Keep critical applications out of the list by hiding essential system applications, default user apps, and KillMyApps itself.
+* ⏰ Auto Killer: Automatically terminate background apps when the screen turns off or at a scheduled daily time.
+* 💾 Backup & Restore: Back up your settings and app selections to local storage and restore them whenever needed.
+* 🫧 Quick Settings Tiles: Run actions directly from Android Quick Settings.
+* 🧩 Home Screen Widgets: Choose from 9 widget variants to quickly access actions.
+* 💧 Launcher Shortcuts: Access Kill, Sleep and Kill+Sleep directly from your launcher.
+* 🔋 Save Battery: Stop unnecessary background activity that can continue consuming battery.
 * 🚀 Boost Performance: Free up system resources for high-demand tasks like gaming.
-* 🔒 Enhance Privacy: Reduce unnecessary background activity, tracking and telemetry.
-* 🍃 Clean UI: Simple and intuitive Material Design interface.
+* 🔒 Enhance Privacy: Reduce unwanted background activity from applications that do not need to remain running.
+* 🍃 Clean UI: A simple and modern interface for managing the kill operation.
